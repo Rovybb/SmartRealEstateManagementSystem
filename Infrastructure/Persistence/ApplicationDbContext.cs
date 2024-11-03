@@ -16,6 +16,7 @@ namespace Infrastructure.Persistence
             modelBuilder.HasPostgresExtension("uuid-ossp");
             modelBuilder.Entity<Property>(entity =>
             {
+                //TODO: Mie nu imi apare numele tabelului ca fiind Product in Postgres, ci "EntityType", poate ar trebui schimbat aici
                 entity.ToTable(entity.GetType().Name);
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Id)
