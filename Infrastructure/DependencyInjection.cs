@@ -1,5 +1,6 @@
 ﻿using Domain.Repositories;
 using Infrastructure.Persistence;
+using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +14,7 @@ namespace Infrastructure
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"))  
             );
-            services.AddScoped<IPropertyRepository, IPropertyRepository>();
+            services.AddScoped<IPropertyRepository, PropertyRepository>();
             return services;
         }
     }
