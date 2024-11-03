@@ -1,12 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SmartRealEstateManagementSystem.Controllers
 {
-    public class PropertiesController : Controller
+    [Route("api/v1/[controller]")]
+    [ApiController]
+    public class PropertiesController : ControllerBase
     {
-        public IActionResult Index()
+        private readonly IMediator mediator;
+
+        public PropertiesController(IMediator mediator)
         {
-            return View();
+            this.mediator = mediator;
         }
     }
 }
