@@ -1,6 +1,6 @@
 ﻿namespace Domain.Utils
 {
-    public class Result<T> where T : class
+    public class Result<T> 
     {
         public T Data { get; set; }
         public bool IsSuccess { get; set; }
@@ -18,7 +18,7 @@
             return new Result<T>(true, data, null);
         }
 
-        public static Result<T> Fail(string errorMessage)
+        public static Result<T> Failure(string errorMessage)
         {
             return new Result<T>(false, default!, errorMessage);
         }

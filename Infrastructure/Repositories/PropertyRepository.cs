@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
+using Domain.Utils;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,11 +25,17 @@ namespace Infrastructure.Repositories
             return await context.Properties.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<Property> CreateAsync(Property property)
+        public async Task<Result<Guid>> CreateAsync(Property property)
         {
-            await context.Properties.AddAsync(property);
-            await context.SaveChangesAsync();
-            return property;
+            try
+            {
+                await context.Properties.AddAsync(property);
+                await context.SaveChangesAsync();
+                return Result<Guid>.Success(property.Id);
+            }
+            catch (Exception ex) {
+                return Result<Guid>.Failure(ex.Message);
+            }
         }
 
         public async Task UpdateAsync(Property property)

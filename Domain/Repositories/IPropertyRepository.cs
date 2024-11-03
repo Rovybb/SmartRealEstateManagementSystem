@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Utils;
 
 namespace Domain.Repositories
 {
@@ -6,7 +7,7 @@ namespace Domain.Repositories
     {
         Task<IEnumerable<Property>> GetAllAsync();
         Task<Property> GetByIdAsync(Guid id);
-        Task<Property> CreateAsync(Property property);
+        Task<Result<Guid>> CreateAsync(Property property);
         Task UpdateAsync(Property property);
         Task DeleteAsync(Guid id);
     }
