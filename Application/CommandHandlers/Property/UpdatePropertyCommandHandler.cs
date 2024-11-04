@@ -22,7 +22,7 @@ namespace Application.CommandHandlers.Property
             var existingProperty = await propertyRepository.GetByIdAsync(request.Id);
             if (existingProperty == null)
             {
-                return Result<Guid>.Failure("Property not found.");
+                return null;
             }
 
             mapper.Map(request, existingProperty);
