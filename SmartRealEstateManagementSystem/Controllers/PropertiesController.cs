@@ -1,6 +1,7 @@
 ﻿using Application.Commands.Property;
 using Application.DTOs;
 using Domain.Utils;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,6 +30,13 @@ namespace SmartRealEstateManagementSystem.Controllers
         [HttpPost]
         public async Task<ActionResult<Guid>> CreateProperty(CreatePropertyCommand command)
         {
+            var validator = new CreatePropertyCommandValidator();
+            var validationResult = await validator.ValidateAsync(command);
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+            }
+
             var result = await mediator.Send(command);
             if (result.IsSuccess)
             {
