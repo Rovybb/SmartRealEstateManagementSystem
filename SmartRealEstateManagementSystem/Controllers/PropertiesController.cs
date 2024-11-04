@@ -1,5 +1,6 @@
 ﻿using Application.Commands.Property;
 using Application.DTOs;
+using Application.Queries.Property;
 using Domain.Utils;
 using FluentValidation;
 using MediatR;
@@ -25,6 +26,18 @@ namespace SmartRealEstateManagementSystem.Controllers
             // Finish this endpoint
             var temp = $"Property with {id}";
             return Ok(temp);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<PropertyDTO>>> GetAllProperties()
+        {
+            var query = new GetAllPropertiesQuery();
+            var result = await mediator.Send(query);
+            if (result.IsSuccess)
+            {
+                return Ok(result.Data);
+            }
+            return BadRequest(result.ErrorMessage);
         }
 
         [HttpPost]
