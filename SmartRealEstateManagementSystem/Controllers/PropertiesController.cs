@@ -39,10 +39,18 @@ namespace SmartRealEstateManagementSystem.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<Guid>> UpdateProperty(Guid id, UpdatePropertyCommand command)
         {
+            var validator = new UpdatePropertyCommandValidator();
+            var validationResult = await validator.ValidateAsync(command);
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+            }
+
             if (id != command.Id)
             {
                 return BadRequest("Ids didn't match.");
             }
+
             var result = await mediator.Send(command);
             if (result == null)
             {
@@ -53,8 +61,7 @@ namespace SmartRealEstateManagementSystem.Controllers
             {
                 return NoContent();
             }
-            return BadRequest(result.ErrorMessage);
+            return BadRequest(result.ErrorMessage); // here is optional to send the error message
         }
-
     }
 }
