@@ -17,9 +17,5 @@ namespace Application.Commands.Property
         public int? Rooms { get; set; }
         public int? Bathrooms { get; set; }
         public int? ConstructionYear { get; set; }
-
-        public Guid? CreatedBy { get; }
-        public DateTime? CreatedAt { get; }
-        public DateTime? UpdatedAt { get; }
     }
 }
