@@ -57,11 +57,6 @@ namespace Application.Commands.Property
                 .GreaterThan(0)
                 .When(x => x.ConstructionYear.HasValue) 
                 .WithMessage("Construction Year must be valid.");
-
-            RuleFor(x => x.CreatedBy)
-                .NotEmpty()
-                .When(x => x.CreatedBy != null)
-                .WithMessage("CreatedBy cannot be empty!");
         }
     }
 }
