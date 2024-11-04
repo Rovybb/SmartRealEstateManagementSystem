@@ -38,11 +38,26 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task UpdateAsync(Property property)
+        public async Task<Result<Guid>> UpdateAsync(Property property)
         {
-            context.Entry(property).State = EntityState.Modified;
-            await context.SaveChangesAsync();
+            try
+            {
+                var existingProperty = await context.Properties.FindAsync(property.Id);
+                if (existingProperty == null)
+                {
+                    return Result<Guid>.Failure("Property not found.");
+                }
+
+                context.Entry(existingProperty).CurrentValues.SetValues(property);
+                await context.SaveChangesAsync();
+                return Result<Guid>.Success(existingProperty.Id);
+            }
+            catch (Exception ex)
+            {
+                return Result<Guid>.Failure(ex.Message);
+            }
         }
+
 
         public async Task DeleteAsync(Guid id)
         {

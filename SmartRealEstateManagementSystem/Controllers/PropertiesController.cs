@@ -36,5 +36,25 @@ namespace SmartRealEstateManagementSystem.Controllers
             }
             return BadRequest(result.ErrorMessage);
         }
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Guid>> UpdateProperty(Guid id, UpdatePropertyCommand command)
+        {
+            if (id != command.Id)
+            {
+                return BadRequest("Ids didn't match.");
+            }
+            var result = await mediator.Send(command);
+            if (result == null)
+            {
+                return NotFound("Property not found.");
+            }
+
+            if (result.IsSuccess)
+            {
+                return NoContent();
+            }
+            return BadRequest(result.ErrorMessage);
+        }
+
     }
 }

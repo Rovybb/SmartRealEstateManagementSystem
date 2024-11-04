@@ -11,6 +11,7 @@ namespace Application.Utils
         {
             CreateMap<Property, PropertyDTO>().ReverseMap();
             CreateMap<Property, CreatePropertyCommand>().ReverseMap();
+            CreateMap<Property, UpdatePropertyCommand>().ReverseMap();
         }
     }
 }
