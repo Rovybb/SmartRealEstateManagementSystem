@@ -19,12 +19,13 @@ namespace Application.CommandHandlers.Property
 
         public async Task<Result<Guid>> Handle(UpdatePropertyCommand request, CancellationToken cancellationToken)
         {
-            var existingProperty = await propertyRepository.GetByIdAsync(request.Id);
-            if (existingProperty == null)
+            var propertyResult = await propertyRepository.GetByIdAsync(request.Id);
+            if (!propertyResult.IsSuccess)
             {
-                return null;
+                return Result<Guid>.Failure(propertyResult.ErrorMessage);
             }
 
+            var existingProperty = propertyResult.Data;
             mapper.Map(request, existingProperty);
             existingProperty.UpdatedAt = DateTime.UtcNow;
 

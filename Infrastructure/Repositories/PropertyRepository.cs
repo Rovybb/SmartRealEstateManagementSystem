@@ -20,9 +20,15 @@ namespace Infrastructure.Repositories
             return await context.Properties.ToListAsync();
         }
 
-        public async Task<Property> GetByIdAsync(Guid id)
+        public async Task<Result<Property>> GetByIdAsync(Guid id)
         {
-            return await context.Properties.FirstOrDefaultAsync(x => x.Id == id);
+            var property = await context.Properties.FindAsync(id);
+            if (property == null)
+            {
+                return Result<Property>.Failure("Property not found.");
+            }
+
+            return Result<Property>.Success(property);
         }
 
         public async Task<Result<Guid>> CreateAsync(Property property)
