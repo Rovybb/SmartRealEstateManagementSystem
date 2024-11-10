@@ -9,6 +9,6 @@ namespace Domain.Repositories
         Task<Result<Property>> GetByIdAsync(Guid id);
         Task<Result<Guid>> CreateAsync(Property property);
         Task<Result<Guid>> UpdateAsync(Property property);
-        Task DeleteAsync(Guid id);
+        Task<Result<Guid>> DeleteAsync(Guid id);
     }
 }
