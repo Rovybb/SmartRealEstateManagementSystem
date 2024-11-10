@@ -1,4 +1,5 @@
-﻿using Application.Commands.Property;
+﻿using Application.Commands.Payment;
+using Application.Commands.Property;
 using Application.Utils;
 using FluentValidation;
 using MediatR;
@@ -15,6 +16,8 @@ namespace Application
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             services.AddValidatorsFromAssemblyContaining<CreatePropertyCommandValidator>();
             services.AddValidatorsFromAssemblyContaining<UpdatePropertyCommandValidator>();
+            services.AddValidatorsFromAssemblyContaining<CreatePaymentCommandValidator>();
+            services.AddValidatorsFromAssemblyContaining<UpdatePaymentCommandValidator>();
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             return services;
         }

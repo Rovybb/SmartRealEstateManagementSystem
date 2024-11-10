@@ -1,26 +1,24 @@
 ﻿namespace Domain.Utils
 {
-    public class Result<T> 
+    public class Result
     {
-        public T Data { get; set; }
         public bool IsSuccess { get; set; }
         public string ErrorMessage { get; set; }
 
-        protected Result(bool isSuccess, T data, string errorMessage)
+        protected Result(bool isSuccess, string errorMessage)
         {
-            Data = data;
             IsSuccess = isSuccess;
             ErrorMessage = errorMessage;
         }
 
-        public static Result<T> Success(T data)
+        public static Result Success()
         {
-            return new Result<T>(true, data, null);
+            return new Result(true, null);
         }
 
-        public static Result<T> Failure(string errorMessage)
+        public static Result Failure(string errorMessage)
         {
-            return new Result<T>(false, default!, errorMessage);
+            return new Result(false, errorMessage);
         }
     }
 }
