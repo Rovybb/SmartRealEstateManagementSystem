@@ -65,14 +65,17 @@ namespace Infrastructure.Repositories
         }
 
 
-        public async Task DeleteAsync(Guid id)
+        public async Task<Result<Guid>> DeleteAsync(Guid id)
         {
             var property = await context.Properties.FirstOrDefaultAsync(x => x.Id == id);
-            if (property != null)
+            if (property == null)
             {
-                context.Properties.Remove(property);
-                await context.SaveChangesAsync();
+                return Result<Guid>.Failure("Property not found.");
             }
+
+            context.Properties.Remove(property);
+            await context.SaveChangesAsync();
+            return Result<Guid>.Success(id);
         }
     }
 }

@@ -58,6 +58,7 @@ namespace SmartRealEstateManagementSystem.Controllers
             }
             return BadRequest(result.ErrorMessage);
         }
+
         [HttpPut("{id}")]
         public async Task<ActionResult<Guid>> UpdateProperty(Guid id, UpdatePropertyCommand command)
         {
@@ -84,6 +85,18 @@ namespace SmartRealEstateManagementSystem.Controllers
                 return NoContent();
             }
             return BadRequest(result.ErrorMessage); // here is optional to send the error message
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteProperty(Guid id)
+        {
+            var command = new DeletePropertyCommand { Id = id };
+            var result = await mediator.Send(command);
+            if (result.IsSuccess)
+            {
+                return NoContent();
+            }
+            return NotFound(result.ErrorMessage);
         }
     }
 }
