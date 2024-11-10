@@ -15,6 +15,7 @@ namespace Infrastructure
                 options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"))  
             );
             services.AddScoped<IPropertyRepository, PropertyRepository>();
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
             return services;
         }
     }

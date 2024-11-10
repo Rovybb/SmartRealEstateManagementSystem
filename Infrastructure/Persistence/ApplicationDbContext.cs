@@ -10,13 +10,13 @@ namespace Infrastructure.Persistence
         }
 
         public DbSet<Property> Properties { get; set; }
+        public DbSet<Payment> Payments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasPostgresExtension("uuid-ossp");
             modelBuilder.Entity<Property>(entity =>
             {
-                //TODO: Mie nu imi apare numele tabelului ca fiind Product in Postgres, ci "EntityType", poate ar trebui schimbat aici
                 entity.ToTable("Property");
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Id)
@@ -34,6 +34,23 @@ namespace Infrastructure.Persistence
                 entity.Property(e => e.CreatedBy).IsRequired();
                 entity.Property(e => e.CreatedAt).IsRequired();
                 entity.Property(e => e.UpdatedAt).IsRequired();
+            });
+            modelBuilder.Entity<Payment>(entity =>
+            {
+                entity.ToTable("Payment");
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id)
+                .HasColumnType("uuid")
+                .HasDefaultValueSql("uuid_generate_v4()")
+                .ValueGeneratedOnAdd();
+                entity.Property(e => e.PropertyId).IsRequired();
+                entity.Property(e => e.BuyerId).IsRequired();
+                entity.Property(e => e.SellerId).IsRequired();
+                entity.Property(e => e.Type).IsRequired();
+                entity.Property(e => e.Date).IsRequired();
+                entity.Property(e => e.Price).IsRequired();
+                entity.Property(e => e.Status).IsRequired();
+                entity.Property(e => e.PaymentMethod).IsRequired();
             });
         }
     }
