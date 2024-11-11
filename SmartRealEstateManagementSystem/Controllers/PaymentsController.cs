@@ -57,7 +57,7 @@ namespace SmartRealEstateManagementSystem.Controllers
             {
                 return NoContent();
             }
-            return NotFound();
+            return NotFound(result.ErrorMessage);
         }
 
         [HttpPut("{id}")]
