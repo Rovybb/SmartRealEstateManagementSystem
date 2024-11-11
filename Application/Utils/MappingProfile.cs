@@ -1,5 +1,6 @@
 ﻿using Application.Commands.Payment;
 using Application.Commands.Property;
+using Application.Commands.User;
 using Application.DTOs;
 using AutoMapper;
 using Domain.Entities;
@@ -18,6 +19,9 @@ namespace Application.Utils
             CreateMap<Payment, CreatePaymentCommand>().ReverseMap();
             CreateMap<Payment, UpdatePaymentCommand>().ReverseMap();
 
+            CreateMap<User, UserDTO>().ReverseMap();
+            CreateMap<User, CreateUserCommand>().ReverseMap();
+            CreateMap<User, UpdateUserCommand>().ReverseMap();
         }
     }
 }

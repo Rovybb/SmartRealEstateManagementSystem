@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Application.Commands.Payment
 {
-    public class UpdatePaymentCommand : IRequest<Result<Guid>>
+    public class UpdatePaymentCommand : IRequest<Result>
     {
         public Guid Id { get; set; }
         public Guid PropertyId { get; set; }

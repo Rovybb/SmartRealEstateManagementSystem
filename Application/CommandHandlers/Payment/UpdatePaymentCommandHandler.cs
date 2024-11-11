@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Application.CommandHandlers.Payment
 {
-    public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand, Result<Guid>>
+    public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand, Result>
     {
         private readonly IPaymentRepository paymentRepository;
         private readonly IMapper mapper;
@@ -17,12 +17,12 @@ namespace Application.CommandHandlers.Payment
             this.mapper = mapper;
         }
 
-        public async Task<Result<Guid>> Handle(UpdatePaymentCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(UpdatePaymentCommand request, CancellationToken cancellationToken)
         {
             var existingPayment = await paymentRepository.GetByIdAsync(request.Id);
             if (!existingPayment.IsSuccess)
             {
-                return Result<Guid>.Failure("Payment not found.");
+                return Result.Failure("Payment not found.");
             }
 
             mapper.Map(request, existingPayment.Data);
@@ -30,11 +30,9 @@ namespace Application.CommandHandlers.Payment
             var updateResult = await paymentRepository.UpdateAsync(existingPayment.Data);
             if (updateResult.IsSuccess)
             {
-                return Result<Guid>.Success(existingPayment.Data.Id);
+                return Result.Success();
             }
-            return Result<Guid>.Failure(updateResult.ErrorMessage);
-
-
+            return Result.Failure(updateResult.ErrorMessage);
         }
     }
 }

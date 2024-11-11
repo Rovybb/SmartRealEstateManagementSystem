@@ -1,5 +1,4 @@
 ﻿using Application.Commands.Payment;
-using AutoMapper;
 using Domain.Repositories;
 using Domain.Utils;
 using MediatR;
