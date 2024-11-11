@@ -11,6 +11,7 @@ namespace Infrastructure.Persistence
 
         public DbSet<Property> Properties { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -51,6 +52,26 @@ namespace Infrastructure.Persistence
                 entity.Property(e => e.Price).IsRequired();
                 entity.Property(e => e.Status).IsRequired();
                 entity.Property(e => e.PaymentMethod).IsRequired();
+            });
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.ToTable("User");
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id)
+                .HasColumnType("uuid")
+                .HasDefaultValueSql("uuid_generate_v4()")
+                .ValueGeneratedOnAdd();
+                entity.Property(e => e.Username).IsRequired().HasMaxLength(100);
+                entity.Property(e => e.FirstName).IsRequired().HasMaxLength(100);
+                entity.Property(e => e.LastName).IsRequired().HasMaxLength(100);
+                entity.Property(e => e.Email).IsRequired().HasMaxLength(100);
+                entity.Property(e => e.Password).IsRequired().HasMaxLength(100);
+                entity.Property(e => e.Role).IsRequired();
+                entity.Property(e => e.Address).IsRequired().HasMaxLength(200);
+                entity.Property(e => e.PhoneNumber).IsRequired().HasMaxLength(20);
+                entity.Property(e => e.Nationality).IsRequired().HasMaxLength(100);
+                entity.Property(e => e.CreatedAt).IsRequired();
+                entity.Property(e => e.Status).IsRequired();
             });
         }
     }
