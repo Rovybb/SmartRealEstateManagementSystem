@@ -17,12 +17,14 @@ namespace Application.CommandHandlers.Payment
 
         public async Task<Result> Handle(DeletePaymentCommand request, CancellationToken cancellationToken)
         {
-            var result = await paymentRepository.DeleteAsync(request.Id);
-            if (result.IsSuccess)
+            var paymentResult = await paymentRepository.GetByIdAsync(request.Id);
+            if (!paymentResult.IsSuccess)
             {
-                return Result.Success();
+                return Result.Failure(paymentResult.ErrorMessage);
             }
-            return Result.Failure(result.ErrorMessage);
+
+            await paymentRepository.DeleteAsync(request.Id);
+            return Result.Success();
         }
     }
 }
