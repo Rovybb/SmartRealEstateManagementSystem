@@ -1,4 +1,5 @@
-﻿using Application.Commands.Payment;
+﻿using Application.Commands.Inquiry;
+using Application.Commands.Payment;
 using Application.Commands.Property;
 using Application.Commands.User;
 using Application.DTOs;
@@ -22,6 +23,10 @@ namespace Application.Utils
             CreateMap<User, UserDTO>().ReverseMap();
             CreateMap<User, CreateUserCommand>().ReverseMap();
             CreateMap<User, UpdateUserCommand>().ReverseMap();
+
+            CreateMap<Inquiry, InquiryDTO>().ReverseMap();
+            CreateMap<Inquiry, CreateInquiryCommand>().ReverseMap();
+            CreateMap<Inquiry, UpdateInquiryCommand>().ReverseMap();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Application.Commands.Payment;
+﻿using Application.Commands.Inquiry;
+using Application.Commands.Payment;
 using Application.Commands.Property;
 using Application.Commands.User;
 using Application.Utils;
@@ -21,6 +22,8 @@ namespace Application
             services.AddValidatorsFromAssemblyContaining<UpdatePaymentCommandValidator>();
             services.AddValidatorsFromAssemblyContaining<CreateUserCommandValidator>();
             services.AddValidatorsFromAssemblyContaining<UpdateUserCommandValidator>();
+            services.AddValidatorsFromAssemblyContaining<CreateInquiryCommandValidator>();
+            services.AddValidatorsFromAssemblyContaining<UpdateInquiryCommandValidator>();
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             return services;
         }
