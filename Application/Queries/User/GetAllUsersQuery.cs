@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Application.Queries.User
 {
-    public class GetAllUsersQuery : IRequest<Result<IEnumerable<UserDTO>>>
+    public class GetAllUsersQuery : IRequest<Result<IEnumerable<UserDto>>>
     {
     }
 }

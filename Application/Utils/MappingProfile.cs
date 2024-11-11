@@ -12,19 +12,19 @@ namespace Application.Utils
     {
         public MappingProfile()
         {
-            CreateMap<Property, PropertyDTO>().ReverseMap();
+            CreateMap<Property, PropertyDto>().ReverseMap();
             CreateMap<Property, CreatePropertyCommand>().ReverseMap();
             CreateMap<Property, UpdatePropertyCommand>().ReverseMap();
 
-            CreateMap<Payment, PaymentDTO>().ReverseMap();
+            CreateMap<Payment, PaymentDto>().ReverseMap();
             CreateMap<Payment, CreatePaymentCommand>().ReverseMap();
             CreateMap<Payment, UpdatePaymentCommand>().ReverseMap();
 
-            CreateMap<User, UserDTO>().ReverseMap();
+            CreateMap<User, UserDto>().ReverseMap();
             CreateMap<User, CreateUserCommand>().ReverseMap();
             CreateMap<User, UpdateUserCommand>().ReverseMap();
 
-            CreateMap<Inquiry, InquiryDTO>().ReverseMap();
+            CreateMap<Inquiry, InquiryDto>().ReverseMap();
             CreateMap<Inquiry, CreateInquiryCommand>().ReverseMap();
             CreateMap<Inquiry, UpdateInquiryCommand>().ReverseMap();
         }

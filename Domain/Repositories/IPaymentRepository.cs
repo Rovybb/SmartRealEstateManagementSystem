@@ -8,7 +8,7 @@ namespace Domain.Repositories
         Task<Result<Payment>> GetByIdAsync(Guid id);
         Task<IEnumerable<Payment>> GetAllAsync();
         Task<Result<Guid>> CreateAsync(Payment payment);
-        Task<Result<Guid>> UpdateAsync(Payment payment);
+        Task<Result> UpdateAsync(Payment payment);
         Task<Result> DeleteAsync(Guid id);
 
     }

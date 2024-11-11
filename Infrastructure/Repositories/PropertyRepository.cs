@@ -44,38 +44,38 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<Result<Guid>> UpdateAsync(Property property)
+        public async Task<Result> UpdateAsync(Property property)
         {
             try
             {
                 var existingProperty = await context.Properties.FindAsync(property.Id);
                 if (existingProperty == null)
                 {
-                    return Result<Guid>.Failure("Property not found.");
+                    return Result.Failure("Property not found.");
                 }
 
                 context.Entry(existingProperty).CurrentValues.SetValues(property);
                 await context.SaveChangesAsync();
-                return Result<Guid>.Success(existingProperty.Id);
+                return Result.Success();
             }
             catch (Exception ex)
             {
-                return Result<Guid>.Failure(ex.Message);
+                return Result.Failure(ex.Message);
             }
         }
 
 
-        public async Task<Result<Guid>> DeleteAsync(Guid id)
+        public async Task<Result> DeleteAsync(Guid id)
         {
             var property = await context.Properties.FirstOrDefaultAsync(x => x.Id == id);
             if (property == null)
             {
-                return Result<Guid>.Failure("Property not found.");
+                return Result.Failure("Property not found.");
             }
 
             context.Properties.Remove(property);
             await context.SaveChangesAsync();
-            return Result<Guid>.Success(id);
+            return Result.Success();
         }
     }
 }

@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.CommandHandlers.Property
 {
-    public class DeletePropertyCommandHandler : IRequestHandler<DeletePropertyCommand, Result<Guid>>
+    public class DeletePropertyCommandHandler : IRequestHandler<DeletePropertyCommand, Result>
     {
         private readonly IPropertyRepository propertyRepository;
 
@@ -14,16 +14,16 @@ namespace Application.CommandHandlers.Property
             this.propertyRepository = propertyRepository;
         }
 
-        public async Task<Result<Guid>> Handle(DeletePropertyCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(DeletePropertyCommand request, CancellationToken cancellationToken)
         {
             var propertyResult = await propertyRepository.GetByIdAsync(request.Id);
             if (!propertyResult.IsSuccess)
             {
-                return Result<Guid>.Failure(propertyResult.ErrorMessage);
+                return Result.Failure(propertyResult.ErrorMessage );
             }
 
             await propertyRepository.DeleteAsync(request.Id);
-            return Result<Guid>.Success(request.Id);
+            return Result.Success();
         }
     }
 }

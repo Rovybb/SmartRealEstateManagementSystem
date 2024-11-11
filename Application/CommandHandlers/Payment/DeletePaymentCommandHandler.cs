@@ -19,7 +19,7 @@ namespace Application.CommandHandlers.Payment
             var paymentResult = await paymentRepository.GetByIdAsync(request.Id);
             if (!paymentResult.IsSuccess)
             {
-                return Result.Failure(paymentResult.ErrorMessage);
+                return Result.Failure(paymentResult.ErrorMessage );
             }
 
             await paymentRepository.DeleteAsync(request.Id);

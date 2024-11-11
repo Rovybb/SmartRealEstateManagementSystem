@@ -6,12 +6,12 @@ using MediatR;
 
 namespace Application.CommandHandlers.Property
 {
-    public class CreateProductCommandHandler : IRequestHandler<CreatePropertyCommand, Result<Guid>>
+    public class CreatePropertyCommandHandler : IRequestHandler<CreatePropertyCommand, Result<Guid>>
     {
         private readonly IPropertyRepository propertyRepository;
         private readonly IMapper mapper;
 
-        public CreateProductCommandHandler(IPropertyRepository propertyRepository, IMapper mapper)
+        public CreatePropertyCommandHandler(IPropertyRepository propertyRepository, IMapper mapper)
         {
             this.propertyRepository = propertyRepository;
             this.mapper = mapper;
@@ -24,7 +24,7 @@ namespace Application.CommandHandlers.Property
             {
                 return Result<Guid>.Success(result.Data);
             }
-            return Result<Guid>.Failure(result.ErrorMessage);
+            return Result<Guid>.Failure(result.ErrorMessage );
         }
     }   
 }

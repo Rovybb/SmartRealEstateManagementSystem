@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Application.Commands.Property
 {
-    public class DeletePropertyCommand : IRequest<Result<Guid>>
+    public class DeletePropertyCommand : IRequest<Result>
     {
         public Guid Id { get; set; }
     }

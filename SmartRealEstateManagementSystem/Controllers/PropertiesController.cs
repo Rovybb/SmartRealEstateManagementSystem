@@ -18,7 +18,7 @@ namespace SmartRealEstateManagementSystem.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<PropertyDTO>> GetPropertyById(Guid id)
+        public async Task<ActionResult<PropertyDto>> GetPropertyById(Guid id)
         {
             var query = new GetPropertyByIdQuery { Id = id };
             var result = await mediator.Send(query);
@@ -26,11 +26,11 @@ namespace SmartRealEstateManagementSystem.Controllers
             {
                 return Ok(result.Data);
             }
-            return NotFound(result.ErrorMessage);
+            return NotFound(result.ErrorMessage );
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PropertyDTO>>> GetAllProperties()
+        public async Task<ActionResult<IEnumerable<PropertyDto>>> GetAllProperties()
         {
             var query = new GetAllPropertiesQuery();
             var result = await mediator.Send(query);
@@ -38,7 +38,7 @@ namespace SmartRealEstateManagementSystem.Controllers
             {
                 return Ok(result.Data);
             }
-            return BadRequest(result.ErrorMessage);
+            return BadRequest(result.ErrorMessage );
         }
 
         [HttpPost]
@@ -56,7 +56,7 @@ namespace SmartRealEstateManagementSystem.Controllers
             {
                 return CreatedAtAction(nameof(GetPropertyById), new { Id = result.Data }, result.Data);
             }
-            return BadRequest(result.ErrorMessage);
+            return BadRequest(result.ErrorMessage );
         }
 
         [HttpPut("{id}")]
@@ -84,7 +84,7 @@ namespace SmartRealEstateManagementSystem.Controllers
             {
                 return NoContent();
             }
-            return BadRequest(result.ErrorMessage); // here is optional to send the error message
+            return BadRequest(result.ErrorMessage ); // here is optional to send the error message
         }
 
         [HttpDelete("{id}")]
@@ -96,7 +96,7 @@ namespace SmartRealEstateManagementSystem.Controllers
             {
                 return NoContent();
             }
-            return NotFound(result.ErrorMessage);
+            return NotFound(result.ErrorMessage );
         }
     }
 }

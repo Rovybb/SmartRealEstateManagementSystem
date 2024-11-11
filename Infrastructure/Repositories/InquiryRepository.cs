@@ -45,23 +45,23 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<Result<Guid>> UpdateAsync(Inquiry inquiry)
+        public async Task<Result> UpdateAsync(Inquiry inquiry)
         {
             try
             {
                 var existingInquiry = await context.Inquiries.FindAsync(inquiry.Id);
                 if (existingInquiry == null)
                 {
-                    return Result<Guid>.Failure("Inquiry not found.");
+                    return Result.Failure("Inquiry not found.");
                 }
 
                 context.Entry(existingInquiry).CurrentValues.SetValues(inquiry);
                 await context.SaveChangesAsync();
-                return Result<Guid>.Success(existingInquiry.Id);
+                return Result.Success();
             }
             catch (Exception ex)
             {
-                return Result<Guid>.Failure(ex.Message);
+                return Result.Failure(ex.Message);
             }
         }
 

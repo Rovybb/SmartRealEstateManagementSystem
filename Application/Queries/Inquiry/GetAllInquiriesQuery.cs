@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Application.Queries.Inquiry
 {
-    public class GetAllInquiriesQuery : IRequest<Result<IEnumerable<InquiryDTO>>>
+    public class GetAllInquiriesQuery : IRequest<Result<IEnumerable<InquiryDto>>>
     {
     }
 }

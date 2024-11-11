@@ -45,23 +45,23 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<Result<Guid>> UpdateAsync(Payment payment)
+        public async Task<Result> UpdateAsync(Payment payment)
         {
             try
             {
                 var existingPayment = await context.Payments.FindAsync(payment.Id);
                 if (existingPayment == null)
                 {
-                    return Result<Guid>.Failure("Payment not found.");
+                    return Result.Failure("Payment not found.");
                 }
 
                 context.Entry(existingPayment).CurrentValues.SetValues(payment);
                 await context.SaveChangesAsync();
-                return Result<Guid>.Success(existingPayment.Id);
+                return Result.Success();
             }
             catch (Exception ex)
             {
-                return Result<Guid>.Failure(ex.Message);
+                return Result.Failure(ex.Message);
             }
         }
 

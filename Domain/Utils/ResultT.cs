@@ -9,12 +9,12 @@ public class Result<T> : Result
         Data = data;
     }
 
-    public static new Result<T> Success(T data)
+    public static Result<T> Success(T data)
     {
-        return new Result<T>(true, data, null);
+        return new Result<T>(true, data, "");
     }
 
-    public static new Result<T> Failure(string errorMessage)
+    public static new Result<T> Failure(string errorMessage = "Unknown error occured!")
     {
         return new Result<T>(false, default!, errorMessage);
     }

@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Application.QueryHandlers.Inquiry
 {
-    public class GetInquiryByIdQueryHandler : IRequestHandler<GetInquiryByIdQuery, Result<InquiryDTO>>
+    public class GetInquiryByIdQueryHandler : IRequestHandler<GetInquiryByIdQuery, Result<InquiryDto>>
     {
         private readonly IInquiryRepository inquiryRepository;
         private readonly IMapper mapper;
@@ -18,14 +18,14 @@ namespace Application.QueryHandlers.Inquiry
             this.mapper = mapper;
         }
 
-        public async Task<Result<InquiryDTO>> Handle(GetInquiryByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<InquiryDto>> Handle(GetInquiryByIdQuery request, CancellationToken cancellationToken)
         {
             var result = await inquiryRepository.GetByIdAsync(request.Id);
             if (result.IsSuccess)
             {
-                return Result<InquiryDTO>.Success(mapper.Map<InquiryDTO>(result.Data));
+                return Result<InquiryDto>.Success(mapper.Map<InquiryDto>(result.Data));
             }
-            return Result<InquiryDTO>.Failure(result.ErrorMessage);
+            return Result<InquiryDto>.Failure(result.ErrorMessage );
         }
     }
 }

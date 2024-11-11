@@ -24,7 +24,7 @@ namespace Application.CommandHandlers.Inquiry
             {
                 return Result<Guid>.Success(result.Data);
             }
-            return Result<Guid>.Failure(result.ErrorMessage);
+            return Result<Guid>.Failure(result.ErrorMessage );
         }
     }
 }

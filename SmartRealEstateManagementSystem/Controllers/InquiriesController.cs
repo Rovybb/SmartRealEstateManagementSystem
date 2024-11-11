@@ -19,7 +19,7 @@ namespace SmartRealEstateManagementSystem.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<InquiryDTO>> GetInquiryById(Guid id)
+        public async Task<ActionResult<InquiryDto>> GetInquiryById(Guid id)
         {
             var query = new GetInquiryByIdQuery { Id = id };
             var result = await mediator.Send(query);
@@ -45,7 +45,7 @@ namespace SmartRealEstateManagementSystem.Controllers
             {
                 return CreatedAtAction(nameof(GetInquiryById), new { Id = result.Data }, result.Data);
             }
-            return BadRequest(result.ErrorMessage);
+            return BadRequest(result.ErrorMessage );
         }
 
         [HttpDelete("{id}")]
@@ -84,11 +84,11 @@ namespace SmartRealEstateManagementSystem.Controllers
             {
                 return NotFound();
             }
-            return BadRequest(result.ErrorMessage);
+            return BadRequest(result.ErrorMessage );
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<InquiryDTO>>> GetAllInquiries()
+        public async Task<ActionResult<IEnumerable<InquiryDto>>> GetAllInquiries()
         {
             var query = new GetAllInquiriesQuery();
             var result = await mediator.Send(query);
@@ -96,7 +96,7 @@ namespace SmartRealEstateManagementSystem.Controllers
             {
                 return Ok(result.Data);
             }
-            return BadRequest(result.ErrorMessage);
+            return BadRequest(result.ErrorMessage );
         }
     }
 }

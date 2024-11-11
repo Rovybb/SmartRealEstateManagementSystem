@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Application.QueryHandlers.Property
 {
-    public class GetPropertyByIdQueryHandler : IRequestHandler<GetPropertyByIdQuery, Result<PropertyDTO>>
+    public class GetPropertyByIdQueryHandler : IRequestHandler<GetPropertyByIdQuery, Result<PropertyDto>>
     {
         private readonly IPropertyRepository propertyRepository;
         private readonly IMapper mapper;
@@ -19,16 +19,16 @@ namespace Application.QueryHandlers.Property
             this.mapper = mapper;
         }
 
-        public async Task<Result<PropertyDTO>> Handle(GetPropertyByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<PropertyDto>> Handle(GetPropertyByIdQuery request, CancellationToken cancellationToken)
         {
             var propertyResult = await propertyRepository.GetByIdAsync(request.Id);
             if (!propertyResult.IsSuccess)
             {
-                return Result<PropertyDTO>.Failure(propertyResult.ErrorMessage);
+                return Result<PropertyDto>.Failure(propertyResult.ErrorMessage );
             }
 
-            var propertyDTO = mapper.Map<PropertyDTO>(propertyResult.Data);
-            return Result<PropertyDTO>.Success(propertyDTO);
+            var propertyDTO = mapper.Map<PropertyDto>(propertyResult.Data);
+            return Result<PropertyDto>.Success(propertyDTO);
         }
     }
 }

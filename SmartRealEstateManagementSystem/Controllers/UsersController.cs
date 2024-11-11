@@ -18,7 +18,7 @@ namespace SmartRealEstateManagementSystem.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserDTO>> GetUserById(Guid id)
+        public async Task<ActionResult<UserDto>> GetUserById(Guid id)
         {
             var query = new GetUserByIdQuery { Id = id };
             var result = await mediator.Send(query);
@@ -26,11 +26,11 @@ namespace SmartRealEstateManagementSystem.Controllers
             {
                 return Ok(result.Data);
             }
-            return NotFound(result.ErrorMessage);
+            return NotFound(result.ErrorMessage );
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllUsers()
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers()
         {
             var query = new GetAllUsersQuery();
             var result = await mediator.Send(query);
@@ -38,7 +38,7 @@ namespace SmartRealEstateManagementSystem.Controllers
             {
                 return Ok(result.Data);
             }
-            return BadRequest(result.ErrorMessage);
+            return BadRequest(result.ErrorMessage );
         }
 
         [HttpPost]
@@ -56,7 +56,7 @@ namespace SmartRealEstateManagementSystem.Controllers
             {
                 return CreatedAtAction(nameof(GetUserById), new { Id = result.Data }, result.Data);
             }
-            return BadRequest(result.ErrorMessage);
+            return BadRequest(result.ErrorMessage );
         }
 
         [HttpPut("{id}")]
@@ -79,9 +79,9 @@ namespace SmartRealEstateManagementSystem.Controllers
             {
                 if (result.ErrorMessage == "User not found")
                 {
-                    return NotFound(result.ErrorMessage);
+                    return NotFound(result.ErrorMessage );
                 }
-                return BadRequest(result.ErrorMessage);
+                return BadRequest(result.ErrorMessage );
             }
             return NoContent();
         }

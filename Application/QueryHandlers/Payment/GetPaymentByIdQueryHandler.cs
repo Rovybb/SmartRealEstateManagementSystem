@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Application.QueryHandlers.Payment
 {
-    public class GetPaymentByIdQueryHandler : IRequestHandler<GetPaymentByIdQuery, Result<PaymentDTO>>
+    public class GetPaymentByIdQueryHandler : IRequestHandler<GetPaymentByIdQuery, Result<PaymentDto>>
     {
         private readonly IPaymentRepository paymentRepository;
         private readonly IMapper mapper;
@@ -18,14 +18,14 @@ namespace Application.QueryHandlers.Payment
             this.mapper = mapper;
         }
 
-        public async Task<Result<PaymentDTO>> Handle(GetPaymentByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<PaymentDto>> Handle(GetPaymentByIdQuery request, CancellationToken cancellationToken)
         {
             var result = await paymentRepository.GetByIdAsync(request.Id);
             if (result.IsSuccess)
             {
-                return Result<PaymentDTO>.Success(mapper.Map<PaymentDTO>(result.Data));
+                return Result<PaymentDto>.Success(mapper.Map<PaymentDto>(result.Data));
             }
-            return Result<PaymentDTO>.Failure(result.ErrorMessage);
+            return Result<PaymentDto>.Failure(result.ErrorMessage );
         }
     }
 }

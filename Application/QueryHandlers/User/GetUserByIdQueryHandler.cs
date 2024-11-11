@@ -7,7 +7,7 @@ using Application.DTOs;
 
 namespace Application.QueryHandlers.User
 {
-    public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, Result<UserDTO>>
+    public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, Result<UserDto>>
     {
         private readonly IUserRepository userRepository;
         private readonly IMapper mapper;
@@ -18,14 +18,14 @@ namespace Application.QueryHandlers.User
             this.mapper = mapper;
         }
 
-        public async Task<Result<UserDTO>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<UserDto>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
         {
             var result = await userRepository.GetByIdAsync(request.Id);
             if (result.IsSuccess)
             {
-                return Result<UserDTO>.Success(mapper.Map<UserDTO>(result.Data));
+                return Result<UserDto>.Success(mapper.Map<UserDto>(result.Data));
             }
-            return Result<UserDTO>.Failure(result.ErrorMessage);
+            return Result<UserDto>.Failure(result.ErrorMessage );
         }
     }
 }

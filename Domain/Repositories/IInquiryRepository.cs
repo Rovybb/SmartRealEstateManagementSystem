@@ -8,7 +8,7 @@ namespace Domain.Repositories
         Task<IEnumerable<Inquiry>> GetAllAsync();
         Task<Result<Inquiry>> GetByIdAsync(Guid id);
         Task<Result<Guid>> CreateAsync(Inquiry inquiry);
-        Task<Result<Guid>> UpdateAsync(Inquiry inquiry);
+        Task<Result> UpdateAsync(Inquiry inquiry);
         Task<Result> DeleteAsync(Guid id);
     }
 }

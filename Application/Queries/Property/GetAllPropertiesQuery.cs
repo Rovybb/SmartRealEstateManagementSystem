@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Application.Queries.Property
 {
-    public class GetAllPropertiesQuery : IRequest<Result<IEnumerable<PropertyDTO>>>
+    public class GetAllPropertiesQuery : IRequest<Result<IEnumerable<PropertyDto>>>
     {
     }
 }
