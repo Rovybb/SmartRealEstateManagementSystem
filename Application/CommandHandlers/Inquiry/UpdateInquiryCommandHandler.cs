@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Application.CommandHandlers.Inquiry
 {
-    public class UpdateInquiryCommandHandler : IRequestHandler<UpdateInquiryCommand, Result<Guid>>
+    public class UpdateInquiryCommandHandler : IRequestHandler<UpdateInquiryCommand, Result>
     {
         private readonly IInquiryRepository inquiryRepository;
         private readonly IMapper mapper;
@@ -17,12 +17,12 @@ namespace Application.CommandHandlers.Inquiry
             this.mapper = mapper;
         }
 
-        public async Task<Result<Guid>> Handle(UpdateInquiryCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(UpdateInquiryCommand request, CancellationToken cancellationToken)
         {
             var existingInquiry = await inquiryRepository.GetByIdAsync(request.Id);
             if (!existingInquiry.IsSuccess)
             {
-                return Result<Guid>.Failure("Inquiry not found.");
+                return Result.Failure("Inquiry not found.");
             }
 
             mapper.Map(request, existingInquiry.Data);
@@ -30,9 +30,9 @@ namespace Application.CommandHandlers.Inquiry
             var updateResult = await inquiryRepository.UpdateAsync(existingInquiry.Data);
             if (updateResult.IsSuccess)
             {
-                return Result<Guid>.Success(existingInquiry.Data.Id);
+                return Result.Success();
             }
-            return Result<Guid>.Failure(updateResult.ErrorMessage);
+            return Result.Failure(updateResult.ErrorMessage);
 
 
         }

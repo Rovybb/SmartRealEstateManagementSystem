@@ -5,18 +5,18 @@ namespace Application.DTOs
     public class PropertyDTO
     {
         public Guid Id { get; set; }
-        public string Title { get; set; } = "";
-        public string Description { get; set; } = "";
-        public PropertyType Type { get; set; }
-        public PropertyStatus Status { get; set; }
-        public decimal Price { get; set; }
-        public string Address { get; set; } = "";
-        public decimal Area { get; set; }
-        public int Rooms { get; set; }
-        public int Bathrooms { get; set; }
-        public int ConstructionYear { get; set; }
-        public Guid CreatedBy { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        public required string Title { get; set; }
+        public required string Description { get; set; }
+        public required PropertyType Type { get; set; }
+        public required PropertyStatus Status { get; set; }
+        public required decimal Price { get; set; }
+        public required string Address { get; set; }
+        public required decimal Area { get; set; }
+        public required int Rooms { get; set; }
+        public required int Bathrooms { get; set; }
+        public required int ConstructionYear { get; set; }
+        public required DateTime CreatedAt { get; set; } 
+        public required DateTime UpdatedAt { get; set; }
+        public required Guid UserId { get; set; }
     }
 }

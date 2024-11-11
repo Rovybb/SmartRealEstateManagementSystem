@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Application.CommandHandlers.Property
 {
-    public class UpdatePropertyCommandHandler : IRequestHandler<UpdatePropertyCommand, Result<Guid>>
+    public class UpdatePropertyCommandHandler : IRequestHandler<UpdatePropertyCommand, Result>
     {
         private readonly IPropertyRepository propertyRepository;
         private readonly IMapper mapper;
@@ -17,12 +17,12 @@ namespace Application.CommandHandlers.Property
             this.mapper = mapper;
         }
 
-        public async Task<Result<Guid>> Handle(UpdatePropertyCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(UpdatePropertyCommand request, CancellationToken cancellationToken)
         {
             var propertyResult = await propertyRepository.GetByIdAsync(request.Id);
             if (!propertyResult.IsSuccess)
             {
-                return Result<Guid>.Failure(propertyResult.ErrorMessage);
+                return Result.Failure(propertyResult.ErrorMessage);
             }
 
             var existingProperty = propertyResult.Data;
@@ -32,10 +32,10 @@ namespace Application.CommandHandlers.Property
             var updateResult = await propertyRepository.UpdateAsync(existingProperty);
             if (updateResult.IsSuccess)
             {
-                return Result<Guid>.Success(existingProperty.Id);
+                return Result.Success();
             }
 
-            return Result<Guid>.Failure(updateResult.ErrorMessage);
+            return Result.Failure(updateResult.ErrorMessage);
         }
     }
 }
