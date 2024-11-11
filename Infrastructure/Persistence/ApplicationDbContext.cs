@@ -12,6 +12,7 @@ namespace Infrastructure.Persistence
         public DbSet<Property> Properties { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Inquiry> Inquiries { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -72,6 +73,21 @@ namespace Infrastructure.Persistence
                 entity.Property(e => e.Nationality).IsRequired().HasMaxLength(100);
                 entity.Property(e => e.CreatedAt).IsRequired();
                 entity.Property(e => e.Status).IsRequired();
+            });
+            modelBuilder.Entity<Inquiry>(entity =>
+            {
+                entity.ToTable("Inquiry");
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id)
+                .HasColumnType("uuid")
+                .HasDefaultValueSql("uuid_generate_v4()")
+                .ValueGeneratedOnAdd();
+                entity.Property(e => e.PropertyId).IsRequired();
+                entity.Property(e => e.ClientId).IsRequired();
+                entity.Property(e => e.AgentId).IsRequired();
+                entity.Property(e => e.Message).IsRequired().HasMaxLength(1000);
+                entity.Property(e => e.Status).IsRequired();
+                entity.Property(e => e.CreatedAt).IsRequired();
             });
         }
     }
