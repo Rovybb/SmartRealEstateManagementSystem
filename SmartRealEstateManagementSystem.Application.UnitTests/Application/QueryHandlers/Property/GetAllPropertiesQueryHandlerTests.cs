@@ -46,8 +46,8 @@ namespace SmartRealEstateManagementSystem.Application.UnitTests.Application.Quer
                     UserId = mockId,
                     User = new Domain.Entities.User { Id = mockId, Username = "SampleUser", Email = "sample@example.com", FirstName = "Sample", LastName = "User", Password = "hashedpassword", Address = "User Address", PhoneNumber = "1234567890", Nationality = "Sample Nationality", CreatedAt = DateTime.UtcNow, Status = UserStatus.ACTIVE, Role = UserRole.CLIENT }
                     } };
-            var propertyDTOs = new List<PropertyDTO> {
-                    new PropertyDTO {
+            var propertyDTOs = new List<PropertyDto> {
+                    new PropertyDto {
                         Id = properties[0].Id,
                         Title = properties[0].Title,
                         Description = properties[0].Description,
@@ -66,7 +66,7 @@ namespace SmartRealEstateManagementSystem.Application.UnitTests.Application.Quer
                 };
 
             propertyRepositoryMock.GetAllAsync().Returns(properties);
-            mapperMock.Map<IEnumerable<PropertyDTO>>(properties).Returns(propertyDTOs);
+            mapperMock.Map<IEnumerable<PropertyDto>>(properties).Returns(propertyDTOs);
 
             var query = new GetAllPropertiesQuery();
 

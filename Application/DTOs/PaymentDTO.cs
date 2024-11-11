@@ -3,7 +3,7 @@ using Domain.Types.Payment;
 
 namespace Application.DTOs
 {
-    public class PaymentDTO
+    public class PaymentDto
     {
         public required Guid Id { get; set; }
         public required PaymentType Type { get; set; }

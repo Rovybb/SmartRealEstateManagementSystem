@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Application.Queries.Payment
 {
-    public class GetPaymentByIdQuery : IRequest<Result<PaymentDTO>>
+    public class GetPaymentByIdQuery : IRequest<Result<PaymentDto>>
     {
         public Guid Id { get; set; }
     }

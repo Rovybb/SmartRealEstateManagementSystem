@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Application.QueryHandlers.Payment
 {
-    public class GetAllPaymentsQueryHandler : IRequestHandler<GetAllPaymentsQuery, Result<IEnumerable<PaymentDTO>>>
+    public class GetAllPaymentsQueryHandler : IRequestHandler<GetAllPaymentsQuery, Result<IEnumerable<PaymentDto>>>
     {
         private readonly IPaymentRepository paymentRepository;
         private readonly IMapper mapper;
@@ -18,16 +18,16 @@ namespace Application.QueryHandlers.Payment
             this.mapper = mapper;
         }
 
-        public async Task<Result<IEnumerable<PaymentDTO>>> Handle(GetAllPaymentsQuery request, CancellationToken cancellationToken)
+        public async Task<Result<IEnumerable<PaymentDto>>> Handle(GetAllPaymentsQuery request, CancellationToken cancellationToken)
         {
             var result = await paymentRepository.GetAllAsync();
             if (result == null)
             {
-                return Result<IEnumerable<PaymentDTO>>.Failure("No payments found");
+                return Result<IEnumerable<PaymentDto>>.Failure("No payments found");
             }
 
-            var payments = result.Select(payment => mapper.Map<PaymentDTO>(payment));
-            return Result<IEnumerable<PaymentDTO>>.Success(payments);
+            var payments = result.Select(payment => mapper.Map<PaymentDto>(payment));
+            return Result<IEnumerable<PaymentDto>>.Success(payments);
         }
     }
 }

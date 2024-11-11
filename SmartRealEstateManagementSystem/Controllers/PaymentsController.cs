@@ -19,7 +19,7 @@ namespace SmartRealEstateManagementSystem.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<PaymentDTO>> GetPaymentById(Guid id)
+        public async Task<ActionResult<PaymentDto>> GetPaymentById(Guid id)
         {
             var query = new GetPaymentByIdQuery { Id = id };
             var result = await mediator.Send(query);
@@ -45,7 +45,7 @@ namespace SmartRealEstateManagementSystem.Controllers
             {
                 return CreatedAtAction(nameof(GetPaymentById), new { Id = result.Data }, result.Data);
             }
-            return BadRequest(result.ErrorMessage);
+            return BadRequest(result.ErrorMessage );
         }
 
         [HttpDelete("{id}")]
@@ -57,7 +57,7 @@ namespace SmartRealEstateManagementSystem.Controllers
             {
                 return NoContent();
             }
-            return NotFound(result.ErrorMessage);
+            return NotFound(result.ErrorMessage );
         }
 
         [HttpPut("{id}")]
@@ -84,11 +84,11 @@ namespace SmartRealEstateManagementSystem.Controllers
             {
                 return NotFound();
             }
-            return BadRequest(result.ErrorMessage);
+            return BadRequest(result.ErrorMessage );
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PaymentDTO>>> GetAllPayments()
+        public async Task<ActionResult<IEnumerable<PaymentDto>>> GetAllPayments()
         {
             var query = new GetAllPaymentsQuery();
             var result = await mediator.Send(query);
@@ -96,7 +96,7 @@ namespace SmartRealEstateManagementSystem.Controllers
             {
                 return Ok(result.Data);
             }
-            return BadRequest(result.ErrorMessage);
+            return BadRequest(result.ErrorMessage );
         }
     }
 }

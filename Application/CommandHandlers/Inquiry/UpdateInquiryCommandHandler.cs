@@ -32,7 +32,7 @@ namespace Application.CommandHandlers.Inquiry
             {
                 return Result.Success();
             }
-            return Result.Failure(updateResult.ErrorMessage);
+            return Result.Failure(updateResult.ErrorMessage );
 
 
         }

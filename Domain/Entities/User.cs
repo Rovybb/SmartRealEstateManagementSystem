@@ -13,7 +13,7 @@ namespace Domain.Entities
         public required string Address { get; set; }
         public required string PhoneNumber { get; set; }
         public required string Nationality { get; set; }
-        public required DateTime CreatedAt { get; set; }
+        public required DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? LastLogin { get; set; } // Nullable for users who haven't logged in yet
         public required UserStatus Status { get; set; }
         public required UserRole Role { get; set; } // Type of user (Client, Professional)

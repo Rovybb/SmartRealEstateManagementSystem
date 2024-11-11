@@ -26,7 +26,7 @@ namespace Application.CommandHandlers.User
             {
                 return Result.Success();
             }
-            return Result.Failure(result.ErrorMessage);
+            return Result.Failure(result.ErrorMessage );
         }
     }
 }

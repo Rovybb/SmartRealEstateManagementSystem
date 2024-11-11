@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Application.QueryHandlers.Property
 {
-    public class GetAllPropertiesQueryHandler : IRequestHandler<GetAllPropertiesQuery, Result<IEnumerable<PropertyDTO>>>
+    public class GetAllPropertiesQueryHandler : IRequestHandler<GetAllPropertiesQuery, Result<IEnumerable<PropertyDto>>>
     {
         private readonly IPropertyRepository propertyRepository;
         private readonly IMapper mapper;
@@ -18,16 +18,16 @@ namespace Application.QueryHandlers.Property
             this.mapper = mapper;
         }
 
-        public async Task<Result<IEnumerable<PropertyDTO>>> Handle(GetAllPropertiesQuery request, CancellationToken cancellationToken)
+        public async Task<Result<IEnumerable<PropertyDto>>> Handle(GetAllPropertiesQuery request, CancellationToken cancellationToken)
         {
             var properties = await propertyRepository.GetAllAsync();
             if (properties == null)
             {
-                return Result<IEnumerable<PropertyDTO>>.Failure("No properties found.");
+                return Result<IEnumerable<PropertyDto>>.Failure("No properties found.");
             }
 
-            var propertyDTOs = mapper.Map<IEnumerable<PropertyDTO>>(properties);
-            return Result<IEnumerable<PropertyDTO>>.Success(propertyDTOs);
+            var propertyDTOs = mapper.Map<IEnumerable<PropertyDto>>(properties);
+            return Result<IEnumerable<PropertyDto>>.Success(propertyDTOs);
         }
     }
 }

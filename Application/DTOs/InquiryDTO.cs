@@ -2,7 +2,7 @@
 
 namespace Application.DTOs
 {
-    public class InquiryDTO
+    public class InquiryDto
     {
         public Guid Id { get; set; }
         public Guid PropertyId { get; set; }

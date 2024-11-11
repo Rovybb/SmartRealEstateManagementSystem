@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Application.Queries.Payment
 {
-    public class GetAllPaymentsQuery : IRequest<Result<IEnumerable<PaymentDTO>>>
+    public class GetAllPaymentsQuery : IRequest<Result<IEnumerable<PaymentDto>>>
     {
     }
 }

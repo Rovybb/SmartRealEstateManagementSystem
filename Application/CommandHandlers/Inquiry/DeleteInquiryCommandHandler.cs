@@ -22,7 +22,7 @@ namespace Application.CommandHandlers.Inquiry
             {
                 return Result.Success();
             }
-            return Result.Failure(result.ErrorMessage);
+            return Result.Failure(result.ErrorMessage ?? "Unknown error occurred.");
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Application.CommandHandlers.Property
             var propertyResult = await propertyRepository.GetByIdAsync(request.Id);
             if (!propertyResult.IsSuccess)
             {
-                return Result.Failure(propertyResult.ErrorMessage);
+                return Result.Failure(propertyResult.ErrorMessage );
             }
 
             await propertyRepository.DeleteAsync(request.Id);

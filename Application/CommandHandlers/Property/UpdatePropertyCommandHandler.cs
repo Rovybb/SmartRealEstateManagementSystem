@@ -22,7 +22,7 @@ namespace Application.CommandHandlers.Property
             var propertyResult = await propertyRepository.GetByIdAsync(request.Id);
             if (!propertyResult.IsSuccess)
             {
-                return Result.Failure(propertyResult.ErrorMessage);
+                return Result.Failure(propertyResult.ErrorMessage );
             }
 
             var existingProperty = propertyResult.Data;
@@ -35,7 +35,7 @@ namespace Application.CommandHandlers.Property
                 return Result.Success();
             }
 
-            return Result.Failure(updateResult.ErrorMessage);
+            return Result.Failure(updateResult.ErrorMessage );
         }
     }
 }

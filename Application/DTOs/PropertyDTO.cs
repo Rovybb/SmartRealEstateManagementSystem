@@ -2,7 +2,7 @@
 
 namespace Application.DTOs
 {
-    public class PropertyDTO
+    public class PropertyDto
     {
         public Guid Id { get; set; }
         public required string Title { get; set; }
