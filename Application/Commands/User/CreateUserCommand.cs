@@ -6,8 +6,8 @@ namespace Application.Commands.User
 {
     public class CreateUserCommand : IRequest<Result<Guid>>
     {
-        public required string Username { get; set; }
         public required string Email { get; set; }
+        public required string Username { get; set; }
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
         public required string Password { get; set; } 

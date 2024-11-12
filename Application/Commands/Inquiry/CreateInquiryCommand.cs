@@ -11,7 +11,7 @@ namespace Application.Commands.Inquiry
         public required DateTime CreatedAt { get; set; }
 
         public required Guid PropertyId { get; set; }
-        public required Guid ClientId { get; set; }
         public required Guid AgentId { get; set; }
+        public required Guid ClientId { get; set; }
     }
 }
