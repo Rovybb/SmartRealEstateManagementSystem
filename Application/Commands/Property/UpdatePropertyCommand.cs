@@ -10,8 +10,8 @@ namespace Application.Commands.Property
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public PropertyType Type { get; set; }
-        public PropertyStatus Status { get; set; }
         public decimal Price { get; set; }
+        public PropertyStatus Status { get; set; }
         public string Address { get; set; } = string.Empty;
         public decimal Area { get; set; }
         public int Rooms { get; set; }
