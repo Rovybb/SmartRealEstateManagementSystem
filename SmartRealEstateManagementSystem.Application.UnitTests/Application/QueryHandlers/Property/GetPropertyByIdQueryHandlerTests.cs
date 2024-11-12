@@ -61,7 +61,7 @@ namespace SmartRealEstateManagementSystem.Application.UnitTests.Application.Quer
                     Role = UserRole.CLIENT
                 }
             };
-            var propertyDTO = new PropertyDto
+            var propertyDto = new PropertyDto
             {
                 Id = property.Id,
                 Title = property.Title,
@@ -80,7 +80,7 @@ namespace SmartRealEstateManagementSystem.Application.UnitTests.Application.Quer
             };
 
             propertyRepositoryMock.GetByIdAsync(property.Id).Returns(Result<PropertyEntities.Property>.Success(property));
-            mapperMock.Map<PropertyDto>(property).Returns(propertyDTO);
+            mapperMock.Map<PropertyDto>(property).Returns(propertyDto);
 
             var query = new GetPropertyByIdQuery { Id = property.Id };
 
@@ -89,7 +89,7 @@ namespace SmartRealEstateManagementSystem.Application.UnitTests.Application.Quer
 
             // Assert
             Assert.True(result.IsSuccess);
-            Assert.Equal(propertyDTO, result.Data);
+            Assert.Equal(propertyDto, result.Data);
         }
 
         [Fact]
