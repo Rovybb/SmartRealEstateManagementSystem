@@ -9,10 +9,10 @@ namespace Infrastructure.Persistence
         {
         }
 
-        public DbSet<Property> Properties { get; set; }
-        public DbSet<Payment> Payments { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Inquiry> Inquiries { get; set; }
+        public required DbSet<Property> Properties { get; set; }
+        public required DbSet<Payment> Payments { get; set; }
+        public required DbSet<User> Users { get; set; }
+        public required DbSet<Inquiry> Inquiries { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
