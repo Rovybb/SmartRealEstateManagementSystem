@@ -21,7 +21,15 @@
       return this.http.get<any>(`${this.apiURL}?pageNumber=${pageNumber}&pageSize=${pageSize}`);
     } 
 
-    public createProperty(property: Property): Observable<any> {
-      return this.http.post<Property>(this.apiURL, property);
-    }
+  public createProperty(property: Property): Observable<any> {
+    return this.http.post<Property>(this.apiURL, property);
   }
+  public updateProperty(propertyId: number, property: Property): Observable<any> {
+    const url = `${this.apiURL}/${propertyId}`;
+    return this.http.put<Property>(url, property);
+  }
+  public deleteProperty(propertyId: number): Observable<any> {
+    const url = `${this.apiURL}/${propertyId}`;
+    return this.http.delete(url);
+  }
+}

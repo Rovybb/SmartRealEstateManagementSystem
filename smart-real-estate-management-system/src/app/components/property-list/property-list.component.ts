@@ -35,6 +35,24 @@ export class PropertyListComponent implements OnInit {
   navigateToCreate() {
     this.router.navigate(['properties/create']);
   }
+  navigateToUpdate(property : Property) {
+    this.router.navigate(['properties/update/' + property.id]);
+  }
+  deleteProperty(property: any): void {
+    if (confirm('Are you sure you want to delete this property?')) {
+        const propertyId = property.id; // Asumăm că fiecare proprietate are un ID unic
+        this.propertyService.deleteProperty(propertyId).subscribe({
+            next: () => {
+                this.properties = this.properties.filter(p => p !== property);
+            },
+            error: (err) => {
+                console.error('Error deleting property:', err);
+                alert('Failed to delete property.');
+            }
+        });
+    }
+}
+
 
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {

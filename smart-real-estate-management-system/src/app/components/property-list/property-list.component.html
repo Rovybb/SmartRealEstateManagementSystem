@@ -1,7 +1,7 @@
 <h1>Property List</h1>
 <button (click)="navigateToCreate()">Create New Property</button>
 
-<table>
+<table class="tableAllProperties">
     <thead>
         <tr>
             <th>Title</th>
@@ -23,6 +23,12 @@
             <td>{{ property.price }}</td>
             <td>{{ property.address }}</td>
             <td>{{ property.area }}</td>
+            <td>
+                <div class="button-container">
+                  <button (click)="navigateToUpdate(property)" class="btn btn-update">Update</button>
+                  <button (click)="deleteProperty(property)" class="btn btn-delete">Delete</button>
+                </div>
+              </td>
         </tr>
     </tbody>
 </table>

@@ -9,8 +9,8 @@ namespace Application.Commands.Property
             RuleFor(x => x.Id).NotEmpty().WithMessage("Id is required");
             RuleFor(x => x.Title).NotEmpty().WithMessage("Title cannot be empty!");
             RuleFor(x => x.Description).NotEmpty().WithMessage("Description cannot be empty!");
-            RuleFor(x => x.Type).IsInEnum().WithMessage("Type is not valid!");
-            RuleFor(x => x.Status).IsInEnum().WithMessage("Status is not valid!");
+            //RuleFor(x => x.Type).IsInEnum().WithMessage("Type is not valid!");
+            //RuleFor(x => x.Status).IsInEnum().WithMessage("Status is not valid!");
             RuleFor(x => x.Price).GreaterThan(0).WithMessage("Price must be greater than 0!");
             RuleFor(x => x.Area).NotEmpty().WithMessage("Area cannot be empty!");
             RuleFor(x => x.Rooms).GreaterThanOrEqualTo(0).WithMessage("Rooms must be greater than or equal to 0!");
