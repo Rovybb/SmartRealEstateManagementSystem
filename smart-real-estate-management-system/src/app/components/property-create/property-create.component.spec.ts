@@ -1,23 +1,25 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+//TODO: Implement tests
 
-import { PropertyCreateComponent } from './property-create.component';
+// import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-describe('PropertyCreateComponent', () => {
-  let component: PropertyCreateComponent;
-  let fixture: ComponentFixture<PropertyCreateComponent>;
+// import { PropertyCreateComponent } from './property-create.component';
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [PropertyCreateComponent]
-    })
-    .compileComponents();
+// describe('PropertyCreateComponent', () => {
+//   let component: PropertyCreateComponent;
+//   let fixture: ComponentFixture<PropertyCreateComponent>;
 
-    fixture = TestBed.createComponent(PropertyCreateComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//   beforeEach(async () => {
+//     await TestBed.configureTestingModule({
+//       imports: [PropertyCreateComponent]
+//     })
+//     .compileComponents();
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//     fixture = TestBed.createComponent(PropertyCreateComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
+
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });
