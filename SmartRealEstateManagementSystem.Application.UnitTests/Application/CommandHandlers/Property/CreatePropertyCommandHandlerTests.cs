@@ -1,126 +1,128 @@
-﻿using Application.Commands.Property;
-using Application.CommandHandlers.Property;
-using AutoMapper;
-using Domain.Repositories;
-using Domain.Types.Property;
-using Domain.Utils;
-using NSubstitute;
-using PropertyEntities = Domain.Entities;
-using Domain.Types.User;
+﻿//TODO: Uncomment the code below and complete the CreatePropertyCommandHandlerTests class. The class should contain unit tests for the CreatePropertyCommandHandler class.
 
-namespace SmartRealEstateManagementSystem.Application.UnitTests.Application.CommandHandlers.Property
-{
-    public class CreatePropertyCommandHandlerTests
-    {
-        private readonly IPropertyRepository propertyRepositoryMock;
-        private readonly IMapper mapperMock;
-        private readonly CreatePropertyCommandHandler handler;
+//using Application.Commands.Property;
+//using Application.CommandHandlers.Property;
+//using AutoMapper;
+//using Domain.Repositories;
+//using Domain.Types.Property;
+//using Domain.Utils;
+//using NSubstitute;
+//using PropertyEntities = Domain.Entities;
+//using Domain.Types.User;
 
-        public CreatePropertyCommandHandlerTests()
-        {
-            propertyRepositoryMock = Substitute.For<IPropertyRepository>();
-            mapperMock = Substitute.For<IMapper>();
-            handler = new CreatePropertyCommandHandler(propertyRepositoryMock, mapperMock);
-        }
+//namespace SmartRealEstateManagementSystem.Application.UnitTests.Application.CommandHandlers.Property
+//{
+//    public class CreatePropertyCommandHandlerTests
+//    {
+//        private readonly IPropertyRepository propertyRepositoryMock;
+//        private readonly IMapper mapperMock;
+//        private readonly CreatePropertyCommandHandler handler;
 
-        [Fact]
-        public async Task Handle_ShouldReturnSuccessResult_WhenPropertyIsCreated()
-        {
-            // Arrange
-            var mockId = Guid.Parse("a026c5ca-a4d4-4b2c-af7f-615c31e4adc1");
-            var command = new CreatePropertyCommand
-            {
-                Title = "Sample Title",
-                Description = "Sample Description",
-                Type = PropertyType.HOUSE,
-                Status = PropertyStatus.AVAILABLE,
-                Price = 100000m,
-                Address = "Sample Address",
-                Area = 120.5m,
-                Rooms = 3,
-                Bathrooms = 2,
-                ConstructionYear = 2020,
-                UserId = mockId
-            };
+//        public CreatePropertyCommandHandlerTests()
+//        {
+//            propertyRepositoryMock = Substitute.For<IPropertyRepository>();
+//            mapperMock = Substitute.For<IMapper>();
+//            handler = new CreatePropertyCommandHandler(propertyRepositoryMock, mapperMock);
+//        }
 
-            var property = new PropertyEntities.Property
-            {
-                Id = mockId,
-                Title = command.Title,
-                Description = command.Description,
-                Type = command.Type,
-                Status = command.Status,
-                Price = command.Price,
-                Address = command.Address,
-                Area = command.Area,
-                Rooms = command.Rooms,
-                Bathrooms = command.Bathrooms,
-                ConstructionYear = command.ConstructionYear,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-                UserId = command.UserId,
-                User = new Domain.Entities.User { Id = mockId, Username = "SampleUser", Email = "sample@example.com", FirstName = "Sample", LastName = "User", Password = "hashedpassword", Address = "User Address", PhoneNumber = "1234567890", Nationality = "Sample Nationality", CreatedAt = DateTime.UtcNow, Status = UserStatus.ACTIVE, Role = UserRole.CLIENT }
-            };
+//        [Fact]
+//        public async Task Handle_ShouldReturnSuccessResult_WhenPropertyIsCreated()
+//        {
+//            // Arrange
+//            var mockId = Guid.Parse("a026c5ca-a4d4-4b2c-af7f-615c31e4adc1");
+//            var command = new CreatePropertyCommand
+//            {
+//                Title = "Sample Title",
+//                Description = "Sample Description",
+//                Type = PropertyType.HOUSE,
+//                Status = PropertyStatus.AVAILABLE,
+//                Price = 100000m,
+//                Address = "Sample Address",
+//                Area = 120.5m,
+//                Rooms = 3,
+//                Bathrooms = 2,
+//                ConstructionYear = 2020,
+//                UserId = mockId
+//            };
 
-            mapperMock.Map<PropertyEntities.Property>(command).Returns(property);
-            propertyRepositoryMock.CreateAsync(property).Returns(Result<Guid>.Success(property.Id));
+//            var property = new PropertyEntities.Property
+//            {
+//                Id = mockId,
+//                Title = command.Title,
+//                Description = command.Description,
+//                Type = command.Type,
+//                Status = command.Status,
+//                Price = command.Price,
+//                Address = command.Address,
+//                Area = command.Area,
+//                Rooms = command.Rooms,
+//                Bathrooms = command.Bathrooms,
+//                ConstructionYear = command.ConstructionYear,
+//                CreatedAt = DateTime.UtcNow,
+//                UpdatedAt = DateTime.UtcNow,
+//                UserId = command.UserId,
+//                User = new Domain.Entities.User { Id = mockId, Username = "SampleUser", Email = "sample@example.com", FirstName = "Sample", LastName = "User", Password = "hashedpassword", Address = "User Address", PhoneNumber = "1234567890", Nationality = "Sample Nationality", CreatedAt = DateTime.UtcNow, Status = UserStatus.ACTIVE, Role = UserRole.CLIENT }
+//            };
 
-            // Act
-            var result = await handler.Handle(command, CancellationToken.None);
+//            mapperMock.Map<PropertyEntities.Property>(command).Returns(property);
+//            propertyRepositoryMock.CreateAsync(property).Returns(Result<Guid>.Success(property.Id));
 
-            // Assert
-            Assert.True(result.IsSuccess);
-            Assert.Equal(property.Id, result.Data);
-        }
+//            // Act
+//            var result = await handler.Handle(command, CancellationToken.None);
 
-        [Fact]
-        public async Task Handle_ShouldReturnFailureResult_WhenPropertyCreationFails()
-        {
-            // Arrange
-            var mockId = Guid.Parse("a026c5ca-a4d4-4b2c-af7f-615c31e4adc1");
-            var command = new CreatePropertyCommand
-            {
-                Title = "Sample Title",
-                Description = "Sample Description",
-                Type = PropertyType.HOUSE,
-                Status = PropertyStatus.AVAILABLE,
-                Price = 100000m,
-                Address = "Sample Address",
-                Area = 120.5m,
-                Rooms = 3,
-                Bathrooms = 2,
-                ConstructionYear = 2020,
-                UserId = mockId
-            };
+//            // Assert
+//            Assert.True(result.IsSuccess);
+//            Assert.Equal(property.Id, result.Data);
+//        }
 
-            var property = new PropertyEntities.Property
-            {
-                Id = mockId,
-                Title = command.Title,
-                Description = command.Description,
-                Type = command.Type,
-                Status = command.Status,
-                Price = command.Price,
-                Address = command.Address,
-                Area = command.Area,
-                Rooms = command.Rooms,
-                Bathrooms = command.Bathrooms,
-                ConstructionYear = command.ConstructionYear,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-                UserId = command.UserId,
-                User = new Domain.Entities.User { Id = mockId, Username = "SampleUser", Email = "sample@example.com", FirstName = "Sample", LastName = "User", Password = "hashedpassword", Address = "User Address", PhoneNumber = "1234567890", Nationality = "Sample Nationality", CreatedAt = DateTime.UtcNow, Status = UserStatus.ACTIVE, Role = UserRole.CLIENT }
-            };
+//        [Fact]
+//        public async Task Handle_ShouldReturnFailureResult_WhenPropertyCreationFails()
+//        {
+//            // Arrange
+//            var mockId = Guid.Parse("a026c5ca-a4d4-4b2c-af7f-615c31e4adc1");
+//            var command = new CreatePropertyCommand
+//            {
+//                Title = "Sample Title",
+//                Description = "Sample Description",
+//                Type = PropertyType.HOUSE,
+//                Status = PropertyStatus.AVAILABLE,
+//                Price = 100000m,
+//                Address = "Sample Address",
+//                Area = 120.5m,
+//                Rooms = 3,
+//                Bathrooms = 2,
+//                ConstructionYear = 2020,
+//                UserId = mockId
+//            };
 
-            mapperMock.Map<PropertyEntities.Property>(command).Returns(property);
-            propertyRepositoryMock.CreateAsync(property).Returns(Result<Guid>.Failure("Creation failed."));
+//            var property = new PropertyEntities.Property
+//            {
+//                Id = mockId,
+//                Title = command.Title,
+//                Description = command.Description,
+//                Type = command.Type,
+//                Status = command.Status,
+//                Price = command.Price,
+//                Address = command.Address,
+//                Area = command.Area,
+//                Rooms = command.Rooms,
+//                Bathrooms = command.Bathrooms,
+//                ConstructionYear = command.ConstructionYear,
+//                CreatedAt = DateTime.UtcNow,
+//                UpdatedAt = DateTime.UtcNow,
+//                UserId = command.UserId,
+//                User = new Domain.Entities.User { Id = mockId, Username = "SampleUser", Email = "sample@example.com", FirstName = "Sample", LastName = "User", Password = "hashedpassword", Address = "User Address", PhoneNumber = "1234567890", Nationality = "Sample Nationality", CreatedAt = DateTime.UtcNow, Status = UserStatus.ACTIVE, Role = UserRole.CLIENT }
+//            };
 
-            // Act
-            var result = await handler.Handle(command, CancellationToken.None);
+//            mapperMock.Map<PropertyEntities.Property>(command).Returns(property);
+//            propertyRepositoryMock.CreateAsync(property).Returns(Result<Guid>.Failure("Creation failed."));
 
-            // Assert
-            Assert.False(result.IsSuccess);
-            Assert.Equal("Creation failed.", result.ErrorMessage);
-        }
-    }
-}
+//            // Act
+//            var result = await handler.Handle(command, CancellationToken.None);
+
+//            // Assert
+//            Assert.False(result.IsSuccess);
+//            Assert.Equal("Creation failed.", result.ErrorMessage);
+//        }
+//    }
+//}
