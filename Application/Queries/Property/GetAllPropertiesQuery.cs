@@ -1,10 +1,11 @@
 ﻿using Application.DTOs;
+using Application.QueryReponses.Property;
 using Domain.Utils;
 using MediatR;
 
 namespace Application.Queries.Property
 {
-    public class GetAllPropertiesQuery : IRequest<Result<PaginatedList<PropertyDto>>>
+    public class GetAllPropertiesQuery : IRequest<Result<GetAllPropertiesQueryResponse>>
     {
         public int PageNumber { get; set; } = 1;
         public int PageSize { get; set; } = 10;

@@ -1,5 +1,4 @@
-﻿//TODO: Uncomment the code below and complete the CreatePropertyCommandHandlerTests class. The class should contain unit tests for the CreatePropertyCommandHandler class.
-
+﻿//TODO
 //using Application.Commands.Property;
 //using Application.CommandHandlers.Property;
 //using AutoMapper;
