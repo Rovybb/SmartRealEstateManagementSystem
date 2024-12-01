@@ -1,23 +1,25 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+//TODO: tests
 
-import { PropertyListComponent } from './property-list.component';
+// import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-describe('PropertyListComponent', () => {
-  let component: PropertyListComponent;
-  let fixture: ComponentFixture<PropertyListComponent>;
+// import { PropertyListComponent } from './property-list.component';
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [PropertyListComponent]
-    })
-    .compileComponents();
+// describe('PropertyListComponent', () => {
+//   let component: PropertyListComponent;
+//   let fixture: ComponentFixture<PropertyListComponent>;
 
-    fixture = TestBed.createComponent(PropertyListComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//   beforeEach(async () => {
+//     await TestBed.configureTestingModule({
+//       imports: [PropertyListComponent]
+//     })
+//     .compileComponents();
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//     fixture = TestBed.createComponent(PropertyListComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
+
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });

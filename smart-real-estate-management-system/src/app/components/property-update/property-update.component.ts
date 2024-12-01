@@ -21,17 +21,18 @@ export class PropertyUpdateComponent implements OnInit {
     private router: Router
   ) {
     this.propertyForm = this.fb.group({
+      id: ['', Validators.required],
       title: ['', [Validators.required, Validators.maxLength(100)]],
       description: ['', [Validators.required, Validators.maxLength(500)]],
-      status: ['', [Validators.required]], // Add further validation if needed for enum
-      type: ['', [Validators.required]], // Add further validation if needed for enum
+      status: ['', [Validators.required]],
+      type: ['', [Validators.required]], 
       price: [null, [Validators.required, Validators.min(0.01)]],
       address: ['', [Validators.required, Validators.maxLength(200)]],
       area: [null, [Validators.required, Validators.min(0.01)]],
       rooms: [null, [Validators.required, Validators.min(0)]],
       bathrooms: [null, [Validators.required, Validators.min(0)]],
       constructionYear: [null, [Validators.required, Validators.min(1501)]],
-      userId: ['', Validators.required] // Assuming userId is provided
+      userId: ['', Validators.required]
     });
   }
 
@@ -39,8 +40,9 @@ export class PropertyUpdateComponent implements OnInit {
 
   onSubmit(): void {
     if (this.propertyForm.valid) {
-      const property = this.propertyForm.value;
-      this.propertyService.updateProperty(property.id, property).subscribe(() => {
+
+      console.log(this.propertyForm.value);
+      this.propertyService.updateProperty(this.propertyForm.value.id, this.propertyForm.value).subscribe(() => {
         this.router.navigate(['/properties']);
       });
     }
