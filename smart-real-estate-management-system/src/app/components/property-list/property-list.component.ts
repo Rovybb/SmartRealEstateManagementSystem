@@ -15,7 +15,7 @@ export class PropertyListComponent implements OnInit {
 
   properties: Property[] = [];
   pageNumber: number = 1;
-  pageSize: number = 15;
+  pageSize: number = 2;
   totalPages: number = 0;
 
   constructor(private propertyService: PropertyService, private router: Router) { }
