@@ -5,6 +5,7 @@ using Application.Commands.User;
 using Application.DTOs;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Utils;
 
 namespace Application.Utils
 {
@@ -15,6 +16,8 @@ namespace Application.Utils
             CreateMap<Property, PropertyDto>().ReverseMap();
             CreateMap<Property, CreatePropertyCommand>().ReverseMap();
             CreateMap<Property, UpdatePropertyCommand>().ReverseMap();
+            CreateMap(typeof(PaginatedList<>), typeof(PaginatedList<>))
+            .ConvertUsing(typeof(PaginatedListConverter<,>));
 
             CreateMap<Payment, PaymentDto>().ReverseMap();
             CreateMap<Payment, CreatePaymentCommand>().ReverseMap();
@@ -27,6 +30,15 @@ namespace Application.Utils
             CreateMap<Inquiry, InquiryDto>().ReverseMap();
             CreateMap<Inquiry, CreateInquiryCommand>().ReverseMap();
             CreateMap<Inquiry, UpdateInquiryCommand>().ReverseMap();
+        }
+    }
+
+    public class PaginatedListConverter<TSource, TDestination> : ITypeConverter<PaginatedList<TSource>, PaginatedList<TDestination>>
+    {
+        public PaginatedList<TDestination> Convert(PaginatedList<TSource> source, PaginatedList<TDestination> destination, ResolutionContext context)
+        {
+            var items = context.Mapper.Map<List<TDestination>>(source.Items);
+            return new PaginatedList<TDestination>(items, source.TotalCount, source.PageNumber, source.PageSize);
         }
     }
 }
