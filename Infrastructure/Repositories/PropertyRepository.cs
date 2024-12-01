@@ -20,6 +20,73 @@ namespace Infrastructure.Repositories
             return await context.Properties.ToListAsync();
         }
 
+        public async Task<PaginatedList<Property>> GetPropertiesAsync(int pageNumber, int pageSize, Dictionary<string, string>? filters)
+        {
+            var query = context.Properties.AsQueryable();
+
+            // Apply filters dynamically using a switch
+            if (filters != null)
+            {
+                foreach (var filter in filters)
+                {
+                    switch (filter.Key.ToLower())
+                    {
+                        case "title":
+                            query = query.Where(p => p.Title.Contains(filter.Value));
+                            break;
+                        case "description":
+                            query = query.Where(p => p.Description.Contains(filter.Value));
+                            break;
+                        case "price_min":
+                            if (decimal.TryParse(filter.Value, out var priceMin))
+                            {
+                                query = query.Where(p => p.Price >= priceMin);
+                            }
+                            break;
+                        case "price_max":
+                            if (decimal.TryParse(filter.Value, out var priceMax))
+                            {
+                                query = query.Where(p => p.Price <= priceMax);
+                            }
+                            break;
+                        case "rooms":
+                            if (int.TryParse(filter.Value, out var rooms))
+                            {
+                                query = query.Where(p => p.Rooms == rooms);
+                            }
+                            break;
+                        case "bathrooms":
+                            if (int.TryParse(filter.Value, out var bathrooms))
+                            {
+                                query = query.Where(p => p.Bathrooms == bathrooms);
+                            }
+                            break;
+                        case "constructionyear":
+                            if (int.TryParse(filter.Value, out var year))
+                            {
+                                query = query.Where(p => p.ConstructionYear == year);
+                            }
+                            break;
+                        case "pagenumber":
+                        case "pagesize":
+                            // Skip these keys
+                            break;
+                        // Add more cases as needed for additional filters
+                        default:
+                            throw new ArgumentException($"Filter key '{filter.Key}' is not supported.");
+                    }
+                }
+            }
+
+            // Apply pagination
+            var totalItems = await query.CountAsync();
+            var items = await query.Skip((pageNumber - 1) * pageSize)
+                                   .Take(pageSize)
+                                   .ToListAsync();
+
+            return new PaginatedList<Property>(items, totalItems, pageNumber, pageSize);
+        }
+
         public async Task<Result<Property>> GetByIdAsync(Guid id)
         {
             var property = await context.Properties.FindAsync(id);

@@ -1,6 +1,7 @@
 ﻿using Application.Commands.Property;
 using Application.DTOs;
 using Application.Queries.Property;
+using Domain.Utils;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,15 +31,26 @@ namespace SmartRealEstateManagementSystem.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PropertyDto>>> GetAllProperties()
+        public async Task<ActionResult<PaginatedList<PropertyDto>>> GetAllProperties(
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] Dictionary<string, string>? filters = null)
         {
-            var query = new GetAllPropertiesQuery();
+            var query = new GetAllPropertiesQuery
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                Filters = filters
+            };
+
             var result = await mediator.Send(query);
+
             if (result.IsSuccess)
             {
                 return Ok(result.Data);
             }
-            return BadRequest(result.ErrorMessage );
+
+            return BadRequest(result.ErrorMessage);
         }
 
         [HttpPost]
