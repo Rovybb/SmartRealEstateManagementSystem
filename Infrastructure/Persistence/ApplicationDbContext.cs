@@ -29,8 +29,8 @@ namespace Infrastructure.Persistence
                     .ValueGeneratedOnAdd();
                 entity.Property(e => e.Title).IsRequired().HasMaxLength(100);
                 entity.Property(e => e.Description).IsRequired().HasMaxLength(500);
-                entity.Property(e => e.Type).IsRequired();
-                entity.Property(e => e.Status).IsRequired();
+                //entity.Property(e => e.Type).IsRequired();
+                //entity.Property(e => e.Status).IsRequired();
                 entity.Property(e => e.Price).IsRequired();
                 entity.Property(e => e.Address).IsRequired().HasMaxLength(200);
                 entity.Property(e => e.Area).IsRequired();
