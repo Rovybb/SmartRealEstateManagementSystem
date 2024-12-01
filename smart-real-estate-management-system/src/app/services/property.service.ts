@@ -20,4 +20,9 @@ export class PropertyService {
   public createProperty(property: Property): Observable<any> {
     return this.http.post<Property>(this.apiURL, property);
   }
+  public updateProperty(propertyId: number, property: Property): Observable<any> {
+    const url = `${this.apiURL}/${propertyId}`;
+    return this.http.put<Property>(url, property);
+  }
+  
 }
