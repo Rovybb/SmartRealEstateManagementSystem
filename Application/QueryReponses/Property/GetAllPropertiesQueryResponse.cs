@@ -5,7 +5,7 @@ namespace Application.QueryReponses.Property
 {
     public class GetAllPropertiesQueryResponse
     {
-        PaginatedList<PropertyDto> Items { get; set; }
-        int TotalCount { get; set; }
+        public PaginatedList<PropertyDto>? Items { get; set; }
+        public int TotalPages { get; set; }
     }
 }
