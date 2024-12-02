@@ -14,6 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 })
 export class PropertyUpdateComponent implements OnInit {
   propertyForm: FormGroup;
+  errorMessage: string | null = null; // To store error messages
 
   constructor(
     private fb: FormBuilder,
@@ -25,7 +26,7 @@ export class PropertyUpdateComponent implements OnInit {
       title: ['', [Validators.required, Validators.maxLength(100)]],
       description: ['', [Validators.required, Validators.maxLength(500)]],
       status: ['', [Validators.required]],
-      type: ['', [Validators.required]], 
+      type: ['', [Validators.required]],
       price: [null, [Validators.required, Validators.min(0.01)]],
       address: ['', [Validators.required, Validators.maxLength(200)]],
       area: [null, [Validators.required, Validators.min(0.01)]],
@@ -39,13 +40,22 @@ export class PropertyUpdateComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit(): void {
-    if (this.propertyForm.valid) {
+    this.errorMessage = null; // Reset error message
 
-      console.log(this.propertyForm.value);
-      this.propertyService.updateProperty(this.propertyForm.value.id, this.propertyForm.value).subscribe(() => {
-        this.router.navigate(['/properties']);
-      });
+    if (this.propertyForm.valid) {
+      this.propertyService
+        .updateProperty(this.propertyForm.value.id, this.propertyForm.value)
+        .subscribe({
+          next: () => {
+            this.router.navigate(['/properties']);
+          },
+          error: (error) => {
+            this.errorMessage = 'Error updating property. Please try again.';
+            console.error('Update error:', error);
+          }
+        });
+    } else {
+      this.errorMessage = 'Please fix validation errors before submitting.';
     }
   }
-  
 }
