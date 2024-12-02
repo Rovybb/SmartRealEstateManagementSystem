@@ -10,7 +10,7 @@
             <th>Status</th>
             <th>Price</th>
             <th>Area</th>
-            <th>Actions</th>
+            <th class="actions-column">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -20,20 +20,14 @@
             <td>{{ property.type }}</td>
             <td>{{ property.status }}</td>
             <td>{{ property.price }}</td>
-            <td>{{ property.address }}</td>
             <td>{{ property.area }}</td>
             <td>
-                <!-- <div class="button-container">
-                  <button (click)="navigateToUpdate(property)" class="btn btn-update">Update</button>
-                  <button (click)="deleteProperty(property)" class="btn btn-delete">Delete</button>
-                </div> -->
-                <button (click)="viewDetails(property.id)" class="btn btn-view-details">View Details</button>
-              </td>
+                <button (click)="viewDetails(property)" class="btn-view-details">View All Details</button>
+            </td>
         </tr>
     </tbody>
 </table>
 
-<!-- Pagination Controls -->
 <div class="pagination-controls">
     <button (click)="previousPage()" [disabled]="pageNumber === 1">Previous</button>
     <button *ngFor="let page of [].constructor(totalPages); let i = index"

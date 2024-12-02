@@ -1,35 +1,55 @@
-  import { Injectable } from '@angular/core';
-  import { HttpClient } from '@angular/common/http';
-  import { Observable } from 'rxjs';
-  import { Property } from '../models/property.model';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Property } from '../models/property.model';
 
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class PropertyService {
+@Injectable({
+  providedIn: 'root',
+})
+export class PropertyService {
+  private apiURL = 'https://localhost:7146/api/v1/Properties';
 
-    private apiURL = 'https://localhost:7146/api/v1/Properties';
+  constructor(private http: HttpClient) {}
 
-    constructor(private http: HttpClient) { 
+  public getProperties(): Observable<Property[]> {
+    return this.http.get<Property[]>(this.apiURL);
+  }
+
+  public getPropertiesWithPagination(
+    pageNumber: number,
+    pageSize: number,
+    filters: { [key: string]: string } = {} // Add filters parameter
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('pageNumber', pageNumber.toString())
+      .set('pageSize', pageSize.toString());
+
+    // Append filters to the request if provided
+    for (const key in filters) {
+      if (filters[key]) {
+        params = params.set(key, filters[key]);
+      }
     }
 
-    public getProperties(): Observable<Property[]> {
-      return this.http.get<Property[]>(this.apiURL);
-    }
-
-    public getPropertiesWithPagination(pageNumber: number, pageSize: number): Observable<any> {
-      return this.http.get<any>(`${this.apiURL}?pageNumber=${pageNumber}&pageSize=${pageSize}`);
-    } 
+    return this.http.get<any>(this.apiURL, { params });
+  }
 
   public createProperty(property: Property): Observable<any> {
     return this.http.post<Property>(this.apiURL, property);
   }
-  public updateProperty(propertyId: number, property: Property): Observable<any> {
+
+  public updateProperty(propertyId: string, property: Property): Observable<any> {
     const url = `${this.apiURL}/${propertyId}`;
     return this.http.put<Property>(url, property);
   }
-  public deleteProperty(propertyId: number): Observable<any> {
+
+  public deleteProperty(propertyId: string): Observable<any> {
     const url = `${this.apiURL}/${propertyId}`;
     return this.http.delete(url);
+  }
+
+  public getPropertyById(propertyId: string): Observable<Property> {
+    const url = `${this.apiURL}/${propertyId}`;
+    return this.http.get<Property>(url);
   }
 }

@@ -12,6 +12,9 @@ import { NgFor } from '@angular/common';
   styleUrl: './property-list.component.css'
 })
 export class PropertyListComponent implements OnInit {
+Number(arg0: string): number {
+throw new Error('Method not implemented.');
+}
 
   properties: Property[] = [];
   pageNumber: number = 1;
@@ -38,12 +41,17 @@ export class PropertyListComponent implements OnInit {
   navigateToUpdate(property : Property) {
     this.router.navigate(['properties/update/' + property.id]);
   }
-  deleteProperty(property: any): void {
+  viewDetails(property: Property) {
+    this.router.navigate(['/properties/property-details', property.id]);
+  }
+  
+  deleteProperty(property: Property): void {
     if (confirm('Are you sure you want to delete this property?')) {
-        const propertyId = property.id; // Asumăm că fiecare proprietate are un ID unic
+        const propertyId = property.id;
         this.propertyService.deleteProperty(propertyId).subscribe({
             next: () => {
                 this.properties = this.properties.filter(p => p !== property);
+
             },
             error: (err) => {
                 console.error('Error deleting property:', err);

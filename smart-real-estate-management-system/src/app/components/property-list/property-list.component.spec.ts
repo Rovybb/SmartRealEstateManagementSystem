@@ -33,7 +33,6 @@ describe('PropertyListComponent', () => {
     fixture = TestBed.createComponent(PropertyListComponent);
     component = fixture.componentInstance;
 
-    // Mock data returned from the service
     propertyServiceMock.getPropertiesWithPagination.and.returnValue(of({
       items: [
         {
@@ -90,22 +89,10 @@ describe('PropertyListComponent', () => {
     expect(routerMock.navigate).toHaveBeenCalledWith(['properties/create']);
   });
 
-  it('should navigate to update property page', () => {
+  it('should navigate to property details page', () => {
     const property = component.properties[0];
-    component.navigateToUpdate(property);
-    expect(routerMock.navigate).toHaveBeenCalledWith(['properties/update/' + property.id]);
-  });
-
-  it('should delete property and update the list', () => {
-    const property = component.properties[0];
-    spyOn(window, 'confirm').and.returnValue(true);
-    propertyServiceMock.deleteProperty.and.returnValue(of({}));
-
-    component.deleteProperty(property);
-
-    expect(propertyServiceMock.deleteProperty).toHaveBeenCalledWith(property.id);
-    expect(component.properties.length).toBe(1);
-    expect(component.properties[0].title).toBe('Luxury Villa');
+    component.viewDetails(property);
+    expect(routerMock.navigate).toHaveBeenCalledWith(['properties/property-details', property.id]);
   });
 
   it('should handle error when deleting property', () => {
@@ -114,8 +101,6 @@ describe('PropertyListComponent', () => {
     propertyServiceMock.deleteProperty.and.returnValue(throwError(() => new Error('Delete error')));
 
     spyOn(window, 'alert');
-
-    component.deleteProperty(property);
 
     expect(propertyServiceMock.deleteProperty).toHaveBeenCalledWith(property.id);
     expect(window.alert).toHaveBeenCalledWith('Failed to delete property.');

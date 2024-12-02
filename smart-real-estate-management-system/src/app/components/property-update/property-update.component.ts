@@ -14,7 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 })
 export class PropertyUpdateComponent implements OnInit {
   propertyForm: FormGroup;
-  errorMessage: string | null = null; // To store error messages
+  errorMessage: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -40,7 +40,7 @@ export class PropertyUpdateComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit(): void {
-    this.errorMessage = null; // Reset error message
+    this.errorMessage = null;
 
     if (this.propertyForm.valid) {
       this.propertyService
