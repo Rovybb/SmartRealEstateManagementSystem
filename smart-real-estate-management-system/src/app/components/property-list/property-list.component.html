@@ -9,7 +9,6 @@
             <th>Type</th>
             <th>Status</th>
             <th>Price</th>
-            <th>Address</th>
             <th>Area</th>
             <th>Actions</th>
         </tr>
@@ -24,10 +23,11 @@
             <td>{{ property.address }}</td>
             <td>{{ property.area }}</td>
             <td>
-                <div class="button-container">
+                <!-- <div class="button-container">
                   <button (click)="navigateToUpdate(property)" class="btn btn-update">Update</button>
                   <button (click)="deleteProperty(property)" class="btn btn-delete">Delete</button>
-                </div>
+                </div> -->
+                <button (click)="viewDetails(property.id)" class="btn btn-view-details">View Details</button>
               </td>
         </tr>
     </tbody>
