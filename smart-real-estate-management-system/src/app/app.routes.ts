@@ -5,7 +5,7 @@ import { PropertyUpdateComponent } from './components/property-update/property-u
 import { PropertyDetailComponent } from './components/property-detail/property-detail.component';
 
 export const appRoutes: Routes = [
-  { path: '', redirectTo: '/properties', pathMatch: 'full' },
+  { path: '', component: PropertyListComponent, pathMatch: 'full' },
   { path: 'properties', component: PropertyListComponent },
   { path: 'properties/create', component: PropertyCreateComponent },
   { path: 'properties/update/:id', component: PropertyUpdateComponent },

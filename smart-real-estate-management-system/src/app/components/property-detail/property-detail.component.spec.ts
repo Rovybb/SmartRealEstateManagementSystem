@@ -112,7 +112,7 @@ describe('PropertyDetailComponent', () => {
   });
 
   it('should display correct property type', () => {
-    const type = component.getPropertyType(0);  // Should match 'HOUSE' (0)
+    const type = component.getPropertyType(0); 
     expect(type).toBe('HOUSE');
   });
 

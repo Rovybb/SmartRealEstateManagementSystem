@@ -3,13 +3,15 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Property } from '../models/property.model';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class PropertyService {
-  private apiURL = 'https://localhost:7146/api/v1/Properties';
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class PropertyService {
 
-  constructor(private http: HttpClient) {}
+    private apiURL = 'https://smartrealestatemanagementsystem-d7edeaecc4faccgx.polandcentral-01.azurewebsites.net/api/v1/Properties';
+
+    constructor(private http: HttpClient) { 
+    }
 
   public getProperties(): Observable<Property[]> {
     return this.http.get<Property[]>(this.apiURL);
@@ -18,13 +20,12 @@ export class PropertyService {
   public getPropertiesWithPagination(
     pageNumber: number,
     pageSize: number,
-    filters: { [key: string]: string } = {} // Add filters parameter
+    filters: { [key: string]: string } = {}
   ): Observable<any> {
     let params = new HttpParams()
       .set('pageNumber', pageNumber.toString())
       .set('pageSize', pageSize.toString());
 
-    // Append filters to the request if provided
     for (const key in filters) {
       if (filters[key]) {
         params = params.set(key, filters[key]);
