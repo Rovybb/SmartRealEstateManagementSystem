@@ -14,6 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 })
 export class PropertyCreateComponent implements OnInit {
   propertyForm: FormGroup;
+  errorMessage: string | null = null; // To store error messages
 
   constructor(
     private fb: FormBuilder,
@@ -38,10 +39,20 @@ export class PropertyCreateComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit(): void {
+    this.errorMessage = null; // Reset error message
+
     if (this.propertyForm.valid) {
-      this.propertyService.createProperty(this.propertyForm.value).subscribe(() => {
-        this.router.navigate(['/properties']);
+      this.propertyService.createProperty(this.propertyForm.value).subscribe({
+        next: () => {
+          this.router.navigate(['/properties']);
+        },
+        error: (error) => {
+          this.errorMessage = 'Error creating property. Please try again.';
+          console.error('Create error:', error);
+        }
       });
+    } else {
+      this.errorMessage = 'Please fix validation errors before submitting.';
     }
   }
 }
