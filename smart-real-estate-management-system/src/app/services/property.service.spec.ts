@@ -134,7 +134,7 @@ describe('PropertyService', () => {
       userId: 'user1'
     };
 
-    service.updateProperty(1, updatedProperty).subscribe(response => {
+    service.updateProperty("1", updatedProperty).subscribe(response => {
       expect(response).toEqual(updatedProperty);
     });
 
@@ -145,7 +145,7 @@ describe('PropertyService', () => {
   });
 
   it('should delete a property', () => {
-    service.deleteProperty(1).subscribe(response => {
+    service.deleteProperty("1").subscribe(response => {
       expect(response).toBeNull();
     });
 

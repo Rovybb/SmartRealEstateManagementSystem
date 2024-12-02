@@ -64,7 +64,6 @@ export class PropertyDetailComponent implements OnInit {
     }
   }
 
-  // Convert numeric status to string representation
   getPropertyStatus(status: any): string {
     switch (status) {
       case 0:
@@ -91,5 +90,5 @@ export class PropertyDetailComponent implements OnInit {
       default:
         return 'UNKNOWN';
     }
-  }
+  }  
 }

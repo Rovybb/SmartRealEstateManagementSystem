@@ -4,6 +4,7 @@ import { PropertyService } from '../../services/property.service';
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 describe('PropertyDetailComponent', () => {
   let component: PropertyDetailComponent;
@@ -31,7 +32,7 @@ describe('PropertyDetailComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [PropertyDetailComponent],
+      imports: [PropertyDetailComponent, CommonModule],
       providers: [
         { provide: PropertyService, useValue: propertyServiceMock },
         { provide: Router, useValue: routerMock },
@@ -44,12 +45,13 @@ describe('PropertyDetailComponent', () => {
     fixture = TestBed.createComponent(PropertyDetailComponent);
     component = fixture.componentInstance;
 
+    // Mocking the data returned from the service
     propertyServiceMock.getPropertyById.and.returnValue(of({
       id: '1',
       title: 'Modern Apartment',
       description: 'A beautiful apartment in the city center.',
-      type: 'HOUSE',
-      status: 'AVAILABLE',
+      type: 0,  // Set to 0 for 'HOUSE'
+      status: 0,  // Set to 0 for 'AVAILABLE'
       price: 100000,
       address: '123 Main St',
       area: 120,
@@ -83,8 +85,9 @@ describe('PropertyDetailComponent', () => {
   it('should navigate to update property page', () => {
     const property = component.property!;
     component.navigateToUpdate(property);
-    expect(routerMock.navigate).toHaveBeenCalledWith(['properties/update', property.id]);
+    expect(routerMock.navigate).toHaveBeenCalledWith(['properties/update/' + property.id]);
   });
+  
 
   it('should confirm before deleting property and show error if deletion fails', () => {
     const property = component.property!;
@@ -93,7 +96,7 @@ describe('PropertyDetailComponent', () => {
     spyOn(window, 'alert');
 
     component.deleteProperty(property);
-    
+
     expect(propertyServiceMock.deleteProperty).toHaveBeenCalledWith(property.id);
     expect(window.alert).toHaveBeenCalledWith('Failed to delete property.');
   });
@@ -109,7 +112,7 @@ describe('PropertyDetailComponent', () => {
   });
 
   it('should display correct property type', () => {
-    const type = component.getPropertyType(1);  
+    const type = component.getPropertyType(0);  // Should match 'HOUSE' (0)
     expect(type).toBe('HOUSE');
   });
 

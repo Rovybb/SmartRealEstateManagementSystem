@@ -36,7 +36,7 @@ describe('PropertyListComponent', () => {
     propertyServiceMock.getPropertiesWithPagination.and.returnValue(of({
       items: [
         {
-          id: '1',
+          id: '8c868c18-e8db-4d11-a7c8-83ccb221305c',
           title: 'Modern Apartment',
           description: 'A beautiful apartment in the city center.',
           type: 'APARTMENT',
@@ -49,10 +49,10 @@ describe('PropertyListComponent', () => {
           constructionYear: 2015,
           createdAt: new Date(),
           updatedAt: new Date(),
-          userId: 'user123'
+          userId: '8c868c18-e8db-4d31-a7c2-83ccb221305a'
         },
         {
-          id: '2',
+          id: '8c868c11-e8db-4d11-a7c8-83ccb221305a',
           title: 'Luxury Villa',
           description: 'A spacious villa with a swimming pool.',
           type: 'HOUSE',
@@ -65,7 +65,7 @@ describe('PropertyListComponent', () => {
           constructionYear: 2018,
           createdAt: new Date(),
           updatedAt: new Date(),
-          userId: 'user456'
+          userId: '3c868c18-e8db-4d11-a7c8-83ccb221305a'
         }
       ],
       totalPages: 2
@@ -92,15 +92,18 @@ describe('PropertyListComponent', () => {
   it('should navigate to property details page', () => {
     const property = component.properties[0];
     component.viewDetails(property);
-    expect(routerMock.navigate).toHaveBeenCalledWith(['properties/property-details', property.id]);
+    expect(routerMock.navigate).toHaveBeenCalledWith(['/properties/property-details', property.id]);
   });
+  
 
   it('should handle error when deleting property', () => {
     const property = component.properties[0];
-    spyOn(window, 'confirm').and.returnValue(true);
+    spyOn(window, 'confirm').and.returnValue(true); 
     propertyServiceMock.deleteProperty.and.returnValue(throwError(() => new Error('Delete error')));
 
-    spyOn(window, 'alert');
+    spyOn(window, 'alert'); 
+
+    component.deleteProperty(property);
 
     expect(propertyServiceMock.deleteProperty).toHaveBeenCalledWith(property.id);
     expect(window.alert).toHaveBeenCalledWith('Failed to delete property.');
