@@ -60,5 +60,11 @@ namespace Identity.Repositories
                 return Result<Guid>.Failure(ex.Message);
             }
         }
+
+        public async Task<Result<User>> GetByEmail(string email, CancellationToken cancellationToken)
+        {
+            var user = await usersDbContext.Users.SingleOrDefaultAsync(u => u.Email == email, cancellationToken);
+            return user == null ? Result<User>.Failure("User not found.") : Result<User>.Success(user);
+        }
     }
 }
