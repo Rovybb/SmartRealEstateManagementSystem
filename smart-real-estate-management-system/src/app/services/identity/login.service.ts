@@ -9,7 +9,7 @@ import { Router } from '@angular/router';  // Importă Router
 })
 export class LoginService {
   private apiUrl = 'https://localhost:7146/api/Auth/login';  // URL-ul pentru login
-  private isAuthenticatedSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private isAuthenticatedSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(!!document.cookie.split('; ').find(row => row.startsWith('token='))); // default value: see if the user is logged in from cookies
   public isAuthenticated$: Observable<boolean> = this.isAuthenticatedSubject.asObservable();
 
   constructor(private http: HttpClient, private router: Router) { }  // Injectează Router
