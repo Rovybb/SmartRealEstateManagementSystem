@@ -6,7 +6,7 @@
 //using Domain.Utils;
 //using NSubstitute;
 //using PropertyEntities = Domain.Entities;
-//using Domain.Types.User;
+//using Domain.Types.UserInformation;
 
 //namespace SmartRealEstateManagementSystem.Application.UnitTests.Application.CommandHandlers.Property
 //{

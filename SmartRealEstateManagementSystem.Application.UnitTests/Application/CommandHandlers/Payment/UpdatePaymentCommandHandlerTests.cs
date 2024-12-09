@@ -6,7 +6,7 @@ using Domain.Utils;
 using NSubstitute;
 using Domain.Types.Payment;
 using Domain.Types.Property;
-using Domain.Types.User;
+using Domain.Types.UserInformation;
 
 namespace SmartRealEstateManagementSystem.Application.UnitTests.Application.CommandHandlers.Payment
 {
@@ -67,14 +67,13 @@ namespace SmartRealEstateManagementSystem.Application.UnitTests.Application.Comm
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow,
                     UserId = mockId,
-                    User = new Domain.Entities.User
+                    User = new Domain.Entities.UserInformation
                     {
                         Id = mockId,
                         Username = "sampleuser",
                         Email = "sampleuser@example.com",
                         FirstName = "Sample",
                         LastName = "User",
-                        Password = "hashedpassword",
                         Address = "123 Sample Street",
                         PhoneNumber = "123-456-7890",
                         Nationality = "Sample Nationality",
@@ -83,14 +82,13 @@ namespace SmartRealEstateManagementSystem.Application.UnitTests.Application.Comm
                         Role = UserRole.CLIENT,
                     }
                 },
-                Seller = new Domain.Entities.User
+                Seller = new Domain.Entities.UserInformation
                 {
                     Id = mockId,
                     Username = "selleruser",
                     Email = "selleruser@example.com",
                     FirstName = "Seller",
                     LastName = "User",
-                    Password = "hashedpassword",
                     Address = "456 Seller Street",
                     PhoneNumber = "987-654-3210",
                     Nationality = "Seller Nationality",
@@ -98,14 +96,13 @@ namespace SmartRealEstateManagementSystem.Application.UnitTests.Application.Comm
                     Status = UserStatus.ACTIVE,
                     Role = UserRole.CLIENT
                 },
-                Buyer = new Domain.Entities.User
+                Buyer = new Domain.Entities.UserInformation
                 {
                     Id = mockId,
                     Username = "buyeruser",
                     Email = "buyeruser@example.com",
                     FirstName = "Buyer",
                     LastName = "User",
-                    Password = "hashedpassword",
                     Address = "789 Buyer Street",
                     PhoneNumber = "321-654-9870",
                     Nationality = "Buyer Nationality",

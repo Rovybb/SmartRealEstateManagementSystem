@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace Application.CommandHandlers.User
 {
-    public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Result>
+    public class DeleteUserInformationCommandHandler : IRequestHandler<DeleteUserInformationCommand, Result>
     {
-        private readonly IUserRepository userRepository;
+        private readonly IUserInformationRepository userRepository;
 
-        public DeleteUserCommandHandler(IUserRepository userRepository)
+        public DeleteUserInformationCommandHandler(IUserInformationRepository userRepository)
         {
             this.userRepository = userRepository;
         }
 
-        public async Task<Result> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(DeleteUserInformationCommand request, CancellationToken cancellationToken)
         {
             var result = await userRepository.DeleteAsync(request.Id);
             if (result.IsSuccess)

@@ -12,8 +12,8 @@ namespace Domain.Entities
         public required Guid PropertyId { get; set; }
         public required Property Property { get; set; }
         public required Guid ClientId { get; set; }
-        public required User Client { get; set; }
+        public required UserInformation Client { get; set; }
         public required Guid AgentId { get; set; }
-        public required User Agent { get; set; }
+        public required UserInformation Agent { get; set; }
     }
 }

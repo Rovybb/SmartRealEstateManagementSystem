@@ -14,8 +14,8 @@ namespace Domain.Entities
         public required Guid PropertyId { get; set; }
         public required Property Property { get; set; }
         public required Guid SellerId { get; set; }
-        public required User Seller { get; set; }
+        public required UserInformation Seller { get; set; }
         public required Guid BuyerId { get; set; }
-        public required User Buyer { get; set; }
+        public required UserInformation Buyer { get; set; }
     }
 }

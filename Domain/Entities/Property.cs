@@ -21,6 +21,6 @@ namespace Domain.Entities
         // Foreign key
         public required Guid UserId { get; set; }
         // Navigation property
-        public required User User { get; set; }
+        public required UserInformation User { get; set; }
     }
 }

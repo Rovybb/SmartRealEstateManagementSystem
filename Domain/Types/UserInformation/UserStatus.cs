@@ -1,4 +1,4 @@
-﻿namespace Domain.Types.User
+﻿namespace Domain.Types.UserInformation
 {
     public enum UserStatus
     {
