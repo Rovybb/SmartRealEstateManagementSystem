@@ -2,11 +2,6 @@
   <h1>Update Existent Property</h1>
   <form [formGroup]="propertyForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <label for="id">ID</label>
-      <input id="id" formControlName="id" />
-      <div class="error" *ngIf="propertyForm.get('id')?.hasError('required')">
-        ID is required
-      </div>
       
       <label for="title">Title</label>
       <input id="title" formControlName="title" />
