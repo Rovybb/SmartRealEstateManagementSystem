@@ -46,6 +46,12 @@ namespace Identity.Repositories
         {
             try
             {
+                var existingUser = await usersDbContext.Users.AnyAsync(u => u.Email == user.Email, cancellationToken);
+                if (existingUser)
+                {
+                    return Result<Guid>.Failure("Email already exists.");
+                }
+
                 await usersDbContext.Users.AddAsync(user, cancellationToken);
                 await usersDbContext.SaveChangesAsync(cancellationToken);
                 return Result<Guid>.Success(user.Id);
