@@ -1,0 +1,13 @@
+<h1>Home</h1>
+
+<!-- Show 'Properties' button if the user is logged in -->
+<button (click)="navigateToProperties()" *ngIf="(isLogged() | async)">Properties</button>
+
+<!-- Show 'Register' button if the user is NOT logged in -->
+<button (click)="navigateToRegister()" *ngIf="!(isLogged() | async)">Register</button>
+
+<!-- Show 'Login' button if the user is NOT logged in -->
+<button (click)="navigateToLogin()" *ngIf="!(isLogged() | async)">Login</button>
+
+<!-- Show 'Logout' button if the user is logged in -->
+<button (click)="logout()" *ngIf="(isLogged() | async)">Logout</button>

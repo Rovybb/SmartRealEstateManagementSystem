@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
+import { Router } from '@angular/router';  // Importă Router
 
 interface RegisterPayload {
   email: string;
@@ -12,13 +13,17 @@ interface RegisterPayload {
 })
 export class RegisterService {
 
-  private apiUrl = 'https://your-api-url.com/register'; // Înlocuiește cu URL-ul API-ului tău
+  private apiUrl = 'https://localhost:7146/api/Auth/register'; // URL-ul pentru register
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }  // Injectează Router
 
   // Metodă pentru a trimite datele de înregistrare la API
   register(email: string, password: string): Observable<any> {
     const payload: RegisterPayload = { email, password };
-    return this.http.post(this.apiUrl, payload); // Trimite cererea POST
+    return this.http.post(this.apiUrl, payload).pipe(
+      tap(() => {
+        this.router.navigate(['/']);  // Redirecționează utilizatorul pe Home după înregistrare
+      })
+    );
   }
 }
