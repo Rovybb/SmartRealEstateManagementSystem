@@ -6,7 +6,7 @@
 //using AutoMapper;
 //using Domain.Repositories;
 //using Domain.Types.Property;
-//using Domain.Types.User;
+//using Domain.Types.UserInformation;
 //using NSubstitute;
 //using PropertyEntities = Domain.Entities;
 

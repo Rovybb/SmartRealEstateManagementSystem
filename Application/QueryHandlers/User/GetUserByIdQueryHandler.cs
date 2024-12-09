@@ -9,10 +9,10 @@ namespace Application.QueryHandlers.User
 {
     public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, Result<UserDto>>
     {
-        private readonly IUserRepository userRepository;
+        private readonly IUserInformationRepository userRepository;
         private readonly IMapper mapper;
 
-        public GetUserByIdQueryHandler(IUserRepository userRepository, IMapper mapper)
+        public GetUserByIdQueryHandler(IUserInformationRepository userRepository, IMapper mapper)
         {
             this.userRepository = userRepository;
             this.mapper = mapper;

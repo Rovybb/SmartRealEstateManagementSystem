@@ -6,18 +6,18 @@ using MediatR;
 
 namespace Application.CommandHandlers.User
 {
-    public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Result>
+    public class UpdateUserInformationCommandHandler : IRequestHandler<UpdateUserInformationCommand, Result>
     {
-        private readonly IUserRepository userRepository;
+        private readonly IUserInformationRepository userRepository;
         private readonly IMapper mapper;
 
-        public UpdateUserCommandHandler(IUserRepository userRepository, IMapper mapper)
+        public UpdateUserInformationCommandHandler(IUserInformationRepository userRepository, IMapper mapper)
         {
             this.userRepository = userRepository;
             this.mapper = mapper;
         }
 
-        public async Task<Result> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(UpdateUserInformationCommand request, CancellationToken cancellationToken)
         {
             var existingUser = await userRepository.GetByIdAsync(request.Id);
             if (!existingUser.IsSuccess)

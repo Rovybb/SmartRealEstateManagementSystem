@@ -16,7 +16,7 @@ namespace Infrastructure
             );
             services.AddScoped<IPropertyRepository, PropertyRepository>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserInformationRepository, UserInformationRepository>();
             services.AddScoped<IInquiryRepository, InquiryRepository>();
             return services;
         }

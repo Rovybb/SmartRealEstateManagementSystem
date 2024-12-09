@@ -6,38 +6,38 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserInformationRepository : IUserInformationRepository
     {
         private readonly ApplicationDbContext context;
 
-        public UserRepository(ApplicationDbContext context)
+        public UserInformationRepository(ApplicationDbContext context)
         {
             this.context = context;
         }
 
-        public async Task<IEnumerable<User>> GetAllAsync()
+        public async Task<IEnumerable<UserInformation>> GetAllAsync()
         {
             return await context.Users.ToListAsync();
         }
 
-        public async Task<Result<User>> GetByIdAsync(Guid id)
+        public async Task<Result<UserInformation>> GetByIdAsync(Guid id)
         {
             try
             {
                 var user = await context.Users.FirstOrDefaultAsync(x => x.Id == id);
                 if (user == null)
                 {
-                    return Result<User>.Failure("User not found");
+                    return Result<UserInformation>.Failure("User not found");
                 }
-                return Result<User>.Success(user);
+                return Result<UserInformation>.Success(user);
             }
             catch (Exception ex)
             {
-                return Result<User>.Failure(ex.Message);
+                return Result<UserInformation>.Failure(ex.Message);
             }
         }
 
-        public async Task<Result<Guid>> CreateAsync(User user)
+        public async Task<Result<Guid>> CreateAsync(UserInformation user)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<Result<Guid>> UpdateAsync(User user)
+        public async Task<Result<Guid>> UpdateAsync(UserInformation user)
         {
             try
             {

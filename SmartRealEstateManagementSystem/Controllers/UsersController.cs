@@ -2,12 +2,14 @@
 using Application.DTOs;
 using Application.Queries.User;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SmartRealEstateManagementSystem.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly IMediator mediator;
@@ -42,9 +44,9 @@ namespace SmartRealEstateManagementSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Guid>> CreateUser(CreateUserCommand command)
+        public async Task<ActionResult<Guid>> CreateUser(CreateUserInformationCommand command)
         {
-            var validator = new CreateUserCommandValidator();
+            var validator = new CreateUserInformationCommandValidator();
             var validationResult = await validator.ValidateAsync(command);
             if (!validationResult.IsValid)
             {
@@ -60,14 +62,14 @@ namespace SmartRealEstateManagementSystem.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateUser(Guid id, UpdateUserCommand command)
+        public async Task<ActionResult> UpdateUser(Guid id, UpdateUserInformationCommand command)
         {
             if (id != command.Id)
             {
                 return BadRequest("Id mismatch");
             }
 
-            var validator = new UpdateUserCommandValidator();
+            var validator = new UpdateUserInformationCommandValidator();
             var validationResult = await validator.ValidateAsync(command);
             if (!validationResult.IsValid)
             {
@@ -89,7 +91,7 @@ namespace SmartRealEstateManagementSystem.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteUser(Guid id)
         {
-            var command = new DeleteUserCommand { Id = id };
+            var command = new DeleteUserInformationCommand { Id = id };
             var result = await mediator.Send(command);
             if (result.IsSuccess)
             {

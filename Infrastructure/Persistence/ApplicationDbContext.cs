@@ -11,7 +11,7 @@ namespace Infrastructure.Persistence
 
         public required DbSet<Property> Properties { get; set; }
         public required DbSet<Payment> Payments { get; set; }
-        public required DbSet<User> Users { get; set; }
+        public required DbSet<UserInformation> Users { get; set; }
         public required DbSet<Inquiry> Inquiries { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -46,9 +46,9 @@ namespace Infrastructure.Persistence
             });
 
             // Configure User entity
-            modelBuilder.Entity<User>(entity =>
+            modelBuilder.Entity<UserInformation>(entity =>
             {
-                entity.ToTable("User");
+                entity.ToTable("UserInformation");
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Id)
                     .HasColumnType("uuid")
@@ -58,7 +58,6 @@ namespace Infrastructure.Persistence
                 entity.Property(e => e.FirstName).IsRequired().HasMaxLength(100);
                 entity.Property(e => e.LastName).IsRequired().HasMaxLength(100);
                 entity.Property(e => e.Email).IsRequired().HasMaxLength(100);
-                entity.Property(e => e.Password).IsRequired().HasMaxLength(100);
                 entity.Property(e => e.Role).IsRequired();
                 entity.Property(e => e.Address).IsRequired().HasMaxLength(200);
                 entity.Property(e => e.PhoneNumber).IsRequired().HasMaxLength(20);

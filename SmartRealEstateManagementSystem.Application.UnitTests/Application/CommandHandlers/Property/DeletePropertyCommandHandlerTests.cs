@@ -2,7 +2,7 @@
 using Application.Commands.Property;
 using Domain.Repositories;
 using Domain.Types.Property;
-using Domain.Types.User;
+using Domain.Types.UserInformation;
 using Domain.Utils;
 using NSubstitute;
 using PropertyEntities = Domain.Entities;
@@ -42,7 +42,7 @@ namespace SmartRealEstateManagementSystem.Application.UnitTests.Application.Comm
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
                 UserId = mockId,
-                User = new Domain.Entities.User { Id = mockId, Username = "SampleUser", Email = "sample@example.com", FirstName = "Sample", LastName = "User", Password = "hashedpassword", Address = "User Address", PhoneNumber = "1234567890", Nationality = "Sample Nationality", CreatedAt = DateTime.UtcNow, Status = UserStatus.ACTIVE, Role = UserRole.CLIENT }
+                User = new Domain.Entities.UserInformation { Id = mockId, Username = "SampleUser", Email = "sample@example.com", FirstName = "Sample", LastName = "User", Address = "User Address", PhoneNumber = "1234567890", Nationality = "Sample Nationality", CreatedAt = DateTime.UtcNow, Status = UserStatus.ACTIVE, Role = UserRole.CLIENT }
             }));
             propertyRepositoryMock.DeleteAsync(mockId).Returns(Result.Success());
 
