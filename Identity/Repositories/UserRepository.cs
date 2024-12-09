@@ -29,9 +29,9 @@ namespace Identity.Repositories
                 return Result<string>.Failure("User not found.");
             }
 
-            if (user.PasswordHash != existingUser.PasswordHash)
+            if (!BCrypt.Net.BCrypt.Verify(user.PasswordHash, existingUser.PasswordHash))
             {
-                return Result<string>.Failure("Incorrect pasword!");
+                return Result<string>.Failure("Invalid password.");
             }
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -59,6 +59,12 @@ namespace Identity.Repositories
             {
                 return Result<Guid>.Failure(ex.Message);
             }
+        }
+
+        public async Task<Result<User>> GetByEmail(string email, CancellationToken cancellationToken)
+        {
+            var user = await usersDbContext.Users.SingleOrDefaultAsync(u => u.Email == email, cancellationToken);
+            return user == null ? Result<User>.Failure("User not found.") : Result<User>.Success(user);
         }
     }
 }
