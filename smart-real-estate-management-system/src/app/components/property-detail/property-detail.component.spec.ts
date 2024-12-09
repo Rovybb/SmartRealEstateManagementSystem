@@ -45,13 +45,12 @@ describe('PropertyDetailComponent', () => {
     fixture = TestBed.createComponent(PropertyDetailComponent);
     component = fixture.componentInstance;
 
-    // Mocking the data returned from the service
     propertyServiceMock.getPropertyById.and.returnValue(of({
-      id: '1',
+      id: '8c868c11-e8db-4d11-a7c8-83ccb221305a',
       title: 'Modern Apartment',
       description: 'A beautiful apartment in the city center.',
-      type: 0,  // Set to 0 for 'HOUSE'
-      status: 0,  // Set to 0 for 'AVAILABLE'
+      type: 0,  
+      status: 0,
       price: 100000,
       address: '123 Main St',
       area: 120,
@@ -60,7 +59,7 @@ describe('PropertyDetailComponent', () => {
       constructionYear: 2015,
       createdAt: new Date(),
       updatedAt: new Date(),
-      userId: 'user123'
+      userId: '3c868c18-e8db-4d11-a7c8-83ccb221305a'
     }));
     fixture.detectChanges();
   });

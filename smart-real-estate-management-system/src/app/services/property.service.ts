@@ -8,8 +8,8 @@ import { Property } from '../models/property.model';
   })
   export class PropertyService {
 
-    private apiURL = 'https://smartrealestatemanagementsystem-d7edeaecc4faccgx.polandcentral-01.azurewebsites.net/api/v1/Properties';
-
+    //private apiURL = 'https://smartrealestatemanagementsystem-d7edeaecc4faccgx.polandcentral-01.azurewebsites.net/api/v1/Properties';
+    private apiURL = 'https://localhost:7146/api/v1/Properties';
     constructor(private http: HttpClient) { 
     }
 

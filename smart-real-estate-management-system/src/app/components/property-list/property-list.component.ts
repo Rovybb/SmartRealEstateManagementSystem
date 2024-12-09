@@ -30,7 +30,7 @@ throw new Error('Method not implemented.');
   loadProperties(): void {
     this.propertyService.getPropertiesWithPagination(this.pageNumber, this.pageSize)
       .subscribe((data: any) => {
-        this.properties = data.items; // Assume the API returns `items` and `totalPages`
+        this.properties = data.items;
         this.totalPages = data.totalPages;
       });
   }
