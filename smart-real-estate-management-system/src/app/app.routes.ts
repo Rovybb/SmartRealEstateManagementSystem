@@ -5,7 +5,7 @@ import { PropertyUpdateComponent } from './components/property-update/property-u
 import { LoginComponent } from './components/identity/login/login.component';
 import { RegisterComponent } from './components/identity/register/register.component';
 import { HomeComponent } from './components/home/home.component';
-
+import { PropertyDetailComponent } from './components/property-detail/property-detail.component';
 
 export const appRoutes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -13,6 +13,6 @@ export const appRoutes: Routes = [
   { path: 'properties/create', component: PropertyCreateComponent },
   { path: 'properties/update/:id', component: PropertyUpdateComponent },
   { path: 'auth/login', component: LoginComponent },
-  { path: 'auth/register', component: RegisterComponent }
-
+  { path: 'auth/register', component: RegisterComponent },
+  { path: 'properties/property-details/:id', component: PropertyDetailComponent }
 ];

@@ -29,6 +29,11 @@ namespace Identity.Repositories
                 return Result<string>.Failure("User not found.");
             }
 
+            if (user.PasswordHash != existingUser.PasswordHash)
+            {
+                return Result<string>.Failure("Incorrect pasword!");
+            }
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]!);
             var tokenDescriptor = new SecurityTokenDescriptor
