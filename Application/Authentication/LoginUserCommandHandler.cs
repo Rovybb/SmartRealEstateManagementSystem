@@ -17,7 +17,7 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<
         var user = new User
         {
             Email = request.Email,
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password)
+            PasswordHash = request.Password
         };
         return await userRepository.Login(user, cancellationToken);
     }

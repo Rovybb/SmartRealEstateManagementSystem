@@ -11,8 +11,8 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
 
     public async Task<Result<Guid>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
-        var existingUser = await repository.GetByEmail(request.Email, cancellationToken);
-        if (existingUser != null)
+        var res = await repository.GetByEmail(request.Email, cancellationToken);
+        if (res.IsSuccess)
         {
             return Result<Guid>.Failure("Email already exists!");
         }
