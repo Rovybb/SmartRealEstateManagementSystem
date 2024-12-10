@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.CommandHandlers.User
+namespace Application.CommandHandlers.UserInformation
 {
     public class DeleteUserInformationCommandHandler : IRequestHandler<DeleteUserInformationCommand, Result>
     {

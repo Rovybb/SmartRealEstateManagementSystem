@@ -1,4 +1,4 @@
-﻿using Application.Queries.User;
+﻿using Application.Queries.UserInformation;
 using AutoMapper;
 using Domain.Repositories;
 using Domain.Utils;
@@ -7,18 +7,18 @@ using Application.DTOs;
 
 namespace Application.QueryHandlers.User
 {
-    public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, Result<UserDto>>
+    public class GetUserInformationByIdQueryHandler : IRequestHandler<GetUserInformationByIdQuery, Result<UserDto>>
     {
         private readonly IUserInformationRepository userRepository;
         private readonly IMapper mapper;
 
-        public GetUserByIdQueryHandler(IUserInformationRepository userRepository, IMapper mapper)
+        public GetUserInformationByIdQueryHandler(IUserInformationRepository userRepository, IMapper mapper)
         {
             this.userRepository = userRepository;
             this.mapper = mapper;
         }
 
-        public async Task<Result<UserDto>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<UserDto>> Handle(GetUserInformationByIdQuery request, CancellationToken cancellationToken)
         {
             var result = await userRepository.GetByIdAsync(request.Id);
             if (result.IsSuccess)

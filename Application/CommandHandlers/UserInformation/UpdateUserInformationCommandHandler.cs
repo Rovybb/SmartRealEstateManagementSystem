@@ -4,7 +4,7 @@ using Domain.Repositories;
 using Domain.Utils;
 using MediatR;
 
-namespace Application.CommandHandlers.User
+namespace Application.CommandHandlers.UserInformation
 {
     public class UpdateUserInformationCommandHandler : IRequestHandler<UpdateUserInformationCommand, Result>
     {

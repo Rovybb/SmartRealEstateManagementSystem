@@ -1,6 +1,6 @@
 ﻿using Application.Commands.User;
 using Application.DTOs;
-using Application.Queries.User;
+using Application.Queries.UserInformation;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +10,11 @@ namespace SmartRealEstateManagementSystem.Controllers
     [Route("api/v1/[controller]")]
     [ApiController]
     [Authorize]
-    public class UsersController : ControllerBase
+    public class UserInformationController : ControllerBase
     {
         private readonly IMediator mediator;
 
-        public UsersController(IMediator mediator)
+        public UserInformationController(IMediator mediator)
         {
             this.mediator = mediator;
         }
@@ -22,7 +22,7 @@ namespace SmartRealEstateManagementSystem.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDto>> GetUserById(Guid id)
         {
-            var query = new GetUserByIdQuery { Id = id };
+            var query = new GetUserInformationByIdQuery { Id = id };
             var result = await mediator.Send(query);
             if (result.IsSuccess)
             {
@@ -34,7 +34,7 @@ namespace SmartRealEstateManagementSystem.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers()
         {
-            var query = new GetAllUsersQuery();
+            var query = new GetAllUserInformationsQuery();
             var result = await mediator.Send(query);
             if (result.IsSuccess)
             {

@@ -24,6 +24,8 @@ namespace Application
             services.AddValidatorsFromAssemblyContaining<UpdateUserInformationCommandValidator>();
             services.AddValidatorsFromAssemblyContaining<CreateInquiryCommandValidator>();
             services.AddValidatorsFromAssemblyContaining<UpdateInquiryCommandValidator>();
+            services.AddValidatorsFromAssemblyContaining<RegisterUserCommandValidator>();
+            services.AddValidatorsFromAssemblyContaining<LoginUserCommandValidator>();
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             return services;
         }
