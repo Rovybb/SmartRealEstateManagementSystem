@@ -20,10 +20,12 @@ namespace Application
             services.AddValidatorsFromAssemblyContaining<UpdatePropertyCommandValidator>();
             services.AddValidatorsFromAssemblyContaining<CreatePaymentCommandValidator>();
             services.AddValidatorsFromAssemblyContaining<UpdatePaymentCommandValidator>();
-            services.AddValidatorsFromAssemblyContaining<CreateUserCommandValidator>();
-            services.AddValidatorsFromAssemblyContaining<UpdateUserCommandValidator>();
+            services.AddValidatorsFromAssemblyContaining<CreateUserInformationCommandValidator>();
+            services.AddValidatorsFromAssemblyContaining<UpdateUserInformationCommandValidator>();
             services.AddValidatorsFromAssemblyContaining<CreateInquiryCommandValidator>();
             services.AddValidatorsFromAssemblyContaining<UpdateInquiryCommandValidator>();
+            services.AddValidatorsFromAssemblyContaining<RegisterUserCommandValidator>();
+            services.AddValidatorsFromAssemblyContaining<LoginUserCommandValidator>();
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             return services;
         }

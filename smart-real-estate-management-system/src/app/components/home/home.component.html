@@ -1,0 +1,13 @@
+<div class="home">
+  <h1>Home</h1>
+  <button (click)="navigateToProperties()" *ngIf="isLogged() | async">
+    Properties
+  </button>
+  <button (click)="navigateToRegister()" *ngIf="!(isLogged() | async)">
+    Register
+  </button>
+  <button (click)="navigateToLogin()" *ngIf="!(isLogged() | async)">
+    Login
+  </button>
+  <button (click)="logout()" *ngIf="isLogged() | async">Logout</button>
+</div>

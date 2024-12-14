@@ -2,6 +2,7 @@
 using Application.DTOs;
 using Application.Queries.Payment;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SmartRealEstateManagementSystem.Controllers
@@ -9,6 +10,7 @@ namespace SmartRealEstateManagementSystem.Controllers
 
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class PaymentsController : ControllerBase
     {
         private readonly IMediator mediator;

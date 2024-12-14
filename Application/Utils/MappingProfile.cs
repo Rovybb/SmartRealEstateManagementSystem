@@ -23,9 +23,9 @@ namespace Application.Utils
             CreateMap<Payment, CreatePaymentCommand>().ReverseMap();
             CreateMap<Payment, UpdatePaymentCommand>().ReverseMap();
 
-            CreateMap<User, UserDto>().ReverseMap();
-            CreateMap<User, CreateUserCommand>().ReverseMap();
-            CreateMap<User, UpdateUserCommand>().ReverseMap();
+            CreateMap<UserInformation, UserDto>().ReverseMap();
+            CreateMap<UserInformation, CreateUserInformationCommand>().ReverseMap();
+            CreateMap<UserInformation, UpdateUserInformationCommand>().ReverseMap();
 
             CreateMap<Inquiry, InquiryDto>().ReverseMap();
             CreateMap<Inquiry, CreateInquiryCommand>().ReverseMap();

@@ -1,4 +1,4 @@
-﻿using Domain.Types.User;
+﻿using Domain.Types.UserInformation;
 
 namespace Application.DTOs
 {

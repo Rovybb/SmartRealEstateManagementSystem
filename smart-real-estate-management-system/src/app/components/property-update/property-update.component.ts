@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { PropertyService } from '../../services/property.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -14,12 +14,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 })
 export class PropertyUpdateComponent implements OnInit {
   propertyForm: FormGroup;
-  errorMessage: string | null = null; // To store error messages
+  errorMessage: string | null = null;
+  propertyId: string | null = null;
 
   constructor(
     private fb: FormBuilder,
     private propertyService: PropertyService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.propertyForm = this.fb.group({
       id: ['', Validators.required],
@@ -37,10 +39,25 @@ export class PropertyUpdateComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.propertyId = this.route.snapshot.paramMap.get('id');
+    if (this.propertyId) {
+      this.propertyForm.patchValue({ id: this.propertyId });
+      
+      this.propertyService.getPropertyById(this.propertyId).subscribe({
+        next: (property) => {
+          this.propertyForm.patchValue(property);
+        },
+        error: (error) => {
+          this.errorMessage = 'Error loading property data.';
+          console.error('Error loading property:', error);
+        }
+      });
+    }
+  }
 
   onSubmit(): void {
-    this.errorMessage = null; // Reset error message
+    this.errorMessage = null;
 
     if (this.propertyForm.valid) {
       this.propertyService

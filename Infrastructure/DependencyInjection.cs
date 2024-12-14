@@ -1,6 +1,8 @@
-﻿using Domain.Repositories;
+﻿using Domain.Filters;
+using Domain.Repositories;
 using Infrastructure.Persistence;
 using Infrastructure.Repositories;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,8 +18,15 @@ namespace Infrastructure
             );
             services.AddScoped<IPropertyRepository, PropertyRepository>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserInformationRepository, UserInformationRepository>();
             services.AddScoped<IInquiryRepository, InquiryRepository>();
+
+            services.AddScoped<IPropertyFilterStrategy, TitleFilterStrategy>();
+            services.AddScoped<IPropertyFilterStrategy, DescriptionFilterStrategy>();
+            services.AddScoped<IPropertyFilterStrategy, PriceMinFilterStrategy>();
+            services.AddScoped<IPropertyFilterStrategy, PriceMaxFilterStrategy>();
+            services.AddScoped<IPropertyRepository, PropertyRepository>();
+            services.AddScoped<PropertyFilterService>();
             return services;
         }
     }

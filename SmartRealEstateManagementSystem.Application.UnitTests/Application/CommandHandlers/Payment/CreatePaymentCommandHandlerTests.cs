@@ -6,7 +6,7 @@
 //using NSubstitute;
 //using Domain.Types.Payment;
 //using Domain.Types.Property;
-//using Domain.Types.User;
+//using Domain.Types.UserInformation;
 
 //namespace SmartRealEstateManagementSystem.Application.UnitTests.Application.CommandHandlers.Payment
 //{

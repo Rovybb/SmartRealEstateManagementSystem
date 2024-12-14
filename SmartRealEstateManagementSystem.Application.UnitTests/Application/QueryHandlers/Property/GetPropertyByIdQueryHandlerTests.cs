@@ -4,7 +4,7 @@ using Application.QueryHandlers.Property;
 using AutoMapper;
 using Domain.Repositories;
 using Domain.Types.Property;
-using Domain.Types.User;
+using Domain.Types.UserInformation;
 using NSubstitute;
 using PropertyEntities = Domain.Entities;
 using Domain.Utils;
@@ -45,14 +45,13 @@ namespace SmartRealEstateManagementSystem.Application.UnitTests.Application.Quer
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
                 UserId = mockId,
-                User = new PropertyEntities.User
+                User = new PropertyEntities.UserInformation
                 {
                     Id = mockId,
                     Username = "SampleUser",
                     Email = "sample@example.com",
                     FirstName = "Sample",
                     LastName = "User",
-                    Password = "hashedpassword",
                     Address = "User Address",
                     PhoneNumber = "1234567890",
                     Nationality = "Sample Nationality",

@@ -14,7 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 })
 export class PropertyCreateComponent implements OnInit {
   propertyForm: FormGroup;
-  errorMessage: string | null = null; // To store error messages
+  errorMessage: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -24,22 +24,22 @@ export class PropertyCreateComponent implements OnInit {
     this.propertyForm = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(100)]],
       description: ['', [Validators.required, Validators.maxLength(500)]],
-      status: ['', [Validators.required]], // Add further validation if needed for enum
-      type: ['', [Validators.required]], // Add further validation if needed for enum
+      status: ['', [Validators.required]],
+      type: ['', [Validators.required]],
       price: [null, [Validators.required, Validators.min(0.01)]],
       address: ['', [Validators.required, Validators.maxLength(200)]],
       area: [null, [Validators.required, Validators.min(0.01)]],
       rooms: [null, [Validators.required, Validators.min(0)]],
       bathrooms: [null, [Validators.required, Validators.min(0)]],
       constructionYear: [null, [Validators.required, Validators.min(1501)]],
-      userId: ['', Validators.required] // Assuming userId is provided
+      userId: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {}
 
   onSubmit(): void {
-    this.errorMessage = null; // Reset error message
+    this.errorMessage = null;
 
     if (this.propertyForm.valid) {
       this.propertyService.createProperty(this.propertyForm.value).subscribe({

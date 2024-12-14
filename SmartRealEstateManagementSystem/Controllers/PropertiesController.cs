@@ -3,12 +3,14 @@ using Application.DTOs;
 using Application.Queries.Property;
 using Domain.Utils;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SmartRealEstateManagementSystem.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class PropertiesController : ControllerBase
     {
         private readonly IMediator mediator;
