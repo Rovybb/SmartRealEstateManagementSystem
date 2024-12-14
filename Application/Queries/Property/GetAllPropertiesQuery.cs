@@ -1,5 +1,4 @@
-﻿using Application.DTOs;
-using Application.QueryReponses.Property;
+﻿using Application.QueryReponses.Property;
 using Domain.Utils;
 using MediatR;
 

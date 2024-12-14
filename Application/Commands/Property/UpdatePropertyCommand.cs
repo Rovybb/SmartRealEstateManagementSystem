@@ -1,5 +1,4 @@
-﻿using Domain.Types.Property;
-using Domain.Utils;
+﻿using Domain.Utils;
 using MediatR;
 
 namespace Application.Commands.Property
