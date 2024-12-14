@@ -1,5 +1,4 @@
-﻿using Domain.Entities;
-using Domain.Types.Payment;
+﻿using Domain.Types.Payment;
 
 namespace Application.DTOs
 {

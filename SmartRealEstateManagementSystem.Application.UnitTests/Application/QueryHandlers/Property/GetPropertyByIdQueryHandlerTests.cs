@@ -1,13 +1,11 @@
 ﻿using Application.DTOs;
-using Application.Queries.Property;
 using Application.QueryHandlers.Property;
 using AutoMapper;
 using Domain.Repositories;
-using Domain.Types.Property;
-using Domain.Types.UserInformation;
 using NSubstitute;
 using PropertyEntities = Domain.Entities;
 using Domain.Utils;
+using SmartRealEstateManagementSystem.Application.UnitTests.Utils;
 
 namespace SmartRealEstateManagementSystem.Application.UnitTests.Application.QueryHandlers.Property
 {
@@ -29,59 +27,13 @@ namespace SmartRealEstateManagementSystem.Application.UnitTests.Application.Quer
         {
             // Arrange
             var mockId = Guid.Parse("a026c5ca-a4d4-4b2c-af7f-615c31e4adc1");
-            var property = new PropertyEntities.Property
-            {
-                Id = mockId,
-                Title = "Sample Title",
-                Description = "Sample Description",
-                Type = PropertyType.HOUSE,
-                Status = PropertyStatus.AVAILABLE,
-                Price = 100000m,
-                Address = "Sample Address",
-                Area = 120.5m,
-                Rooms = 3,
-                Bathrooms = 2,
-                ConstructionYear = 2020,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-                UserId = mockId,
-                User = new PropertyEntities.UserInformation
-                {
-                    Id = mockId,
-                    Username = "SampleUser",
-                    Email = "sample@example.com",
-                    FirstName = "Sample",
-                    LastName = "User",
-                    Address = "User Address",
-                    PhoneNumber = "1234567890",
-                    Nationality = "Sample Nationality",
-                    CreatedAt = DateTime.UtcNow,
-                    Status = UserStatus.ACTIVE,
-                    Role = UserRole.CLIENT
-                }
-            };
-            var propertyDto = new PropertyDto
-            {
-                Id = property.Id,
-                Title = property.Title,
-                Description = property.Description,
-                Type = property.Type,
-                Status = property.Status,
-                Price = property.Price,
-                Address = property.Address,
-                Area = property.Area,
-                Rooms = property.Rooms,
-                Bathrooms = property.Bathrooms,
-                ConstructionYear = property.ConstructionYear,
-                CreatedAt = property.CreatedAt,
-                UpdatedAt = property.UpdatedAt,
-                UserId = property.UserId
-            };
+            var property = EntityFactory.CreateProperty(mockId);
+            var propertyDto = EntityFactory.CreatePropertyDto(property);
 
             propertyRepositoryMock.GetByIdAsync(property.Id).Returns(Result<PropertyEntities.Property>.Success(property));
             mapperMock.Map<PropertyDto>(property).Returns(propertyDto);
 
-            var query = new GetPropertyByIdQuery { Id = property.Id };
+            var query = EntityFactory.CreateGetPropertyByIdQuery(property.Id);
 
             // Act
             var result = await handler.Handle(query, CancellationToken.None);
@@ -98,7 +50,7 @@ namespace SmartRealEstateManagementSystem.Application.UnitTests.Application.Quer
             var propertyId = Guid.NewGuid();
             propertyRepositoryMock.GetByIdAsync(propertyId).Returns(Result<PropertyEntities.Property>.Failure("Property not found."));
 
-            var query = new GetPropertyByIdQuery { Id = propertyId };
+            var query = EntityFactory.CreateGetPropertyByIdQuery(propertyId);
 
             // Act
             var result = await handler.Handle(query, CancellationToken.None);

@@ -1,12 +1,9 @@
 ﻿using Application.DTOs;
-using Application.Queries.Payment;
 using Application.QueryHandlers.Payment;
 using AutoMapper;
 using Domain.Repositories;
-using Domain.Types.Payment;
-using Domain.Types.Property;
-using Domain.Types.UserInformation;
 using NSubstitute;
+using SmartRealEstateManagementSystem.Application.UnitTests.Utils;
 using PaymentEntities = Domain.Entities;
 
 namespace SmartRealEstateManagementSystem.Application.UnitTests.Application.QueryHandlers.Payment
@@ -29,97 +26,14 @@ namespace SmartRealEstateManagementSystem.Application.UnitTests.Application.Quer
         {
             // Arrange
             var mockId = Guid.Parse("a026c5ca-a4d4-4b2c-af7f-615c31e4adc1");
-            var payment = new Domain.Entities.Payment
-            {
-                Id = mockId,
-                Type = PaymentType.SALE,
-                Date = DateTime.UtcNow,
-                Price = 1000m,
-                Status = PaymentStatus.COMPLETED,
-                PaymentMethod = PaymentMethod.CREDIT_CARD,
-                PropertyId = mockId,
-                SellerId = mockId,
-                BuyerId = mockId,
-                Property = new Domain.Entities.Property
-                {
-                    Id = mockId,
-                    Title = "Sample Title",
-                    Description = "Sample Description",
-                    Type = PropertyType.HOUSE,
-                    Status = PropertyStatus.AVAILABLE,
-                    Price = 100000.00m,
-                    Address = "123 Sample Street",
-                    Area = 1500.00m,
-                    Rooms = 3,
-                    Bathrooms = 2,
-                    ConstructionYear = 2020,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow,
-                    UserId = mockId,
-                    User = new Domain.Entities.UserInformation
-                    {
-                        Id = mockId,
-                        Username = "sampleuser",
-                        Email = "sampleuser@example.com",
-                        FirstName = "Sample",
-                        LastName = "User",
-                        Address = "123 Sample Street",
-                        PhoneNumber = "123-456-7890",
-                        Nationality = "Sample Nationality",
-                        CreatedAt = DateTime.UtcNow,
-                        Status = UserStatus.ACTIVE,
-                        Role = UserRole.CLIENT,
-                    }
-                },
-                Seller = new Domain.Entities.UserInformation
-                {
-                    Id = mockId,
-                    Username = "selleruser",
-                    Email = "selleruser@example.com",
-                    FirstName = "Seller",
-                    LastName = "User",
-                    Address = "456 Seller Street",
-                    PhoneNumber = "987-654-3210",
-                    Nationality = "Seller Nationality",
-                    CreatedAt = DateTime.UtcNow,
-                    Status = UserStatus.ACTIVE,
-                    Role = UserRole.CLIENT
-                },
-                Buyer = new Domain.Entities.UserInformation
-                {
-                    Id = mockId,
-                    Username = "buyeruser",
-                    Email = "buyeruser@example.com",
-                    FirstName = "Buyer",
-                    LastName = "User",
-                    Address = "789 Buyer Street",
-                    PhoneNumber = "321-654-9870",
-                    Nationality = "Buyer Nationality",
-                    CreatedAt = DateTime.UtcNow,
-                    Status = UserStatus.ACTIVE,
-                    Role = UserRole.CLIENT
-                }
-            };
-            var payments = new List<Domain.Entities.Payment> { payment };
-
-            var paymentDtos = new List<PaymentDto> {
-                    new PaymentDto {
-                        Id = payments[0].Id,
-                        Type = payments[0].Type,
-                        Date = payments[0].Date,
-                        Price = payments[0].Price,
-                        Status = payments[0].Status,
-                        PaymentMethod = payments[0].PaymentMethod,
-                        PropertyId = payments[0].PropertyId,
-                        SellerId = payments[0].SellerId,
-                        BuyerId = payments[0].BuyerId,
-                    }
-                };
+            var payment = EntityFactory.CreatePayment(mockId);
+            var payments = new List<PaymentEntities.Payment> { payment };
+            var paymentDtos = payments.Select(EntityFactory.CreatePaymentDto).ToList();
 
             paymentRepositoryMock.GetAllAsync().Returns(payments);
             mapperMock.Map<IEnumerable<PaymentDto>>(payments).Returns(paymentDtos);
 
-            var query = new GetAllPaymentsQuery();
+            var query = EntityFactory.CreateGetAllPaymentsQuery();
 
             // Act
             var result = await handler.Handle(query, CancellationToken.None);
@@ -135,7 +49,7 @@ namespace SmartRealEstateManagementSystem.Application.UnitTests.Application.Quer
             // Arrange
             paymentRepositoryMock.GetAllAsync().Returns((IEnumerable<PaymentEntities.Payment>)null!);
 
-            var query = new GetAllPaymentsQuery();
+            var query = EntityFactory.CreateGetAllPaymentsQuery();
 
             // Act
             var result = await handler.Handle(query, CancellationToken.None);
