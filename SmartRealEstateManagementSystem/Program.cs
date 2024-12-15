@@ -1,11 +1,12 @@
 using Application;
 using Infrastructure;
 using Identity;
+using Application.AIML;
+using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 var MyAllowSpecificOrigins = "MyAllowSpecificOrigins";
 builder.Services.AddCors(options =>
 {
@@ -18,18 +19,14 @@ builder.Services.AddCors(options =>
                       });
 });
 
-
 builder.Services.AddApplication();
 builder.Services.AddIdentity(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { Title = "My API", Version = "v1" });
-
-    // Add the Bearer token authentication configuration to Swagger
     c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
         In = Microsoft.OpenApi.Models.ParameterLocation.Header,
@@ -56,10 +53,27 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+// If you have a pre-trained model, just load it here. If not, train it.
+// Assuming you want to train at startup from properties.csv:
+var predictionModel = new PropertyPricePredictionModel();
+
+// Make sure properties.csv is accessible. For example, if it's in src/Data and copied to output, 
+// you can reference it directly as "Data/properties.csv" if Data folder is also copied to output directory.
+var dataPath = @"C:\Users\flavi\source\repos\SmartRealEstateManagementSystem\Application\AIML\Data\properties_cleaned.csv";
+
+// Train the model at startup (only do this if you don't have a pre-trained model.zip)
+predictionModel.Train(dataPath);
+
+// Optionally, save the trained model so next time you can just load it:
+var modelPath = @"C:\Users\flavi\source\repos\SmartRealEstateManagementSystem\Application\AIML\Data\model.zip";
+predictionModel.SaveModel(modelPath);
+
+// Register the model as a singleton so the controller can use it:
+builder.Services.AddSingleton(predictionModel);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -67,13 +81,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseCors("MyAllowSpecificOrigins");
-
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
