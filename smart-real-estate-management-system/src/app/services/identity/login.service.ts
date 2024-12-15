@@ -3,12 +3,19 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';  // Importă Router
+import { environment } from '../../../environments/environment';
 
+declare var process : {
+  env: {
+    API_URL: string
+  }
+}
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  private apiUrl = 'https://localhost:7146/api/Auth/login';  // URL-ul pentru login
+  
+  private apiUrl = environment.API_URL + '/Auth/login';
   private isAuthenticatedSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(!!document.cookie.split('; ').find(row => row.startsWith('token='))); // default value: see if the user is logged in from cookies
   public isAuthenticated$: Observable<boolean> = this.isAuthenticatedSubject.asObservable();
 

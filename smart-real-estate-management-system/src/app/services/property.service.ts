@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Property } from '../models/property.model';
 import { LoginService } from './identity/login.service';
+import { environment } from '../../environments/environment';
 
   @Injectable({
     providedIn: 'root'
@@ -10,7 +11,7 @@ import { LoginService } from './identity/login.service';
   export class PropertyService {
 
     //private apiURL = 'https://smartrealestatemanagementsystem-d7edeaecc4faccgx.polandcentral-01.azurewebsites.net/api/v1/Properties';
-    private apiURL = 'https://localhost:7146/api/v1/Properties';
+    private apiURL = environment.API_URL + '/Properties';
     constructor(private http: HttpClient) { }
 
   public getProperties(): Observable<Property[]> {
