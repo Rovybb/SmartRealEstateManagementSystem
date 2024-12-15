@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { PropertyService } from '../../services/property.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import {jwtDecode} from 'jwt-decode';
 
 @Component({
   selector: 'app-property-create',
@@ -32,11 +33,24 @@ export class PropertyCreateComponent implements OnInit {
       rooms: [null, [Validators.required, Validators.min(0)]],
       bathrooms: [null, [Validators.required, Validators.min(0)]],
       constructionYear: [null, [Validators.required, Validators.min(1501)]],
-      userId: ['', Validators.required]
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const token = this.getTokenFromCookie('token');
+    if (token) {
+      const decodedToken: any = jwtDecode(token);
+      const userId = decodedToken['unique_name'];
+      if (userId) {
+        this.propertyForm.addControl('userId', this.fb.control(userId, Validators.required));
+        console.log('User ID:', userId);
+      } else {
+        this.errorMessage = 'User ID not found in token.';
+      }
+    } else {
+      this.errorMessage = 'Authentication token not found.';
+    }
+  }
 
   onSubmit(): void {
     this.errorMessage = null;
@@ -54,5 +68,16 @@ export class PropertyCreateComponent implements OnInit {
     } else {
       this.errorMessage = 'Please fix validation errors before submitting.';
     }
+  }
+
+  private getTokenFromCookie(cookieName: string): string | null {
+    const cookies = document.cookie.split('; ');
+    for (const cookie of cookies) {
+      const [name, value] = cookie.split('=');
+      if (name === cookieName) {
+        return value;
+      }
+    }
+    return null;
   }
 }

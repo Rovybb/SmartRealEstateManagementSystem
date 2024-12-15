@@ -113,14 +113,6 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <label for="userId">User ID</label>
-      <input id="userId" formControlName="userId" />
-      <div class="error" *ngIf="propertyForm.get('userId')?.hasError('required')">
-        User ID is required
-      </div>
-    </div>
-
     <button type="submit" [disabled]="propertyForm.invalid">Create Property</button>
   </form>
 </div>
