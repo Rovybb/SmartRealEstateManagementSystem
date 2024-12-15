@@ -1,10 +1,15 @@
 ﻿using Domain.Types.UserInformation;
+using System;
+using System.Collections.Generic;
 
 namespace Domain.Entities
 {
     public class UserInformation
     {
+
+        // Legătura logică cu entitatea User din UsersDbContext
         public Guid Id { get; set; }
+
         public required string Username { get; set; }
         public required string Email { get; set; }
         public required string FirstName { get; set; }
@@ -13,16 +18,17 @@ namespace Domain.Entities
         public required string PhoneNumber { get; set; }
         public required string Nationality { get; set; }
         public required DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? LastLogin { get; set; } // Nullable for users who haven't logged in yet
+        public DateTime? LastLogin { get; set; }
         public required UserStatus Status { get; set; }
-        public required UserRole Role { get; set; } // Type of user (Client, Professional)
+        public required UserRole Role { get; set; }
 
-        // Fields specific to Professional accounts
-        public string? Company { get; set; } // Null for clients, filled for professionals
+        // Câmpuri specifice conturilor profesionale (opționale)
+        public string? Company { get; set; }
+        public string? Type { get; set; }
 
-        public string? Type { get; set; } // Specifies the type of user (e.g., Landlord, Real Estate Agent, etc.)
-        public IEnumerable<Property>? Properties { get; set; } // Properties owned by the user
-        public IEnumerable<Inquiry>? Inquiries { get; set; } // Inquiries made by the user
-        public IEnumerable<Payment>? Payments { get; set; } // Payments made by the user
+        // Colecții asociate cu utilizatorul
+        public IEnumerable<Property>? Properties { get; set; }
+        public IEnumerable<Inquiry>? Inquiries { get; set; }
+        public IEnumerable<Payment>? Payments { get; set; }
     }
 }
