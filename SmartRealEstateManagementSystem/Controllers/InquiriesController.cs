@@ -1,4 +1,5 @@
 ﻿using Application.Commands.Inquiry;
+using Application.Contracts.Inquiry;
 using Application.DTOs;
 using Application.Queries.Inquiry;
 using MediatR;
@@ -63,18 +64,15 @@ namespace SmartRealEstateManagementSystem.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateInquiry(Guid id, UpdateInquiryCommand command)
+        public async Task<ActionResult> UpdateInquiry(Guid id, UpdateInquiryRequest request)
         {
+            var command = new UpdateInquiryCommand { Id = id, Request = request };
+
             var validator = new UpdateInquiryCommandValidator();
             var validationResult = await validator.ValidateAsync(command);
             if (!validationResult.IsValid)
             {
                 return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
-            }
-
-            if (id != command.Id)
-            {
-                return BadRequest("Ids didn't match");
             }
 
             var result = await mediator.Send(command);

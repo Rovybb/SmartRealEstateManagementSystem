@@ -26,7 +26,7 @@ namespace Application.CommandHandlers.Property
             }
 
             var existingProperty = propertyResult.Data;
-            mapper.Map(request, existingProperty);
+            mapper.Map(request.Request, existingProperty);
             existingProperty.UpdatedAt = DateTime.UtcNow;
 
             var updateResult = await propertyRepository.UpdateAsync(existingProperty);

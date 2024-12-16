@@ -1,4 +1,5 @@
 ﻿using Application.Commands.User;
+using Application.Contracts.UserInformation;
 using Application.DTOs;
 using Application.Queries.UserInformation;
 using MediatR;
@@ -62,12 +63,9 @@ namespace SmartRealEstateManagementSystem.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateUser(Guid id, UpdateUserInformationCommand command)
+        public async Task<ActionResult> UpdateUser(Guid id, UpdateUserInformationRequest request)
         {
-            if (id != command.Id)
-            {
-                return BadRequest("Id mismatch");
-            }
+            var command = new UpdateUserInformationCommand { Id = id, Request = request };
 
             var validator = new UpdateUserInformationCommandValidator();
             var validationResult = await validator.ValidateAsync(command);

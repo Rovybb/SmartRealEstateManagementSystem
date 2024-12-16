@@ -25,7 +25,7 @@ namespace Application.CommandHandlers.UserInformation
                 return Result.Failure("User not found.");
             }
 
-            mapper.Map(request, existingUser.Data);
+            mapper.Map(request.Request, existingUser.Data);
 
             var updateResult = await userRepository.UpdateAsync(existingUser.Data);
             if (updateResult.IsSuccess)
