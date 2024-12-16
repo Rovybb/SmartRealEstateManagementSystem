@@ -1,5 +1,7 @@
 ﻿using Application.Commands.Payment;
 using Application.Commands.Property;
+using Application.Contracts.Payment;
+using Application.Contracts.Property;
 using Application.DTOs;
 using Application.Queries.Payment;
 using Application.Queries.Property;
@@ -102,14 +104,17 @@ namespace SmartRealEstateManagementSystem.Application.UnitTests.Utils
             return new UpdatePaymentCommand
             {
                 Id = mockId,
-                Type = PaymentType.SALE,
-                Date = DateTime.UtcNow,
-                Price = 1000m,
-                Status = PaymentStatus.COMPLETED,
-                PaymentMethod = PaymentMethod.CREDIT_CARD,
-                PropertyId = mockId,
-                SellerId = mockId,
-                BuyerId = mockId
+                Request = new UpdatePaymentRequest
+                {
+                    Type = PaymentType.SALE,
+                    Date = DateTime.UtcNow,
+                    Price = 1000m,
+                    Status = PaymentStatus.COMPLETED,
+                    PaymentMethod = PaymentMethod.CREDIT_CARD,
+                    PropertyId = mockId,
+                    SellerId = mockId,
+                    BuyerId = mockId
+                }
             };
         }
 
@@ -142,15 +147,18 @@ namespace SmartRealEstateManagementSystem.Application.UnitTests.Utils
             return new UpdatePropertyCommand
             {
                 Id = mockId,
-                Title = "Updated Title",
-                Description = "Updated Description",
-                Price = 150000m,
-                Address = "Updated Address",
-                Area = 130.5m,
-                Rooms = 4,
-                Bathrooms = 3,
-                ConstructionYear = 2021,
-                UserId = mockId
+                Request = new UpdatePropertyRequest
+                {
+                    Title = "Updated Title",
+                    Description = "Updated Description",
+                    Price = 150000m,
+                    Address = "Updated Address",
+                    Area = 130.5m,
+                    Rooms = 4,
+                    Bathrooms = 3,
+                    ConstructionYear = 2021,
+                    UserId = mockId
+                }
             };
         }
 

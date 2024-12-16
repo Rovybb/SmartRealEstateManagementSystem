@@ -24,7 +24,6 @@ export class PropertyUpdateComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.propertyForm = this.fb.group({
-      id: ['', Validators.required],
       title: ['', [Validators.required, Validators.maxLength(100)]],
       description: ['', [Validators.required, Validators.maxLength(500)]],
       status: ['', [Validators.required]],
@@ -42,7 +41,6 @@ export class PropertyUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.propertyId = this.route.snapshot.paramMap.get('id');
     if (this.propertyId) {
-      this.propertyForm.patchValue({ id: this.propertyId });
       
       this.propertyService.getPropertyById(this.propertyId).subscribe({
         next: (property) => {
@@ -61,7 +59,7 @@ export class PropertyUpdateComponent implements OnInit {
 
     if (this.propertyForm.valid) {
       this.propertyService
-        .updateProperty(this.propertyForm.value.id, this.propertyForm.value)
+        .updateProperty(this.propertyId, this.propertyForm.value)
         .subscribe({
           next: () => {
             this.router.navigate(['/properties']);
