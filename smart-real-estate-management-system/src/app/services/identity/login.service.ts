@@ -16,7 +16,7 @@ declare var process : {
 export class LoginService {
   
   private apiUrl = environment.API_URL + '/Auth/login';
-  private isAuthenticatedSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(!!document.cookie.split('; ').find(row => row.startsWith('token='))); // default value: see if the user is logged in from cookies
+  public isAuthenticatedSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(!!document.cookie.split('; ').find(row => row.startsWith('token='))); // default value: see if the user is logged in from cookies
   public isAuthenticated$: Observable<boolean> = this.isAuthenticatedSubject.asObservable();
 
   constructor(private http: HttpClient, private router: Router) { }  // Injectează Router
