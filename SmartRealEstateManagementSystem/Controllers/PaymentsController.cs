@@ -1,4 +1,5 @@
 ﻿using Application.Commands.Payment;
+using Application.Contracts.Payment;
 using Application.DTOs;
 using Application.Queries.Payment;
 using MediatR;
@@ -63,18 +64,15 @@ namespace SmartRealEstateManagementSystem.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdatePayment(Guid id, UpdatePaymentCommand command)
+        public async Task<ActionResult> UpdatePayment(Guid id, UpdatePaymentRequest request)
         {
+            var command = new UpdatePaymentCommand { Id = id, Request = request };
+
             var validator = new UpdatePaymentCommandValidator();
             var validationResult = await validator.ValidateAsync(command);
             if (!validationResult.IsValid)
             {
                 return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
-            }
-
-            if (id != command.Id)
-            {
-                return BadRequest("Ids didn't match");
             }
 
             var result = await mediator.Send(command);

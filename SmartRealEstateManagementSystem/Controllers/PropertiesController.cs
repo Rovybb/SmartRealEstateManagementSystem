@@ -1,4 +1,5 @@
 ﻿using Application.Commands.Property;
+using Application.Contracts.Property;
 using Application.DTOs;
 using Application.Queries.Property;
 using Domain.Utils;
@@ -74,18 +75,14 @@ namespace SmartRealEstateManagementSystem.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Guid>> UpdateProperty(Guid id, UpdatePropertyCommand command)
+        public async Task<ActionResult<Guid>> UpdateProperty(Guid id, UpdatePropertyRequest request)
         {
+            var command = new UpdatePropertyCommand { Id = id, Request = request };
             var validator = new UpdatePropertyCommandValidator();
             var validationResult = await validator.ValidateAsync(command);
             if (!validationResult.IsValid)
             {
                 return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
-            }
-
-            if (id != command.Id)
-            {
-                return BadRequest("Ids didn't match.");
             }
 
             var result = await mediator.Send(command);

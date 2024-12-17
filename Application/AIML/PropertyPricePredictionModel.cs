@@ -1,7 +1,4 @@
 ﻿using Microsoft.ML;
-using Microsoft.ML.Data;
-using System.IO;
-using System.Linq;
 
 namespace Application.AIML
 {

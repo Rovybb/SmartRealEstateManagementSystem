@@ -61,7 +61,7 @@ import { environment } from '../../environments/environment';
     return this.http.post<Property>(this.apiURL, property, { headers });
   }
 
-  public updateProperty(propertyId: string, property: Property): Observable<any> {
+  public updateProperty(propertyId: string | null, property: Property): Observable<any> {
     const token = this.getTokenFromCookies();
     const headers = { Authorization: `Bearer ${token}` };
     const url = `${this.apiURL}/${propertyId}`;

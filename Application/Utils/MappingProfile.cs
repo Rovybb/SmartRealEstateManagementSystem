@@ -2,6 +2,10 @@
 using Application.Commands.Payment;
 using Application.Commands.Property;
 using Application.Commands.User;
+using Application.Contracts.Inquiry;
+using Application.Contracts.Payment;
+using Application.Contracts.Property;
+using Application.Contracts.UserInformation;
 using Application.DTOs;
 using AutoMapper;
 using Domain.Entities;
@@ -15,21 +19,21 @@ namespace Application.Utils
         {
             CreateMap<Property, PropertyDto>().ReverseMap();
             CreateMap<Property, CreatePropertyCommand>().ReverseMap();
-            CreateMap<Property, UpdatePropertyCommand>().ReverseMap();
+            CreateMap<Property, UpdatePropertyRequest>().ReverseMap();
             CreateMap(typeof(PaginatedList<>), typeof(PaginatedList<>))
             .ConvertUsing(typeof(PaginatedListConverter<,>));
 
             CreateMap<Payment, PaymentDto>().ReverseMap();
             CreateMap<Payment, CreatePaymentCommand>().ReverseMap();
-            CreateMap<Payment, UpdatePaymentCommand>().ReverseMap();
+            CreateMap<Payment, UpdatePaymentRequest>().ReverseMap();
 
             CreateMap<UserInformation, UserDto>().ReverseMap();
             CreateMap<UserInformation, CreateUserInformationCommand>().ReverseMap();
-            CreateMap<UserInformation, UpdateUserInformationCommand>().ReverseMap();
+            CreateMap<UserInformation, UpdateUserInformationRequest>().ReverseMap();
 
             CreateMap<Inquiry, InquiryDto>().ReverseMap();
             CreateMap<Inquiry, CreateInquiryCommand>().ReverseMap();
-            CreateMap<Inquiry, UpdateInquiryCommand>().ReverseMap();
+            CreateMap<Inquiry, UpdateInquiryRequest>().ReverseMap();
         }
     }
 
