@@ -1,6 +1,4 @@
-﻿using Domain.Entities;
-using Domain.Types.UserInformation;
-using Domain.Utils;
+﻿using Domain.Utils;
 using MediatR;
 
 public class RegisterUserCommand : IRequest<Result<Guid>>

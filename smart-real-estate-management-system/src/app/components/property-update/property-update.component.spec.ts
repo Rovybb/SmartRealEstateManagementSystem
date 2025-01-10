@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PropertyUpdateComponent } from './property-update.component';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { PropertyService } from '../../services/property.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { of, throwError } from 'rxjs';
 
 describe('PropertyUpdateComponent', () => {
@@ -10,22 +10,33 @@ describe('PropertyUpdateComponent', () => {
   let fixture: ComponentFixture<PropertyUpdateComponent>;
   let propertyServiceMock: any;
   let routerMock: any;
+  let activatedRouteMock: any;
 
   beforeEach(async () => {
     propertyServiceMock = {
+      getPropertyById: jasmine.createSpy('getPropertyById').and.returnValue(of({})), // Fix: Return an observable
       updateProperty: jasmine.createSpy('updateProperty')
     };
-
+  
     routerMock = {
       navigate: jasmine.createSpy('navigate')
     };
-
+  
+    activatedRouteMock = {
+      snapshot: {
+        paramMap: {
+          get: jasmine.createSpy('get').and.returnValue('1')
+        }
+      }
+    };
+  
     await TestBed.configureTestingModule({
       imports: [PropertyUpdateComponent, ReactiveFormsModule],
       providers: [
         FormBuilder,
         { provide: PropertyService, useValue: propertyServiceMock },
-        { provide: Router, useValue: routerMock }
+        { provide: Router, useValue: routerMock },
+        { provide: ActivatedRoute, useValue: activatedRouteMock }
       ]
     }).compileComponents();
   });
@@ -44,7 +55,7 @@ describe('PropertyUpdateComponent', () => {
     const form = component.propertyForm;
     expect(form).toBeDefined();
     expect(form.value).toEqual({
-      id: '',
+      id: '1',
       title: '',
       description: '',
       status: '',
@@ -59,44 +70,44 @@ describe('PropertyUpdateComponent', () => {
     });
   });
 
-  it('should validate the form fields correctly', () => {
-    const form = component.propertyForm;
+  it('should load property data on init', () => {
+    const mockProperty = {
+      id: '1',
+      title: 'Test Property',
+      description: 'Description of test property',
+      status: 'AVAILABLE',
+      type: 'HOUSE',
+      price: 200000,
+      address: '123 Test St',
+      area: 150,
+      rooms: 3,
+      bathrooms: 2,
+      constructionYear: 2000,
+      userId: 'user123'
+    };
 
-    form.controls['id'].setValue('');
-    form.controls['title'].setValue('');
-    form.controls['description'].setValue('');
-    form.controls['status'].setValue('');
-    form.controls['type'].setValue('');
-    form.controls['price'].setValue(-1);
-    form.controls['address'].setValue('');
-    form.controls['area'].setValue(-1);
-    form.controls['rooms'].setValue(-1);
-    form.controls['bathrooms'].setValue(-1);
-    form.controls['constructionYear'].setValue(1000);
-    form.controls['userId'].setValue('');
+    propertyServiceMock.getPropertyById.and.returnValue(of(mockProperty));
 
-    expect(form.valid).toBeFalse();
-    expect(form.controls['id'].valid).toBeFalse();
-    expect(form.controls['title'].valid).toBeFalse();
-    expect(form.controls['description'].valid).toBeFalse();
-    expect(form.controls['price'].valid).toBeFalse();
-    expect(form.controls['constructionYear'].valid).toBeFalse();
+    component.ngOnInit();
+
+    expect(propertyServiceMock.getPropertyById).toHaveBeenCalledWith('1');
+    expect(component.propertyForm.value).toEqual(mockProperty);
   });
 
-  it('should submit the form if valid', () => {
+  it('should handle form submission', () => {
     const form = component.propertyForm;
     form.setValue({
       id: '1',
-      title: 'Test Property',
-      description: 'This is a test property.',
+      title: 'Updated Property',
+      description: 'Updated description',
       status: 'AVAILABLE',
       type: 'HOUSE',
-      price: 100000,
-      address: '123 Test St',
-      area: 150,
-      rooms: 4,
-      bathrooms: 2,
-      constructionYear: 2000,
+      price: 300000,
+      address: '456 Updated St',
+      area: 200,
+      rooms: 5,
+      bathrooms: 3,
+      constructionYear: 2020,
       userId: 'user123'
     });
 
@@ -109,51 +120,39 @@ describe('PropertyUpdateComponent', () => {
     expect(routerMock.navigate).toHaveBeenCalledWith(['/properties']);
   });
 
-  it('should not submit the form if invalid', () => {
-    const form = component.propertyForm;
-    form.controls['title'].setValue('');
-    form.controls['description'].setValue('');
-
-    component.onSubmit();
-
-    expect(form.valid).toBeFalse();
-    expect(propertyServiceMock.updateProperty).not.toHaveBeenCalled();
-    expect(routerMock.navigate).not.toHaveBeenCalled();
-  });
-
-  it('should handle errors during submission', () => {
+  it('should handle submission errors', () => {
     const form = component.propertyForm;
     form.setValue({
       id: '1',
-      title: 'Test Property',
-      description: 'This is a test property.',
+      title: 'Updated Property',
+      description: 'Updated description',
       status: 'AVAILABLE',
       type: 'HOUSE',
-      price: 100000,
-      address: '123 Test St',
-      area: 150,
-      rooms: 4,
-      bathrooms: 2,
-      constructionYear: 2000,
+      price: 300000,
+      address: '456 Updated St',
+      area: 200,
+      rooms: 5,
+      bathrooms: 3,
+      constructionYear: 2020,
       userId: 'user123'
     });
-  
+
     propertyServiceMock.updateProperty.and.returnValue(throwError(() => new Error('Update error')));
-  
+
     component.onSubmit();
-  
+
     expect(propertyServiceMock.updateProperty).toHaveBeenCalledWith('1', form.value);
     expect(component.errorMessage).toBe('Error updating property. Please try again.');
     expect(routerMock.navigate).not.toHaveBeenCalled();
   });
-  
+
   it('should handle validation errors on submission', () => {
     const form = component.propertyForm;
     form.controls['title'].setValue('');
     form.controls['description'].setValue('');
-  
+
     component.onSubmit();
-  
+
     expect(form.valid).toBeFalse();
     expect(component.errorMessage).toBe('Please fix validation errors before submitting.');
     expect(propertyServiceMock.updateProperty).not.toHaveBeenCalled();

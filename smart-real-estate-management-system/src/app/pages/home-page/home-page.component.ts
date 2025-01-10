@@ -3,18 +3,20 @@ import { Router } from '@angular/router';
 import { LoginService } from '../../services/identity/login.service';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule],
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  standalone: true,
+  imports: [CommonModule, MatSidenavModule, MatToolbarModule, MatButtonModule],
+  templateUrl: './home-page.component.html',
+  styleUrls: ['./home-page.component.css'],
 })
-export class HomeComponent {
+export class HomePageComponent {
+  constructor(private router: Router, private loginService: LoginService) {}
 
-  constructor(private router: Router, private loginService: LoginService) { }
-
-  // Returns an observable indicating if the user is logged in
   isLogged(): Observable<boolean> {
     return this.loginService.isAuthenticated();
   }
@@ -33,6 +35,5 @@ export class HomeComponent {
 
   logout() {
     this.loginService.logout();
-    this.router.navigate(['auth/login']); // Redirect to login page after logout
   }
 }

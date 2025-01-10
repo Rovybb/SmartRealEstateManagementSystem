@@ -25,7 +25,7 @@ namespace Application.CommandHandlers.Inquiry
                 return Result.Failure("Inquiry not found.");
             }
 
-            mapper.Map(request, existingInquiry.Data);
+            mapper.Map(request.Request, existingInquiry.Data);
 
             var updateResult = await inquiryRepository.UpdateAsync(existingInquiry.Data);
             if (updateResult.IsSuccess)

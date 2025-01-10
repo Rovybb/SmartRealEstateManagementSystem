@@ -1,7 +1,4 @@
 ﻿using Microsoft.ML;
-using Microsoft.ML.Data;
-using System.IO;
-using System.Linq;
 
 namespace Application.AIML
 {
@@ -42,7 +39,7 @@ namespace Application.AIML
             // Choose a regression trainer. SdcaRegression is a good start.
             // You could also try other regressors like FastTree, FastForest, or LightGbm to see if you get better results.
             var trainer = _mlContext.Regression.Trainers.Sdca(labelColumnName: "Label", featureColumnName: "Features", maximumNumberOfIterations: 100);
-            var trainingPipeline = dataProcessPipeline.Append(trainer);
+            var trainingPipeline = dataProcessPipeline.Append(trainer); 
 
             // Train the model
             _model = trainingPipeline.Fit(splits.TrainSet);

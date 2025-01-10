@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 
 import { appRoutes } from './app.routes';
 import { PropertyService } from '../app/services/property.service';

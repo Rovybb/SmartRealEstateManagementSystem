@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';  // Importă Router
+import { environment } from '../../../environments/environment';
 
 interface RegisterPayload {
   email: string;
@@ -13,7 +14,7 @@ interface RegisterPayload {
 })
 export class RegisterService {
 
-  private apiUrl = 'https://localhost:7146/api/Auth/register'; // URL-ul pentru register
+  private apiUrl = environment.API_URL + '/Auth/register';
 
   constructor(private http: HttpClient, private router: Router) { }  // Injectează Router
 

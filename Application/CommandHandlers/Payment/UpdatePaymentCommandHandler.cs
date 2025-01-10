@@ -25,7 +25,7 @@ namespace Application.CommandHandlers.Payment
                 return Result.Failure("Payment not found.");
             }
 
-            mapper.Map(request, existingPayment.Data);
+            mapper.Map(request.Request, existingPayment.Data);
 
             var updateResult = await paymentRepository.UpdateAsync(existingPayment.Data);
             if (updateResult.IsSuccess)

@@ -1,6 +1,4 @@
 ﻿using Domain.Types.UserInformation;
-using System;
-using System.Collections.Generic;
 
 namespace Domain.Entities
 {

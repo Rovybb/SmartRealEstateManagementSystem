@@ -2,8 +2,6 @@
 using Domain.Repositories;
 using Domain.Utils;
 using MediatR;
-using System.Threading;
-using System.Threading.Tasks;
 
 public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Result<Guid>>
 {

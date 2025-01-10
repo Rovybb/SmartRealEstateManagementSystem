@@ -54,7 +54,6 @@ describe('PropertyCreateComponent', () => {
       rooms: null,
       bathrooms: null,
       constructionYear: null,
-      userId: ''
     });
   });
 
@@ -71,7 +70,6 @@ describe('PropertyCreateComponent', () => {
     form.controls['rooms'].setValue(-1);
     form.controls['bathrooms'].setValue(-1);
     form.controls['constructionYear'].setValue(1000);
-    form.controls['userId'].setValue('');
 
     expect(form.valid).toBeFalse();
     expect(form.controls['title'].valid).toBeFalse();
@@ -93,7 +91,6 @@ describe('PropertyCreateComponent', () => {
       rooms: 4,
       bathrooms: 2,
       constructionYear: 2000,
-      userId: '3c868c18-e8db-4d11-a7c8-83ccb221305a'
     });
 
     propertyServiceMock.createProperty.and.returnValue(of({}));
@@ -143,7 +140,6 @@ describe('PropertyCreateComponent', () => {
       rooms: 4,
       bathrooms: 2,
       constructionYear: 2000,
-      userId: '3c868c18-e8db-4d11-a7c8-83ccb221305a'
     });
 
     propertyServiceMock.createProperty.and.returnValue(throwError(() => new Error('Create error')));
