@@ -2,13 +2,15 @@
 using SendGrid.Helpers.Mail;
 using Application.Interfaces;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
-public class SendGridEmailService : IEmailService
+public class SendGridEmailService(IConfiguration configuration) : IEmailService
 {
+    private readonly string _apiKey = configuration["SendGrid:ApiKey"];
+
     public async Task SendEmailAsync(string to, string subject, string plainTextContent, string htmlContent = null)
     {
-        var apiKey = "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"; // Replace with or retrieve from config
-        var client = new SendGridClient(apiKey);
+        var client = new SendGridClient(_apiKey);
 
         var from = new EmailAddress("flaviburca@gmail.com", "Smart Real Estate Management System");
         var toDetails = new EmailAddress(to, "Agent");

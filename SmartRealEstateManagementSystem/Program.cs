@@ -2,6 +2,7 @@ using Application;
 using Infrastructure;
 using Identity;
 using Application.AIML;
+using Application.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

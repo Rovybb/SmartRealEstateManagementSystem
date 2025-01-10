@@ -7,7 +7,7 @@ namespace Domain.Entities
         public required Guid Id { get; set; }
         public required string Message { get; set; }
         public required InquiryStatus Status { get; set; }
-        public required DateTime CreatedAt { get; set; }
+        public required DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public required Guid PropertyId { get; set; }
         public required Property Property { get; set; }
