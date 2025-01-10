@@ -1,4 +1,5 @@
-﻿using Domain.Filters;
+﻿using Application.Interfaces;
+using Domain.Filters;
 using Domain.Repositories;
 using Infrastructure.Persistence;
 using Infrastructure.Repositories;
@@ -27,6 +28,8 @@ namespace Infrastructure
             services.AddScoped<IPropertyFilterStrategy, PriceMaxFilterStrategy>();
             services.AddScoped<IPropertyRepository, PropertyRepository>();
             services.AddScoped<PropertyFilterService>();
+
+            services.AddTransient<IEmailService, SendGridEmailService>();
             return services;
         }
     }

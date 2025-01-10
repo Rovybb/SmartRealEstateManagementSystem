@@ -8,7 +8,6 @@ namespace Application.Commands.Inquiry
     {
         public required string Message { get; set; }
         public required InquiryStatus Status { get; set; }
-        public required DateTime CreatedAt { get; set; }
 
         public required Guid PropertyId { get; set; }
         public required Guid AgentId { get; set; }
