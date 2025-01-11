@@ -12,6 +12,7 @@ namespace Domain.Repositories
         Task<Result> UpdateAsync(Property property);
         Task<Result> DeleteAsync(Guid id);
         Task<Result> AddImageAsync(Guid propertyId, PropertyImage image);
-        Task<Result> RemoveImageAsync(Guid propertyId, Guid imageId);
+        Task<Result<PropertyImage>> GetImageByIdAsync (Guid imageId);
+        Task<Result> RemoveImageAsync(Guid imageId);
     }
 }

@@ -5,6 +5,8 @@ using FirebaseAdmin;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Google.Apis.Storage.v1.Data;
+using Domain.Utils;
+using System.Net;
 
 namespace Infrastructure.Services
 {
@@ -67,6 +69,21 @@ namespace Infrastructure.Services
             var publicUrl = $"https://storage.googleapis.com/{_bucketName}/{objectName}";
 
             return publicUrl;
+        }
+
+        public async Task<Result> DeleteAsync(string imageUrl)
+        {
+            try
+            {
+                Uri uri = new Uri(imageUrl);
+                var objectName = Path.GetFileName(uri.LocalPath);
+                await _storageClient.DeleteObjectAsync(_bucketName, objectName);
+                return Result.Success();
+            }
+            catch (Exception ex)
+            {
+                return Result.Failure(ex.Message);
+            }
         }
     }
 }

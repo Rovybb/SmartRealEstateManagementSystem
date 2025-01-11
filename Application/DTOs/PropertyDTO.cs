@@ -15,8 +15,11 @@ namespace Application.DTOs
         public required int Rooms { get; set; }
         public required int Bathrooms { get; set; }
         public required int ConstructionYear { get; set; }
-        public required DateTime CreatedAt { get; set; } 
+        public required DateTime CreatedAt { get; set; }
         public required DateTime UpdatedAt { get; set; }
         public required Guid UserId { get; set; }
+
+        // NEW: a list of the image URLs
+        public List<string> ImageUrls { get; set; } = new List<string>();
     }
 }

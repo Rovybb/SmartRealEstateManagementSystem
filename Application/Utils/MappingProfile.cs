@@ -17,11 +17,18 @@ namespace Application.Utils
     {
         public MappingProfile()
         {
-            CreateMap<Property, PropertyDto>().ReverseMap();
+            CreateMap<Property, PropertyDto>()
+                .ForMember(
+                    dest => dest.ImageUrls,
+                    opt => opt.MapFrom(src => src.PropertyImages.Select(img => img.Url).ToList())
+                )
+                .ReverseMap();
+
             CreateMap<Property, CreatePropertyCommand>().ReverseMap();
             CreateMap<Property, UpdatePropertyRequest>().ReverseMap();
+
             CreateMap(typeof(PaginatedList<>), typeof(PaginatedList<>))
-            .ConvertUsing(typeof(PaginatedListConverter<,>));
+                .ConvertUsing(typeof(PaginatedListConverter<,>));
 
             CreateMap<Payment, PaymentDto>().ReverseMap();
             CreateMap<Payment, CreatePaymentCommand>().ReverseMap();
@@ -36,6 +43,7 @@ namespace Application.Utils
             CreateMap<Inquiry, UpdateInquiryRequest>().ReverseMap();
         }
     }
+
 
     public class PaginatedListConverter<TSource, TDestination> : ITypeConverter<PaginatedList<TSource>, PaginatedList<TDestination>>
     {
