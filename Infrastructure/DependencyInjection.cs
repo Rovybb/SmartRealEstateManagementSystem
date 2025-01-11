@@ -22,6 +22,11 @@ namespace Infrastructure
             services.AddScoped<IUserInformationRepository, UserInformationRepository>();
             services.AddScoped<IInquiryRepository, InquiryRepository>();
 
+
+            services.AddScoped<TitleFilterStrategy>();
+            services.AddScoped<DescriptionFilterStrategy>();
+            services.AddScoped<PriceMinFilterStrategy>();
+            services.AddScoped<PriceMaxFilterStrategy>();
             services.AddScoped<IPropertyFilterStrategy, TitleFilterStrategy>();
             services.AddScoped<IPropertyFilterStrategy, DescriptionFilterStrategy>();
             services.AddScoped<IPropertyFilterStrategy, PriceMinFilterStrategy>();
