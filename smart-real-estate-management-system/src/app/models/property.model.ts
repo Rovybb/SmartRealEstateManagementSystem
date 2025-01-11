@@ -27,5 +27,6 @@ export interface Property {
     constructionYear: number;
     createdAt: Date; 
     updatedAt: Date; 
-    userId: string; 
+    userId: string;
+    imageUrls?: string[]; 
   }
