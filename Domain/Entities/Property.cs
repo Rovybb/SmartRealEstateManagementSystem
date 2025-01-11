@@ -17,10 +17,11 @@ namespace Domain.Entities
         public required int ConstructionYear { get; set; }
         public required DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public required DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-
         // Foreign key
         public required Guid UserId { get; set; }
         // Navigation property
         public required UserInformation User { get; set; }
+        // New: one-to-many relationship
+        public ICollection<PropertyImage> PropertyImages { get; set; } = new List<PropertyImage>();
     }
 }
