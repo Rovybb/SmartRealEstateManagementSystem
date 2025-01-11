@@ -36,6 +36,8 @@ namespace Infrastructure
 
             services.AddTransient<IEmailService, SendGridEmailService>();
             services.AddTransient<IImageStorageService, FirebaseImageStorageService>();
+            services.AddTransient<ICheckoutService, StripeCheckoutService>();
+
             return services;
         }
     }
