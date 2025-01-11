@@ -1,90 +1,285 @@
 .property-detail {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .property-detail h1 {
-    font-size: 30px;
-    color: #333;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .property-info {
-    margin-bottom: 20px;
-  }
-  
-  .property-info h2 {
-    font-size: 21px;
-    color: #333;
-  }
-  
-  .property-info p {
-    font-size: 16px;
-    color: #555;
-  }
-  
-  .property-info p strong {
-    font-weight: bold;
-  }
-  
-  .error {
-    color: #d9534f;
-    font-size: 14px;
-    margin-bottom: 20px;
-  }
-  
-  button {
-    padding: 12px;
-    font-size: 16px;
-    font-family: Arial, sans-serif;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 100%;  
-    margin-bottom: 10px; 
-    margin-right: 4%;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
-  button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-  }
-  
-  button.delete {
-    background-color: #dc3545; 
-  }
-  
-  button.delete:hover {
-    background-color: #c82333;  
-  }
-  
-  button.update {
-    background-color: #28a745;
-  }
-  
-  button.update:hover {
-    background-color: #218838;
-  }
-  
-  button-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-  }
-  
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.property-detail h1 {
+  font-size: 30px;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.property-info {
+  margin-bottom: 20px;
+}
+
+.property-info h2 {
+  font-size: 21px;
+  color: #333;
+}
+
+.property-info p {
+  font-size: 16px;
+  color: #555;
+}
+
+.property-info p strong {
+  font-weight: bold;
+}
+
+.error {
+  color: #d9534f;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 12px;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;  
+  margin-bottom: 10px; 
+  margin-right: 4%;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+button.delete {
+  background-color: #dc3545; 
+}
+
+button.delete:hover {
+  background-color: #c82333;  
+}
+
+button.update {
+  background-color: #28a745;
+}
+
+button.update:hover {
+  background-color: #218838;
+}
+
+button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.property-images {
+  margin-top: 20px;
+}
+
+.property-images h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.image-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.image-gallery img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.image-upload {
+  margin-top: 20px;
+}
+
+.image-upload h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.image-upload input {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.loading-message {
+  font-size: 14px;
+  color: #007bff;
+  margin-top: 5px;
+}
+
+.image-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.image-wrapper {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.2s ease-in-out;
+  cursor: zoom-in;
+}
+
+.image-wrapper .zoomed-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  background-size: 200%; /* Asigură zoom-ul */
+  background-repeat: no-repeat;
+  z-index: 100;
+  border-radius: 8px;
+  transform: scale(1.2); /* Efect de zoom */
+}
+
+.image-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.image-wrapper {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.2s ease-in-out;
+}
+
+.zoom-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  cursor: zoom-out;
+}
+
+.zoom-modal img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.inquiry-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.inquiry-modal-content {
+  background: #fff;
+  padding: 20px;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  text-align: center;
+}
+
+.inquiry-modal-content h2 {
+  margin-bottom: 10px;
+  font-size: 22px;
+}
+
+.inquiry-modal-content textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  resize: none;
+}
+
+.inquiry-modal-content .popup-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.inquiry-modal-content button {
+  width: 48%;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.inquiry-modal-content button:hover {
+  background-color: #0056b3;
+}
+
+.inquiry-modal-content button:nth-child(2) {
+  background-color: #dc3545;
+}
+
+.inquiry-modal-content button:nth-child(2):hover {
+  background-color: #c82333;
+}

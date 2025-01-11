@@ -104,4 +104,22 @@ import { environment } from '../../environments/environment';
     const url = `${this.apiURL}/${propertyId}`;
     return this.http.get<Property>(url, { headers });
   }
+
+  getPropertyImages(propertyId: string): Observable<any[]> {
+    const url = `${this.apiURL}/${propertyId}/images`;
+    const token = this.getTokenFromCookies();
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.get<any[]>(url, { headers });
+  }
+  
+  uploadImage(propertyId: string, formData: FormData): Observable<any> {
+    const url = `${this.apiURL}/${propertyId}/images`;
+    const token = this.getTokenFromCookies();
+    const headers = { Authorization: `Bearer ${token}` }; // Doar Authorization
+  
+    return this.http.post<any>(url, formData, { headers });
+  }
+  
+  
+  
 }
