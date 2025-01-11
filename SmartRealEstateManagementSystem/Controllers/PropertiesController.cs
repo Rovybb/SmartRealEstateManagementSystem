@@ -109,5 +109,27 @@ namespace SmartRealEstateManagementSystem.Controllers
             }
             return NotFound(result.ErrorMessage );
         }
+
+        [HttpPost("{propertyId}/images")]
+        public async Task<IActionResult> UploadPropertyImages(Guid propertyId, [FromForm] List<IFormFile> files)
+        {
+            var command = new UploadPropertyImagesCommand
+            {
+                PropertyId = propertyId,
+                Files = files
+            };
+
+            var result = await mediator.Send(command);
+
+            if (result.IsSuccess)
+            {
+                return CreatedAtAction(nameof(GetPropertyById), new { Id = propertyId }, result.Data);
+            }
+            else
+            {
+                return BadRequest(result.ErrorMessage);
+            }
+        }
+
     }
 }

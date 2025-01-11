@@ -95,5 +95,81 @@ namespace Infrastructure.Repositories
             await context.SaveChangesAsync();
             return Result.Success();
         }
+
+        public async Task<Result> AddImageAsync(Guid propertyId, PropertyImage image)
+        {
+            try
+            {
+                // Load the property with its existing images
+                var property = await context.Properties
+                    .Include(p => p.PropertyImages)
+                    .FirstOrDefaultAsync(p => p.Id == propertyId);
+
+                if (property == null)
+                {
+                    return Result.Failure("Property not found.");
+                }
+
+                // Associate the image with this property
+                // If not already set:
+                image.PropertyId = propertyId;
+
+                await context.PropertyImages.AddAsync(image);
+
+                // Add to the collection
+                property.PropertyImages.Add(image);
+
+
+                // Save changes
+                try
+                {
+                    await context.SaveChangesAsync();
+                }
+                catch (DbUpdateException ex)
+                {
+                    return Result.Failure(ex.InnerException?.Message ?? ex.Message);
+                }
+                return Result.Success();
+            }
+            catch (Exception ex)
+            {
+                return Result.Failure(ex.Message);
+            }
+        }
+
+        public async Task<Result> RemoveImageAsync(Guid propertyId, Guid imageId)
+        {
+            try
+            {
+                // Load the property with images
+                var property = await context.Properties
+                    .Include(p => p.PropertyImages)
+                    .FirstOrDefaultAsync(p => p.Id == propertyId);
+
+                if (property == null)
+                {
+                    return Result.Failure("Property not found.");
+                }
+
+                // Find the image in that property
+                var image = property.PropertyImages.FirstOrDefault(i => i.Id == imageId);
+                if (image == null)
+                {
+                    return Result.Failure("Image not found or does not belong to this property.");
+                }
+
+                // Remove from the collection
+                property.PropertyImages.Remove(image);
+
+
+                // Save changes
+                await context.SaveChangesAsync();
+                return Result.Success();
+            }
+            catch (Exception ex)
+            {
+                return Result.Failure(ex.Message);
+            }
+        }
     }
 }

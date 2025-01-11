@@ -5,7 +5,8 @@ namespace Infrastructure.Persistence
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
         {
         }
 
@@ -13,6 +14,9 @@ namespace Infrastructure.Persistence
         public required DbSet<Payment> Payments { get; set; }
         public required DbSet<UserInformation> Users { get; set; }
         public required DbSet<Inquiry> Inquiries { get; set; }
+
+        // NEW
+        public required DbSet<PropertyImage> PropertyImages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,26 +27,72 @@ namespace Infrastructure.Persistence
             {
                 entity.ToTable("Property");
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.Id)
-                    .HasColumnType("uuid")
-                    .HasDefaultValueSql("uuid_generate_v4()")
-                    .ValueGeneratedOnAdd();
-                entity.Property(e => e.Title).IsRequired().HasMaxLength(100);
-                entity.Property(e => e.Description).IsRequired().HasMaxLength(500);
-                //entity.Property(e => e.Type).IsRequired();
-                //entity.Property(e => e.Status).IsRequired();
-                entity.Property(e => e.Price).IsRequired();
-                entity.Property(e => e.Address).IsRequired().HasMaxLength(200);
-                entity.Property(e => e.Area).IsRequired();
-                entity.Property(e => e.ConstructionYear).IsRequired();
-                entity.Property(e => e.CreatedAt).IsRequired();
-                entity.Property(e => e.UpdatedAt).IsRequired();
 
-                // Configure relationship with User
+                entity.Property(e => e.Id)
+                      .HasColumnType("uuid")
+                      .HasDefaultValueSql("uuid_generate_v4()")
+                      .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.Title)
+                      .IsRequired()
+                      .HasMaxLength(100);
+
+                entity.Property(e => e.Description)
+                      .IsRequired()
+                      .HasMaxLength(500);
+
+                entity.Property(e => e.Price)
+                      .IsRequired();
+
+                entity.Property(e => e.Address)
+                      .IsRequired()
+                      .HasMaxLength(200);
+
+                entity.Property(e => e.Area)
+                      .IsRequired();
+
+                entity.Property(e => e.ConstructionYear)
+                      .IsRequired();
+
+                entity.Property(e => e.CreatedAt)
+                      .IsRequired();
+
+                entity.Property(e => e.UpdatedAt)
+                      .IsRequired();
+
+                // Relationship with User
                 entity.HasOne(p => p.User)
                       .WithMany(u => u.Properties)
                       .HasForeignKey(p => p.UserId)
                       .OnDelete(DeleteBehavior.Restrict);
+
+                // Relationship with PropertyImage (one-to-many)
+                entity.HasMany(p => p.PropertyImages)     // in Property entity: ICollection<PropertyImage> PropertyImages
+                      .WithOne(pi => pi.Property)
+                      .HasForeignKey(pi => pi.PropertyId)
+                      .OnDelete(DeleteBehavior.Cascade); // Or Restrict, depending on your preference
+            });
+
+            // Configure PropertyImage entity
+            modelBuilder.Entity<PropertyImage>(entity =>
+            {
+                entity.ToTable("PropertyImage");
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Id)
+                      .HasColumnType("uuid")
+                      .HasDefaultValueSql("uuid_generate_v4()")
+                      .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.PropertyId)
+                      .IsRequired();
+
+                entity.Property(e => e.Url)
+                      .IsRequired()
+                      .HasMaxLength(500);
+
+                entity.Property(e => e.CreatedAt)
+                      .IsRequired();
             });
 
             // Configure User entity
@@ -50,18 +100,49 @@ namespace Infrastructure.Persistence
             {
                 entity.ToTable("UserInformation");
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.Username).IsRequired().HasMaxLength(100);
-                entity.Property(e => e.FirstName).IsRequired().HasMaxLength(100);
-                entity.Property(e => e.LastName).IsRequired().HasMaxLength(100);
-                entity.Property(e => e.Email).IsRequired().HasMaxLength(100);
-                entity.Property(e => e.Role).IsRequired();
-                entity.Property(e => e.Address).IsRequired().HasMaxLength(200);
-                entity.Property(e => e.PhoneNumber).IsRequired().HasMaxLength(20);
-                entity.Property(e => e.Nationality).IsRequired().HasMaxLength(100);
-                entity.Property(e => e.CreatedAt).IsRequired();
-                entity.Property(e => e.Status).IsRequired();
-                entity.Property(e => e.Company).HasMaxLength(100);
-                entity.Property(e => e.Type).HasMaxLength(100);
+
+                entity.Property(e => e.Username)
+                      .IsRequired()
+                      .HasMaxLength(100);
+
+                entity.Property(e => e.FirstName)
+                      .IsRequired()
+                      .HasMaxLength(100);
+
+                entity.Property(e => e.LastName)
+                      .IsRequired()
+                      .HasMaxLength(100);
+
+                entity.Property(e => e.Email)
+                      .IsRequired()
+                      .HasMaxLength(100);
+
+                entity.Property(e => e.Role)
+                      .IsRequired();
+
+                entity.Property(e => e.Address)
+                      .IsRequired()
+                      .HasMaxLength(200);
+
+                entity.Property(e => e.PhoneNumber)
+                      .IsRequired()
+                      .HasMaxLength(20);
+
+                entity.Property(e => e.Nationality)
+                      .IsRequired()
+                      .HasMaxLength(100);
+
+                entity.Property(e => e.CreatedAt)
+                      .IsRequired();
+
+                entity.Property(e => e.Status)
+                      .IsRequired();
+
+                entity.Property(e => e.Company)
+                      .HasMaxLength(100);
+
+                entity.Property(e => e.Type)
+                      .HasMaxLength(100);
             });
 
             // Configure Payment entity
@@ -69,20 +150,37 @@ namespace Infrastructure.Persistence
             {
                 entity.ToTable("Payment");
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.Id)
-                    .HasColumnType("uuid")
-                    .HasDefaultValueSql("uuid_generate_v4()")
-                    .ValueGeneratedOnAdd();
-                entity.Property(e => e.PropertyId).IsRequired();
-                entity.Property(e => e.BuyerId).IsRequired();
-                entity.Property(e => e.SellerId).IsRequired();
-                entity.Property(e => e.Type).IsRequired();
-                entity.Property(e => e.Date).IsRequired();
-                entity.Property(e => e.Price).IsRequired();
-                entity.Property(e => e.Status).IsRequired();
-                entity.Property(e => e.PaymentMethod).IsRequired();
 
-                // Configure relationships
+                entity.Property(e => e.Id)
+                      .HasColumnType("uuid")
+                      .HasDefaultValueSql("uuid_generate_v4()")
+                      .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.PropertyId)
+                      .IsRequired();
+
+                entity.Property(e => e.BuyerId)
+                      .IsRequired();
+
+                entity.Property(e => e.SellerId)
+                      .IsRequired();
+
+                entity.Property(e => e.Type)
+                      .IsRequired();
+
+                entity.Property(e => e.Date)
+                      .IsRequired();
+
+                entity.Property(e => e.Price)
+                      .IsRequired();
+
+                entity.Property(e => e.Status)
+                      .IsRequired();
+
+                entity.Property(e => e.PaymentMethod)
+                      .IsRequired();
+
+                // Relationship with Property
                 entity.HasOne(p => p.Property)
                       .WithMany()
                       .HasForeignKey(p => p.PropertyId)
@@ -104,18 +202,32 @@ namespace Infrastructure.Persistence
             {
                 entity.ToTable("Inquiry");
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.Id)
-                    .HasColumnType("uuid")
-                    .HasDefaultValueSql("uuid_generate_v4()")
-                    .ValueGeneratedOnAdd();
-                entity.Property(e => e.PropertyId).IsRequired();
-                entity.Property(e => e.ClientId).IsRequired();
-                entity.Property(e => e.AgentId).IsRequired();
-                entity.Property(e => e.Message).IsRequired().HasMaxLength(1000);
-                entity.Property(e => e.Status).IsRequired();
-                entity.Property(e => e.CreatedAt).IsRequired();
 
-                // Configure relationships
+                entity.Property(e => e.Id)
+                      .HasColumnType("uuid")
+                      .HasDefaultValueSql("uuid_generate_v4()")
+                      .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.PropertyId)
+                      .IsRequired();
+
+                entity.Property(e => e.ClientId)
+                      .IsRequired();
+
+                entity.Property(e => e.AgentId)
+                      .IsRequired();
+
+                entity.Property(e => e.Message)
+                      .IsRequired()
+                      .HasMaxLength(1000);
+
+                entity.Property(e => e.Status)
+                      .IsRequired();
+
+                entity.Property(e => e.CreatedAt)
+                      .IsRequired();
+
+                // Relationship with Property
                 entity.HasOne(i => i.Property)
                       .WithMany()
                       .HasForeignKey(i => i.PropertyId)

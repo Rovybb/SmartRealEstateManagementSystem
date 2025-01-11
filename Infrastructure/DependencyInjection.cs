@@ -35,6 +35,7 @@ namespace Infrastructure
             services.AddScoped<PropertyFilterService>();
 
             services.AddTransient<IEmailService, SendGridEmailService>();
+            services.AddTransient<IImageStorageService, FirebaseImageStorageService>();
             return services;
         }
     }
