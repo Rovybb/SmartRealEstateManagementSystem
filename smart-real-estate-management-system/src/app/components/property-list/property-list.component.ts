@@ -4,63 +4,78 @@ import { Property } from '../../models/property.model';
 import { PropertyService } from '../../services/property.service';
 import { Router } from '@angular/router';
 import { NgFor } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-property-list',
-  imports: [NgFor],
+  imports: [NgFor, FormsModule],
   templateUrl: './property-list.component.html',
   styleUrl: './property-list.component.css'
 })
 export class PropertyListComponent implements OnInit {
-Number(arg0: string): number {
-throw new Error('Method not implemented.');
-}
-
   properties: Property[] = [];
   pageNumber: number = 1;
   pageSize: number = 2;
   totalPages: number = 0;
 
-  constructor(private propertyService: PropertyService, private router: Router) { }
+  filters: { [key: string]: string | number | null } = {
+    title: null,
+    price_min: null,
+    price_max: null,
+    description: null
+  };
+
+  constructor(private propertyService: PropertyService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadProperties();
   }
 
   loadProperties(): void {
-    this.propertyService.getPropertiesWithPagination(this.pageNumber, this.pageSize)
+    const processedFilters: { [key: string]: string } = {};
+  
+    for (const key in this.filters) {
+      const value = this.filters[key];
+      if (value !== null && value !== undefined && value !== '') {
+        processedFilters[key] = value.toString(); // Convertim valorile în string-uri
+      }
+    }
+  
+    console.log('Filters sent to backend:', processedFilters); // Debugging
+  
+    this.propertyService
+      .getPropertiesWithPagination(this.pageNumber, this.pageSize, processedFilters)
       .subscribe((data: any) => {
         this.properties = data.items;
         this.totalPages = data.totalPages;
       });
   }
 
-  navigateToCreate() {
+  navigateToCreate(): void {
     this.router.navigate(['properties/create']);
   }
-  navigateToUpdate(property : Property) {
-    this.router.navigate(['properties/update/' + property.id]);
-  }
-  viewDetails(property: Property) {
+
+  viewDetails(property: Property): void {
     this.router.navigate(['/properties/property-details', property.id]);
   }
+
+  applyFilters(): void {
+    console.log('Filters applied:', this.filters);
+    this.pageNumber = 1;
+    this.loadProperties();
+  }
   
-  deleteProperty(property: Property): void {
-    if (confirm('Are you sure you want to delete this property?')) {
-        const propertyId = property.id;
-        this.propertyService.deleteProperty(propertyId).subscribe({
-            next: () => {
-                this.properties = this.properties.filter(p => p !== property);
 
-            },
-            error: (err) => {
-                console.error('Error deleting property:', err);
-                alert('Failed to delete property.');
-            }
-        });
-    }
-}
-
+  resetFilters(): void {
+    this.filters = {
+      title: null,
+      price_min: null,
+      price_max: null,
+      description: null
+    };
+    this.pageNumber = 1;
+    this.loadProperties();
+  }
 
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {

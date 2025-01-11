@@ -57,4 +57,40 @@ export class LoginService {
     console.log('User logged out');
     this.router.navigate(['/']); // Redirecționează utilizatorul pe Home după logout
   }
+
+  private decodeToken(token: string): any {
+    try {
+      const payload = token.split('.')[1]; // Partea payload din JWT
+      return JSON.parse(atob(payload)); // Decodează Base64
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
+  }
+  
+  getUserId(): string | null {
+    const token = this.getToken();
+    console.log('Token from cookies:', token); // Adaugă acest log
+    if (!token) {
+      console.error('No token found!');
+      return null;
+    }
+  
+    const decoded = this.decodeToken(token);
+    console.log('Decoded token payload:', decoded); // Adaugă acest log
+    return decoded ? decoded.unique_name : null; // Presupunem că `userId` este prezent în payload
+  }
+
+  getToken(): string | null {
+    const name = 'token=';
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const cookies = decodedCookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      let c = cookies[i].trim();
+      if (c.indexOf(name) === 0) {
+        return c.substring(name.length);
+      }
+    }
+    return null;
+  }
 }

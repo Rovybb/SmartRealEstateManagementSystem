@@ -24,8 +24,21 @@
     <div class="button-container">
       <button class="update" (click)="navigateToUpdate(property)">Update</button>
       <button class="delete" (click)="deleteProperty(property)">Delete</button>
+      <button class="inquiry" (click)="openInquiryPopup()">Inquiry</button>
     </div>
 
     <button (click)="goBack()">Back to Properties</button>
+  </div>
+
+  <!-- Inquiry Pop-Up -->
+  <div class="popup-overlay" *ngIf="isInquiryPopupOpen">
+    <div class="popup-content">
+      <h2>Send Inquiry</h2>
+      <textarea [(ngModel)]="inquiryMessage" placeholder="Write your message here..." rows="5"></textarea>
+      <div class="popup-buttons">
+        <button (click)="sendInquiry()">Send</button>
+        <button (click)="closeInquiryPopup()">Cancel</button>
+      </div>
+    </div>
   </div>
 </div>

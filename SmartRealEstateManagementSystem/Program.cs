@@ -60,13 +60,13 @@ var predictionModel = new PropertyPricePredictionModel();
 
 // Make sure properties.csv is accessible. For example, if it's in src/Data and copied to output, 
 // you can reference it directly as "Data/properties.csv" if Data folder is also copied to output directory.
-var dataPath = @"C:\Users\flavi\source\repos\SmartRealEstateManagementSystem\Application\AIML\Data\properties_cleaned.csv";
+var dataPath = @"C:\Users\marcu\OneDrive\Desktop\SmartRealEstateManagementSystem\Application\AIML\Data\properties_cleaned.csv";
 
 // Train the model at startup (only do this if you don't have a pre-trained model.zip)
 predictionModel.Train(dataPath);
 
 // Optionally, save the trained model so next time you can just load it:
-var modelPath = @"C:\Users\flavi\source\repos\SmartRealEstateManagementSystem\Application\AIML\Data\model.zip";
+var modelPath = @"C:\Users\marcu\OneDrive\Desktop\SmartRealEstateManagementSystem\Application\AIML\Data\model.zip";
 predictionModel.SaveModel(modelPath);
 
 // Register the model as a singleton so the controller can use it:
