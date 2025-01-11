@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SmartRealEstateManagementSystem.Controllers
 {
-
     [Route("api/v1/[controller]")]
     [ApiController]
     [Authorize]
@@ -48,7 +47,7 @@ namespace SmartRealEstateManagementSystem.Controllers
             {
                 return CreatedAtAction(nameof(GetPaymentById), new { Id = result.Data }, result.Data);
             }
-            return BadRequest(result.ErrorMessage );
+            return BadRequest(result.ErrorMessage);
         }
 
         [HttpDelete("{id}")]
@@ -60,7 +59,7 @@ namespace SmartRealEstateManagementSystem.Controllers
             {
                 return NoContent();
             }
-            return NotFound(result.ErrorMessage );
+            return NotFound(result.ErrorMessage);
         }
 
         [HttpPut("{id}")]
@@ -84,7 +83,7 @@ namespace SmartRealEstateManagementSystem.Controllers
             {
                 return NotFound();
             }
-            return BadRequest(result.ErrorMessage );
+            return BadRequest(result.ErrorMessage);
         }
 
         [HttpGet]
@@ -96,7 +95,22 @@ namespace SmartRealEstateManagementSystem.Controllers
             {
                 return Ok(result.Data);
             }
-            return BadRequest(result.ErrorMessage );
+            return BadRequest(result.ErrorMessage);
+        }
+
+        [HttpPost("create-checkout-session")]
+        public async Task<ActionResult> CreateStripeCheckout([FromBody] CreateCheckoutCommand command)
+        {
+            var result = await mediator.Send(command);
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.ErrorMessage);
+            }
+
+            return Ok(new
+            {
+                CheckoutUrl = result.Data
+            });
         }
     }
 }
