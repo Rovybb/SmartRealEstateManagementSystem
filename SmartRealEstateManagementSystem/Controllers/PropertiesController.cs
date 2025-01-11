@@ -131,5 +131,23 @@ namespace SmartRealEstateManagementSystem.Controllers
             }
         }
 
+        [HttpDelete("{propertyId}/images/{imageId}")]
+        public async Task<IActionResult> DeletePropertyImage(Guid imageId)
+        {
+            var command = new DeletePropertyImageCommand
+            {
+                Id = imageId
+            };
+            var result = await mediator.Send(command);
+            if (result.IsSuccess)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return NotFound(result.ErrorMessage);
+            }
+        }
+
     }
 }

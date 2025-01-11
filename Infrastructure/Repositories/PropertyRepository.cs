@@ -18,17 +18,24 @@ namespace Infrastructure.Repositories
             this.filterService = filterService;
         }
 
-        public async Task<PaginatedList<Property>> GetPropertiesAsync(int pageNumber, int pageSize, Dictionary<string, string>? filters)
+        public async Task<PaginatedList<Property>> GetPropertiesAsync(
+        int pageNumber,
+        int pageSize,
+        Dictionary<string, string>? filters)
         {
-            var query = context.Properties.AsQueryable();
+            // Start by including images
+            var query = context.Properties
+                .Include(p => p.PropertyImages)
+                .AsQueryable();
 
-            // Aplică filtrarea folosind serviciul
+            // Apply filtering
             query = filterService.ApplyFilters(query, filters);
 
             var totalItems = await query.CountAsync();
-            var items = await query.Skip((pageNumber - 1) * pageSize)
-                                   .Take(pageSize)
-                                   .ToListAsync();
+            var items = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
 
             return new PaginatedList<Property>(items, totalItems, pageNumber, pageSize);
         }
@@ -40,7 +47,11 @@ namespace Infrastructure.Repositories
 
         public async Task<Result<Property>> GetByIdAsync(Guid id)
         {
-            var property = await context.Properties.FindAsync(id);
+            // Instead of context.Properties.FindAsync(id), do:
+            var property = await context.Properties
+                .Include(p => p.PropertyImages)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
             if (property == null)
             {
                 return Result<Property>.Failure("Property not found.");
@@ -48,6 +59,7 @@ namespace Infrastructure.Repositories
 
             return Result<Property>.Success(property);
         }
+
 
         public async Task<Result<Guid>> CreateAsync(Property property)
         {
@@ -137,39 +149,27 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<Result> RemoveImageAsync(Guid propertyId, Guid imageId)
+        public async Task<Result<PropertyImage>> GetImageByIdAsync(Guid imageId)
         {
-            try
+            var image = await context.PropertyImages.FirstOrDefaultAsync(x => x.Id == imageId);
+            if (image == null)
             {
-                // Load the property with images
-                var property = await context.Properties
-                    .Include(p => p.PropertyImages)
-                    .FirstOrDefaultAsync(p => p.Id == propertyId);
-
-                if (property == null)
-                {
-                    return Result.Failure("Property not found.");
-                }
-
-                // Find the image in that property
-                var image = property.PropertyImages.FirstOrDefault(i => i.Id == imageId);
-                if (image == null)
-                {
-                    return Result.Failure("Image not found or does not belong to this property.");
-                }
-
-                // Remove from the collection
-                property.PropertyImages.Remove(image);
-
-
-                // Save changes
-                await context.SaveChangesAsync();
-                return Result.Success();
+                return Result<PropertyImage>.Failure("Image not found!");
             }
-            catch (Exception ex)
+            return Result<PropertyImage>.Success(image);
+        }
+
+        public async Task<Result> RemoveImageAsync(Guid imageId)
+        {
+            var image = await context.PropertyImages.FirstOrDefaultAsync(x => x.Id == imageId);
+            if (image == null)
             {
-                return Result.Failure(ex.Message);
+                return Result.Failure("Image not found.");
             }
+
+            context.PropertyImages.Remove(image);
+            await context.SaveChangesAsync();
+            return Result.Success();
         }
     }
 }
