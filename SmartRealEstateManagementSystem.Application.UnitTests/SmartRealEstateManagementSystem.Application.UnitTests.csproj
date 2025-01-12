@@ -33,4 +33,16 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Application\CommandHandlers\Inquiry\" />
+    <Folder Include="Application\CommandHandlers\UserInformation\" />
+    <Folder Include="Application\AIML\" />
+    <Folder Include="Application\Authentication\" />
+    <Folder Include="Application\Utils\" />
+    <Folder Include="Application\QueryHandlers\Inquiry\" />
+    <Folder Include="Application\QueryHandlers\UserInformation\" />
+    <Folder Include="Infrastructure\Identity\" />
+    <Folder Include="Infrastructure\Infrastructure\" />
+  </ItemGroup>
+
 </Project>

@@ -1,11 +1,18 @@
-﻿using Application.Commands.Payment;
+﻿using Application.Commands.Inquiry;
+using Application.Commands.Payment;
 using Application.Commands.Property;
+using Application.Commands.User;
+using Application.Contracts.Inquiry;
 using Application.Contracts.Payment;
 using Application.Contracts.Property;
+using Application.Contracts.UserInformation;
 using Application.DTOs;
+using Application.Queries.Inquiry;
 using Application.Queries.Payment;
 using Application.Queries.Property;
+using Application.Queries.UserInformation;
 using Domain.Entities;
+using Domain.Types.Inquiry;
 using Domain.Types.Payment;
 using Domain.Types.Property;
 using Domain.Types.UserInformation;
@@ -52,21 +59,21 @@ namespace SmartRealEstateManagementSystem.Application.UnitTests.Utils
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
                 UserId = mockId,
-                User = CreateUser(mockId, "sampleuser", "sampleuser@example.com", "Sample", "User", "123 Sample Street", "123-456-7890", "Sample Nationality")
+                User = CreateUserInformation(mockId, "sampleuser", "sampleuser@example.com", "Sample", "User", "123 Sample Street", "123-456-7890", "Sample Nationality")
             };
         }
 
         public static UserInformation CreateSeller(Guid mockId)
         {
-            return CreateUser(mockId, "selleruser", "selleruser@example.com", "Seller", "User", "456 Seller Street", "987-654-3210", "Seller Nationality");
+            return CreateUserInformation(mockId, "selleruser", "selleruser@example.com", "Seller", "User", "456 Seller Street", "987-654-3210", "Seller Nationality");
         }
 
         public static UserInformation CreateBuyer(Guid mockId)
         {
-            return CreateUser(mockId, "buyeruser", "buyeruser@example.com", "Buyer", "User", "789 Buyer Street", "321-654-9870", "Buyer Nationality");
+            return CreateUserInformation(mockId, "buyeruser", "buyeruser@example.com", "Buyer", "User", "789 Buyer Street", "321-654-9870", "Buyer Nationality");
         }
 
-        public static UserInformation CreateUser(Guid mockId, string username, string email, string firstName, string lastName, string address, string phoneNumber, string nationality)
+        public static UserInformation CreateUserInformation(Guid mockId, string username, string email, string firstName, string lastName, string address, string phoneNumber, string nationality)
         {
             return new UserInformation
             {
@@ -81,6 +88,16 @@ namespace SmartRealEstateManagementSystem.Application.UnitTests.Utils
                 CreatedAt = DateTime.UtcNow,
                 Status = UserStatus.ACTIVE,
                 Role = UserRole.CLIENT
+            };
+        }
+
+        public static User CreateUser(Guid mockId, string email, string passwordHash)
+        {
+            return new User
+            {
+                Id = mockId,
+                Email = email,
+                PasswordHash = passwordHash
             };
         }
 
@@ -222,6 +239,181 @@ namespace SmartRealEstateManagementSystem.Application.UnitTests.Utils
         public static PaginatedList<Property> CreatePaginatedProperties(List<Property> properties, int pageNumber, int pageSize)
         {
             return new PaginatedList<Property>(properties, properties.Count, pageNumber, pageSize);
+        }
+        public static CreateCheckoutCommand CreateCheckoutCommand(Guid mockId)
+        {
+            return new CreateCheckoutCommand
+            {
+                Type = PaymentType.SALE,
+                Date = DateTime.UtcNow,
+                Price = 1000m,
+                Status = PaymentStatus.PENDING,
+                PaymentMethod = PaymentMethod.CREDIT_CARD,
+                PropertyId = mockId,
+                SellerId = mockId,
+                BuyerId = mockId,
+                SuccessUrl = "https://example.com/payment-success",
+                CancelUrl = "https://example.com/payment-cancel"
+            };
+        }
+        public static CreateInquiryCommand CreateInquiryCommand(Guid mockId)
+        {
+            return new CreateInquiryCommand
+            {
+                Message = "Sample inquiry message",
+                Status = InquiryStatus.PENDING,
+                PropertyId = mockId,
+                AgentId = mockId,
+                ClientId = mockId
+            };
+        }
+        public static Inquiry CreateInquiry(Guid mockId)
+        {
+            return new Inquiry
+            {
+                Id = mockId,
+                Message = "Sample inquiry message",
+                Status = InquiryStatus.PENDING,
+                CreatedAt = DateTime.UtcNow,
+                PropertyId = mockId,
+                Property = CreateProperty(mockId),
+                ClientId = mockId,
+                Client = CreateUserInformation(mockId, "clientuser", "clientuser@example.com", "Client", "User", "789 Client Street", "321-654-9870", "Client Nationality"),
+                AgentId = mockId,
+                Agent = CreateUserInformation(mockId, "agentuser", "agentuser@example.com", "Agent", "User", "456 Agent Street", "987-654-3210", "Agent Nationality")
+            };
+        }
+        public static UpdateInquiryCommand CreateUpdateInquiryCommand(Guid mockId)
+        {
+            return new UpdateInquiryCommand
+            {
+                Id = mockId,
+                Request = new UpdateInquiryRequest
+                {
+                    Message = "Updated inquiry message",
+                    CreatedAt = DateTime.UtcNow,
+                    Status = InquiryStatus.ANSWERED,
+                    PropertyId = mockId,
+                    ClientId = mockId,
+                    AgentId = mockId
+                }
+            };
+        }
+        public static CreateUserInformationCommand CreateUserInformationCommand(Guid mockId)
+        {
+            return new CreateUserInformationCommand
+            {
+                Email = "user@example.com",
+                Username = "username",
+                FirstName = "First",
+                LastName = "Last",
+                Address = "123 User Street",
+                PhoneNumber = "123-456-7890",
+                Nationality = "User Nationality",
+                Status = UserStatus.ACTIVE,
+                Role = UserRole.CLIENT,
+                Company = "User Company",
+                Type = "User Type"
+            };
+        }
+
+        public static UpdateUserInformationCommand CreateUpdateUserInformationCommand(Guid mockId)
+        {
+            return new UpdateUserInformationCommand
+            {
+                Id = mockId,
+                Request = new UpdateUserInformationRequest
+                {
+                    Email = "updateduser@example.com",
+                    Username = "updatedusername",
+                    FirstName = "UpdatedFirst",
+                    LastName = "UpdatedLast",
+                    Address = "456 Updated User Street",
+                    PhoneNumber = "987-654-3210",
+                    Nationality = "Updated User Nationality",
+                    Status = UserStatus.ACTIVE,
+                    Role = UserRole.CLIENT,
+                    Company = "Updated User Company",
+                    Type = "Updated User Type"
+                }
+            };
+        }
+
+        public static UserInformation CreateUserInformation(Guid mockId)
+        {
+            return new UserInformation
+            {
+                Id = mockId,
+                Email = "user@example.com",
+                Username = "username",
+                FirstName = "First",
+                LastName = "Last",
+                Address = "123 User Street",
+                PhoneNumber = "123-456-7890",
+                Nationality = "User Nationality",
+                CreatedAt = DateTime.UtcNow,
+                Status = UserStatus.ACTIVE,
+                Role = UserRole.CLIENT,
+                Company = "User Company",
+                Type = "User Type"
+            };
+        }
+        public static GetUserInformationByIdQuery CreateGetUserInformationByIdQuery(Guid mockId)
+        {
+            return new GetUserInformationByIdQuery
+            {
+                Id = mockId
+            };
+        }
+
+        public static GetAllUserInformationsQuery CreateGetAllUserInformationsQuery()
+        {
+            return new GetAllUserInformationsQuery();
+        }
+
+        public static UserDto CreateUserDto(UserInformation userInformation)
+        {
+            return new UserDto
+            {
+                Id = userInformation.Id,
+                Username = userInformation.Username,
+                Email = userInformation.Email,
+                FirstName = userInformation.FirstName,
+                LastName = userInformation.LastName,
+                Address = userInformation.Address,
+                PhoneNumber = userInformation.PhoneNumber,
+                Nationality = userInformation.Nationality,
+                CreatedAt = userInformation.CreatedAt,
+                LastLogin = userInformation.LastLogin,
+                Status = userInformation.Status,
+                Role = userInformation.Role
+            };
+        }
+        public static GetInquiryByIdQuery CreateGetInquiryByIdQuery(Guid mockId)
+        {
+            return new GetInquiryByIdQuery
+            {
+                Id = mockId
+            };
+        }
+
+        public static GetAllInquiriesQuery CreateGetAllInquiriesQuery()
+        {
+            return new GetAllInquiriesQuery();
+        }
+
+        public static InquiryDto CreateInquiryDto(Inquiry inquiry)
+        {
+            return new InquiryDto
+            {
+                Id = inquiry.Id,
+                PropertyId = inquiry.PropertyId,
+                AgentId = inquiry.AgentId,
+                ClientId = inquiry.ClientId,
+                Message = inquiry.Message,
+                Status = inquiry.Status,
+                CreatedAt = inquiry.CreatedAt
+            };
         }
     }
 }
