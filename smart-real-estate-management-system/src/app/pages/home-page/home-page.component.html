@@ -1,5 +1,7 @@
 <div class="home">
-  <h1>Home</h1>
+  <app-navbar *ngIf="!(isLogged() | async)"></app-navbar>
+
+  <!-- <h1>Home</h1>
   <button (click)="navigateToProperties()" *ngIf="isLogged() | async">
     Properties
   </button>
@@ -9,5 +11,14 @@
   <button (click)="navigateToLogin()" *ngIf="!(isLogged() | async)">
     Login
   </button>
-  <button (click)="logout()" *ngIf="isLogged() | async">Logout</button>
-</div>
+  <button (click)="logout()" *ngIf="isLogged() | async">Logout</button> -->
+
+  <div class="home" *ngIf="isLogged() | async">
+    <h1>Home</h1>
+    <button (click)="navigateToProperties()">
+      Properties
+    </button>
+    <button (click)="logout()">
+      Logout
+    </button>
+  </div>

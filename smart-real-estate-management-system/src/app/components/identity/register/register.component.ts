@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   errorMessage: string | null = null;
+  successMessage: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -23,13 +24,12 @@ export class RegisterComponent implements OnInit {
         password: ['', [Validators.required, Validators.minLength(8)]],
         confirmPassword: ['', [Validators.required, Validators.minLength(8)]]
       },
-      { validator: this.passwordMatchValidator }  // Validare personalizată
+      { validator: this.passwordMatchValidator } // Validare personalizată
     );
   }
 
   ngOnInit(): void {}
 
-  // Validator pentru confirmarea parolei
   passwordMatchValidator(form: FormGroup): { [key: string]: boolean } | null {
     const password = form.get('password');
     const confirmPassword = form.get('confirmPassword');
@@ -42,21 +42,33 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(): void {
     this.errorMessage = null;
+    this.successMessage = null;
 
     if (this.registerForm.valid) {
       const { email, password } = this.registerForm.value;
 
       this.registerService.register(email, password).subscribe({
-        next: () => {
-          console.log('User registered');
+        next: (response) => {
+          this.successMessage = 'Registration successful!';
+          this.clearMessagesAfterTimeout();
+          this.registerForm.reset(); // Resetează formularul după înregistrare
         },
         error: (error) => {
-          this.errorMessage = 'Registration failed. Please try again.';
-          console.error('Registration error:', error);
+          this.errorMessage = error.error?.message || 'Registration failed. Please try again.';
+          this.clearMessagesAfterTimeout();
         }
       });
     } else {
       this.errorMessage = 'Please fix validation errors before submitting.';
+      this.clearMessagesAfterTimeout();
     }
+  }
+
+  // Clear messages after 10 seconds
+  private clearMessagesAfterTimeout(): void {
+    setTimeout(() => {
+      this.successMessage = null;
+      this.errorMessage = null;
+    }, 10000);
   }
 }
