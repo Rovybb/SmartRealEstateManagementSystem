@@ -120,6 +120,12 @@ import { environment } from '../../environments/environment';
     return this.http.post<any>(url, formData, { headers });
   }
   
+  createCheckoutSession(body: any): Observable<any> {
+    const url = 'https://localhost:7146/api/v1/Payments/create-checkout-session';
+    const token = this.getTokenFromCookies();
+    const headers = { Authorization: `Bearer ${token}` };
   
+    return this.http.post<any>(url, body, { headers });
+  }
   
 }

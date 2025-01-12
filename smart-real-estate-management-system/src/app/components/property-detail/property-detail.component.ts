@@ -33,7 +33,7 @@ export class PropertyDetailComponent implements OnInit {
       this.propertyService.getPropertyById(propertyId).subscribe({
         next: (data) => {
           this.property = data;
-          this.images = data.imageUrls || []; // Utilizează `imageUrls` pentru imagini
+          this.images = data.imageUrls || [];
         },
         error: (error) => {
           this.errorMessage = 'Error fetching property details. Please try again.';
@@ -44,6 +44,15 @@ export class PropertyDetailComponent implements OnInit {
     } else {
       this.errorMessage = 'Property ID is missing!';
       this.router.navigate(['/properties']);
+    }
+  
+    // Verificăm parametrii URL-ului pentru statusul plății
+    const queryParams = new URLSearchParams(window.location.search);
+    const paymentStatus = queryParams.get('paymentStatus');
+    if (paymentStatus === 'success') {
+      this.paymentSuccess = true; // Afișăm modalul de succes
+    } else if (paymentStatus === 'cancel') {
+      alert('Payment was cancelled.');
     }
   }
 
@@ -99,22 +108,22 @@ export class PropertyDetailComponent implements OnInit {
 
 
   isInquiryPopupOpen: boolean = false; // Control pentru deschiderea modalului
-inquiryMessage: string = ''; // Mesajul trimis în Inquiry
+  inquiryMessage: string = ''; // Mesajul trimis în Inquiry
 
-openInquiryPopup(): void {
-  this.isInquiryPopupOpen = true; // Deschide modalul
-}
-
-closeInquiryPopup(): void {
-  this.isInquiryPopupOpen = false; // Închide modalul
-  this.inquiryMessage = ''; // Resetează mesajul
-}
-
-sendInquiry(): void {
-  if (!this.inquiryMessage.trim()) {
-    alert('Please write a message before sending.');
-    return;
+  openInquiryPopup(): void {
+    this.isInquiryPopupOpen = true; // Deschide modalul
   }
+
+  closeInquiryPopup(): void {
+    this.isInquiryPopupOpen = false; // Închide modalul
+    this.inquiryMessage = ''; // Resetează mesajul
+  }
+
+  sendInquiry(): void {
+    if (!this.inquiryMessage.trim()) {
+      alert('Please write a message before sending.');
+      return;
+    }
 
   const clientId = this.loginService.getUserId(); // Obține ID-ul utilizatorului
   if (!clientId) {
@@ -193,5 +202,57 @@ sendInquiry(): void {
       default:
         return 'UNKNOWN';
     }
-  }  
+  } 
+  
+  paymentSuccess: boolean = false; // Control pentru modalul de succes
+
+  closePaymentSuccessModal(): void {
+    this.paymentSuccess = false; // Închide modalul
+  }
+
+  makePayment(): void {
+    if (!this.property || !this.property.id || !this.property.userId) {
+      alert('Property or owner information is missing!');
+      return;
+    }
+
+    const buyerId = this.loginService.getUserId();
+    if (!buyerId) {
+      alert('You need to be logged in to make a payment.');
+      return;
+    }
+
+    const currentUrl = window.location.href; // URL-ul curent
+    const successUrl = `${currentUrl}?paymentStatus=success`;
+    const cancelUrl = `${currentUrl}?paymentStatus=cancel`;
+
+    const body = {
+      type: 0,
+      price: this.property.price,
+      date: new Date().toISOString(),
+      status: 1,
+      paymentMethod: 0,
+      propertyId: this.property.id,
+      sellerId: this.property.userId,
+      buyerId: buyerId,
+      successUrl: successUrl,
+      cancelUrl: cancelUrl,
+    };
+
+    this.propertyService.createCheckoutSession(body).subscribe({
+      next: (response) => {
+        if (response?.checkoutUrl) {
+          window.location.href = response.checkoutUrl; // Redirecționează către checkout
+        } else {
+          alert('Failed to create checkout session.');
+        }
+      },
+      error: (err) => {
+        console.error('Error creating checkout session:', err);
+        alert('Failed to create checkout session. Please try again.');
+      },
+    });
+  }
+
+
 }

@@ -73,4 +73,15 @@
       </div>
     </div>
   </div>
+
+  <div class="payment-button">
+    <button (click)="makePayment()">Make Payment</button>
+  </div>
+  
+  <div class="payment-success-modal" *ngIf="paymentSuccess">
+    <div class="payment-success-content">
+      <h2>Payment Successful!</h2>
+      <button (click)="closePaymentSuccessModal()">OK</button>
+    </div>
+  </div>
 </div>
