@@ -127,5 +127,13 @@ import { environment } from '../../environments/environment';
   
     return this.http.post<any>(url, body, { headers });
   }
+
+  predictPrice(body: any): Observable<any> {
+    const url = 'https://localhost:7146/api/v1/PropertyPricePrediction/predict';
+    const token = this.getTokenFromCookies();
+    const headers = { Authorization: `Bearer ${token}` };
+  
+    return this.http.post<any>(url, body, { headers });
+  }
   
 }

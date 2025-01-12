@@ -5,6 +5,8 @@ import { Property } from '../../models/property.model'; // Import modelul Proper
 import { CommonModule } from '@angular/common';
 import { LoginService } from '../../services/identity/login.service'; // Import LoginService
 import { FormsModule } from '@angular/forms';
+import { ChangeDetectorRef } from '@angular/core';
+
 
 @Component({
   selector: 'app-property-detail',
@@ -24,16 +26,24 @@ export class PropertyDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private propertyService: PropertyService,
     private router: Router,
-    private loginService: LoginService // Adaugă LoginService
+    private loginService: LoginService, // Adaugă LoginService
+    private cdr: ChangeDetectorRef
   ) {}
+
+  recommendedPrice: number | null = null; // Store the recommended price
+  loggedInUserId: string | null = null; // Store the logged-in user's ID
+
 
   ngOnInit(): void {
     const propertyId = this.route.snapshot.paramMap.get('id');
+    this.loggedInUserId = this.loginService.getUserId(); // Get the logged-in user's ID
+  
     if (propertyId) {
       this.propertyService.getPropertyById(propertyId).subscribe({
         next: (data) => {
           this.property = data;
           this.images = data.imageUrls || [];
+          this.fetchRecommendedPrice(); // Fetch the recommended price after property data is loaded
         },
         error: (error) => {
           this.errorMessage = 'Error fetching property details. Please try again.';
@@ -46,15 +56,61 @@ export class PropertyDetailComponent implements OnInit {
       this.router.navigate(['/properties']);
     }
   
-    // Verificăm parametrii URL-ului pentru statusul plății
+    // Check payment status
     const queryParams = new URLSearchParams(window.location.search);
     const paymentStatus = queryParams.get('paymentStatus');
     if (paymentStatus === 'success') {
-      this.paymentSuccess = true; // Afișăm modalul de succes
+      this.paymentSuccess = true;
     } else if (paymentStatus === 'cancel') {
       alert('Payment was cancelled.');
     }
   }
+
+fetchRecommendedPrice(): void {
+  if (!this.property) {
+    console.error('Property is null or undefined. Cannot fetch recommended price.');
+    return;
+  }
+
+  const body = {
+    price: this.property.price ?? 0,
+    city: this.property.address ?? '',
+    location: 'string',
+    roomsNr: this.property.rooms ?? 0,
+    surface: this.property.area ?? 0,
+  };
+
+  console.log('Request body for prediction:', body);
+
+  this.propertyService.predictPrice(body).subscribe({
+    next: (response) => {
+      console.log('Recommended price response:', response);
+
+      const predictedPrice = response;
+      if (typeof predictedPrice !== 'number') {
+        console.error('Invalid predicted price in response.');
+        return;
+      }
+
+      // Ensure recommendedPrice is always >= property.price
+      this.recommendedPrice =
+        this.property?.price && this.property.price > predictedPrice
+          ? this.property.price
+          : predictedPrice;
+
+      console.log('Updated recommended price:', this.recommendedPrice);
+
+      // Trigger UI update
+      this.cdr.detectChanges();
+    },
+    error: (error) => {
+      console.error('Error fetching recommended price:', error);
+      this.recommendedPrice = null;
+    },
+  });
+}
+
+
 
   onImageUpload(event: Event): void {
     const propertyId = this.property?.id;
