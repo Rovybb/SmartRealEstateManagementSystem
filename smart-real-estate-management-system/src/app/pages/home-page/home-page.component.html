@@ -12,13 +12,18 @@
     Login
   </button>
   <button (click)="logout()" *ngIf="isLogged() | async">Logout</button> -->
+  <app-navbar-home *ngIf="(isLogged() | async)"></app-navbar-home>
 
-  <div class="home" *ngIf="isLogged() | async">
-    <h1>Home</h1>
-    <button (click)="navigateToProperties()">
-      Properties
-    </button>
-    <button (click)="logout()">
-      Logout
-    </button>
+  
+<div id="Home" class="hero-section">
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+        <h1>Welcome back!</h1>
+        <p>
+            Anything for rent today?
+        </p>
+        <!-- <a href="#Category" class="cta-button">Browse Listings</a> -->
+    </div>
+</div>
   </div>

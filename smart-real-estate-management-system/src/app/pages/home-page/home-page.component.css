@@ -11,7 +11,7 @@
 
 .home h1 {
   font-size: 24px;
-  color: #333;
+  color: #ffffff;
   text-align: center;
   margin-bottom: 20px;
 }
@@ -32,4 +32,46 @@ button {
 
 button:hover {
   background-color: #0056b3;
+}
+
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* înălțime cât ecranul */
+  background: url("../../../assets/images/backg.png") no-repeat center center;
+  background-size: cover;
+  display: flex;
+  align-items: center;        /* Aliniere verticală */
+  justify-content: center;    /* Aliniere orizontală */
+  text-align: center;
+  color: #fff;
+  padding-top: 75px; /* Lasă spațiu pentru navbar */
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2; /* Deasupra overlay-ului */
+  max-width: 700px;
+  padding: 0 20px;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.hero-content p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  line-height: 1.5;
 }
