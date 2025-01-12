@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SmartRealEstateManagementSystem.Controllers
 {
+    [AuthorizeIfNotTest]
     [Route("api/v1/[controller]")]
     [ApiController]
-    [Authorize]
     public class PaymentsController : ControllerBase
     {
         private readonly IMediator mediator;
