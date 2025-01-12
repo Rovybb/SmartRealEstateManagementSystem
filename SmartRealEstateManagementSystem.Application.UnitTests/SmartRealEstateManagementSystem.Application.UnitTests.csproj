@@ -15,6 +15,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageReference Include="xunit" Version="2.9.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
@@ -26,11 +27,24 @@
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Identity\Identity.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Application\CommandHandlers\Inquiry\" />
+    <Folder Include="Application\CommandHandlers\UserInformation\" />
+    <Folder Include="Application\AIML\" />
+    <Folder Include="Application\Authentication\" />
+    <Folder Include="Application\Utils\" />
+    <Folder Include="Application\QueryHandlers\Inquiry\" />
+    <Folder Include="Application\QueryHandlers\UserInformation\" />
+    <Folder Include="Infrastructure\Identity\" />
+    <Folder Include="Infrastructure\Infrastructure\" />
   </ItemGroup>
 
 </Project>
