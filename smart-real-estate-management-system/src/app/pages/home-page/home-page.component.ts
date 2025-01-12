@@ -8,6 +8,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 // Importul NavbarComponent
 import { NavbarComponent } from "../../components/navbar/navbar.component";
+import { NavbarHomeComponent } from "../../components/navbar-home/navbar-home.component";
 
 @Component({
   selector: 'app-home',
@@ -18,8 +19,9 @@ import { NavbarComponent } from "../../components/navbar/navbar.component";
     MatSidenavModule,
     MatToolbarModule,
     MatButtonModule,
-    NavbarComponent
-  ],
+    NavbarComponent,
+    NavbarHomeComponent
+],
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css'],
 })
