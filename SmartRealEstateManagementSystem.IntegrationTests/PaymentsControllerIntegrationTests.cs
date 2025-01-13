@@ -12,10 +12,8 @@ using Application.Commands.Payment;
 using Application.Contracts.Payment;
 using Application.DTOs;
 using Microsoft.AspNetCore.Hosting;
-using Google.Apis.Util;
 using System.Net;
-using Google;
-using FluentAssertions.Common;
+
 
 namespace SmartRealEstateManagementSystem.IntegrationTests
 {
@@ -106,6 +104,19 @@ namespace SmartRealEstateManagementSystem.IntegrationTests
         }
 
         [Fact]
+        public async Task GivenExistingPayments_WhenGetAllIsCalled_ThenReturnsPayments()
+        {
+            SeedAll();
+            var response = await client.GetAsync(BaseUrl);
+            response.EnsureSuccessStatusCode();
+
+            var payments = await response.Content.ReadFromJsonAsync<List<PaymentDto>>();
+            payments.Should().NotBeNull();
+            payments.Should().HaveCount(1);
+            payments.First().Id.Should().Be(PaymentId);
+        }
+
+        [Fact]
         public async Task GivenExistingPayment_WhenDeleteIsCalled_ThenRemovesPaymentFromDatabase()
         {
             SeedAll();
@@ -132,6 +143,33 @@ namespace SmartRealEstateManagementSystem.IntegrationTests
 
             var response = await client.PutAsJsonAsync($"{BaseUrl}/{PaymentId}", request);
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        [Fact]
+        public async Task GivenValidCheckoutData_WhenCreateCheckoutIsCalled_ThenPaymentIsCreated()
+        {
+            SeedUsersAndProperty();
+            var command = new CreateCheckoutCommand
+            {
+                Type = PaymentType.SALE,
+                Date = DateTime.UtcNow,
+                Price = 999.99m,
+                Status = PaymentStatus.PENDING,
+                PaymentMethod = PaymentMethod.CREDIT_CARD,
+                PropertyId = PropertyId,
+                SellerId = SellerId,
+                BuyerId = BuyerId
+            };
+            var response = await client.PostAsJsonAsync($"{BaseUrl}/create-checkout-session", command);
+            response.EnsureSuccessStatusCode();
+            var paymentInDb = await _dbContext.Payments.FirstOrDefaultAsync();
+            paymentInDb.Should().NotBeNull();
+            paymentInDb!.Price.Should().Be(999.99m);
+            paymentInDb!.SellerId.Should().Be(SellerId);
+            paymentInDb!.BuyerId.Should().Be(BuyerId);
+            paymentInDb!.PropertyId.Should().Be(PropertyId);
+            paymentInDb!.Type.Should().Be(PaymentType.SALE);
+            paymentInDb!.Status.Should().Be(PaymentStatus.PENDING);
         }
 
         public void Dispose()
