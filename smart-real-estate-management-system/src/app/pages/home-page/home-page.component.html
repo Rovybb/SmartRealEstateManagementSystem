@@ -1,17 +1,5 @@
 <div class="home">
   <app-navbar *ngIf="!(isLogged() | async)"></app-navbar>
-
-  <!-- <h1>Home</h1>
-  <button (click)="navigateToProperties()" *ngIf="isLogged() | async">
-    Properties
-  </button>
-  <button (click)="navigateToRegister()" *ngIf="!(isLogged() | async)">
-    Register
-  </button>
-  <button (click)="navigateToLogin()" *ngIf="!(isLogged() | async)">
-    Login
-  </button>
-  <button (click)="logout()" *ngIf="isLogged() | async">Logout</button> -->
   <app-navbar-home *ngIf="(isLogged() | async)"></app-navbar-home>
 
   
@@ -23,7 +11,6 @@
         <p>
             Anything for rent today?
         </p>
-        <!-- <a href="#Category" class="cta-button">Browse Listings</a> -->
     </div>
 </div>
   </div>

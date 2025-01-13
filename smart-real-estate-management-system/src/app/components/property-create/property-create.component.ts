@@ -5,7 +5,7 @@ import { PropertyService } from '../../services/property.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import {jwtDecode} from 'jwt-decode';
-import { NavbarHomeComponent } from "../navbar-home/navbar-home.component";
+import { NavbarHomeComponent } from '../navbar-home/navbar-home.component';
 
 @Component({
   selector: 'app-property-create',
