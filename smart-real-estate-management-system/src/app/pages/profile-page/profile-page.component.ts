@@ -1,3 +1,4 @@
+// profile-page.component.ts
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/identity/login.service';
@@ -7,6 +8,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { NavbarComponent } from "../../components/navbar/navbar.component";
+import { Observable } from 'rxjs';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog'; // Import MatDialog
+import { UpdateUserDialogComponent } from '../../components/update-user-dialog/update-user-dialog.component'; // Adjust the path as needed
 
 @Component({
   selector: 'app-profile-page',
@@ -16,7 +20,9 @@ import { NavbarComponent } from "../../components/navbar/navbar.component";
     MatSidenavModule,
     MatToolbarModule,
     MatButtonModule,
-    NavbarComponent
+    MatDialogModule, // Import MatDialogModule
+    NavbarComponent,
+    UpdateUserDialogComponent // Include the dialog component
   ],
   templateUrl: './profile-page.component.html',
   styleUrls: ['./profile-page.component.css'],
@@ -30,7 +36,8 @@ export class ProfilePageComponent implements OnInit {
   constructor(
     private router: Router,
     private loginService: LoginService,
-    private userInformationService: UserInformationService
+    private userInformationService: UserInformationService,
+    private dialog: MatDialog // Inject MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -76,11 +83,33 @@ export class ProfilePageComponent implements OnInit {
     this.router.navigate(['auth/register']);
   }
 
+  isLogged(): Observable<boolean> {
+    return this.loginService.isAuthenticated();
+  }
+
   navigateToLogin() {
     this.router.navigate(['auth/login']);
   }
 
   logout() {
     this.loginService.logout();
+  }
+
+  openUpdateDialog(): void {
+    if (!this.user) {
+      return;
+    }
+
+    const dialogRef = this.dialog.open(UpdateUserDialogComponent, {
+      width: '500px',
+      data: this.user, // Pass current user data to the dialog, including id
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // If the dialog was closed after a successful update, refresh user data
+        this.fetchUserInformation();
+      }
+    });
   }
 }
