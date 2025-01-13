@@ -11,7 +11,7 @@ namespace SmartRealEstateManagementSystem.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    [Authorize]
+    [AuthorizeIfNotTest]
     public class PropertiesController : ControllerBase
     {
         private readonly IMediator mediator;

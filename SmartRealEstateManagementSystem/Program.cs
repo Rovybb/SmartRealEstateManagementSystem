@@ -68,23 +68,25 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// If you have a pre-trained model, just load it here. If not, train it.
-// Assuming you want to train at startup from properties.csv:
-var predictionModel = new PropertyPricePredictionModel();
+if (!builder.Environment.IsEnvironment("Test"))
+{
+    // If you have a pre-trained model, just load it here. If not, train it.
+    // Assuming you want to train at startup from properties.csv:
+    var predictionModel = new PropertyPricePredictionModel();
 
-// Make sure properties.csv is accessible. For example, if it's in src/Data and copied to output, 
-// you can reference it directly as "Data/properties.csv" if Data folder is also copied to output directory.
-var dataPath = @"C:\Users\ghiar\Desktop\.NET\SmartRealEstateManagementSystem\Application\AIML\Data\properties_cleaned.csv";
+    // Make sure properties.csv is accessible. For example, if it's in src/Data and copied to output, 
+    // you can reference it directly as "Data/properties.csv" if Data folder is also copied to output directory.
+    var dataPath = @"C:\Users\flavi\Source\Repos\SmartRealEstateManagementSystem\Application\AIML\Data\properties_cleaned.csv";
+    // Make sure properties.csv is accessible. For example, if it's in src/Data and copied to output, 
+    // you can reference it directly as "Data/properties.csv" if Data folder is also copied to output directory.
+    var dataPath = @"C:\Users\ghiar\Desktop\.NET\SmartRealEstateManagementSystem\Application\AIML\Data\properties_cleaned.csv";
 
-// Train the model at startup (only do this if you don't have a pre-trained model.zip)
-predictionModel.Train(dataPath);
+    // Train the model at startup (only do this if you don't have a pre-trained model.zip)
+    predictionModel.Train(dataPath);
 
-// Optionally, save the trained model so next time you can just load it:
-var modelPath = @"C:\Users\ghiar\Desktop\.NET\SmartRealEstateManagementSystem\Application\AIML\Data\model.zip";
-predictionModel.SaveModel(modelPath);
-
-// Register the model as a singleton so the controller can use it:
-builder.Services.AddSingleton(predictionModel);
+    // Register the model as a singleton so the controller can use it:
+    builder.Services.AddSingleton(predictionModel);
+}
 
 var app = builder.Build();
 
