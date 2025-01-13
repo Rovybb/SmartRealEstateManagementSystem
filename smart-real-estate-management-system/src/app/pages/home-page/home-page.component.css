@@ -1,11 +1,8 @@
 .home {
   max-width: 100%;
-  margin: 20px auto;
-  padding: 20px;
   font-family: Arial, sans-serif;
   background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border: 5px solid #21174b;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -45,7 +42,7 @@ button:hover {
   justify-content: center;    /* Aliniere orizontală */
   text-align: center;
   color: #fff;
-  padding-top: 75px; /* Lasă spațiu pentru navbar */
+  padding-top: 50px; /* Lasă spațiu pentru navbar */
 }
 
 .hero-overlay {
