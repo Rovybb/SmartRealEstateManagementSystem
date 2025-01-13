@@ -5,10 +5,11 @@ import { PropertyService } from '../../services/property.service';
 import { Router } from '@angular/router';
 import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NavbarHomeComponent } from "../navbar-home/navbar-home.component";
 
 @Component({
   selector: 'app-property-list',
-  imports: [NgFor, FormsModule],
+  imports: [NgFor, FormsModule, NavbarHomeComponent],
   templateUrl: './property-list.component.html',
   styleUrl: './property-list.component.css'
 })

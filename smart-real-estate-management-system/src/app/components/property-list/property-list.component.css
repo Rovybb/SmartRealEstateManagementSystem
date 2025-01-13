@@ -2,6 +2,25 @@
   width: 97.5%;
   margin: 0 auto;
 }
+.property-management-container {
+  width: 98%;
+  margin: 0 auto;
+  padding-top: 80px; /* Adaugă spațiu între navbar și conținut */
+}
+
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* înălțime cât ecranul */
+  background: url("../../../assets/images/properties.jpg") no-repeat center center;
+  background-size: cover;
+  display: flex;
+  align-items: center;        /* Aliniere verticală */
+  justify-content: center;    /* Aliniere orizontală */
+  text-align: center;
+  color: #fff;
+  padding-top: 50px; /* Lasă spațiu pentru navbar */
+}
 
 h1 {
   font-size: 32px;

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { LoginService } from '../../services/identity/login.service';
 
 @Component({
   selector: 'app-navbar-home',
@@ -7,5 +9,8 @@ import { Component } from '@angular/core';
   styleUrl: './navbar-home.component.css'
 })
 export class NavbarHomeComponent {
-
+constructor(private router: Router, private loginService: LoginService) {}
+  logout() {
+    this.loginService.logout();
+  }
 }
