@@ -6,27 +6,22 @@ import { Router } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PropertyStatus, PropertyType } from '../../models/property.model';
 
-/**
- * Dacă ai deja un model Property, importă-l direct.
- * Altfel, definiți local o variantă minimală pentru exemplu.
- */
 export interface Property {
-  id: string; // Dacă id-ul este generat automat, poate fi opțional
+  id: string;
   title: string;
   description: string;
-  status: PropertyStatus; // ENUM pentru status
-  type: PropertyType; // ENUM pentru tipul proprietății
+  status: PropertyStatus;
+  type: PropertyType;
   price: number;
   address: string;
   area: number;
   rooms: number;
   bathrooms: number;
   constructionYear: number;
-  userId: string; // Identificatorul utilizatorului
-  createdAt: Date; // Data creării proprietății
-  updatedAt: Date; // Data actualizării proprietății
+  userId: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
-
 
 describe('PropertyListComponent', () => {
   let component: PropertyListComponent;
@@ -35,15 +30,12 @@ describe('PropertyListComponent', () => {
   let routerSpy: jasmine.SpyObj<Router>;
 
   beforeEach(async () => {
-    // Cream spy-uri pentru serviciile folosite de componentă.
     const propertyServiceMock = jasmine.createSpyObj('PropertyService', ['getPropertiesWithPagination']);
     const routerMock = jasmine.createSpyObj('Router', ['navigate']);
 
-    // Configurăm metoda getPropertiesWithPagination să returneze un Observable valid, pentru a evita erorile la subscribe
     propertyServiceMock.getPropertiesWithPagination.and.returnValue(of({ items: [], totalPages: 0 }));
 
     await TestBed.configureTestingModule({
-      // Deoarece PropertyListComponent este standalone, îl importăm în array-ul imports
       imports: [PropertyListComponent, HttpClientTestingModule],
       providers: [
         { provide: PropertyService, useValue: propertyServiceMock },
@@ -56,7 +48,7 @@ describe('PropertyListComponent', () => {
     propertyServiceSpy = TestBed.inject(PropertyService) as jasmine.SpyObj<PropertyService>;
     routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
 
-    fixture.detectChanges(); // Inițializează componenta și declanșează ngOnInit
+    fixture.detectChanges();
   });
 
   it('should create the component', () => {
@@ -65,17 +57,15 @@ describe('PropertyListComponent', () => {
 
   describe('loadProperties', () => {
     it('should call getPropertiesWithPagination with processed filters and update component data', () => {
-      // Simulăm un răspuns de la serviciu cu datele așteptate
       const mockResponse = {
         items: [
-          { id: 1, title: 'Test Property', price: 100 }
+          { id: '1', title: 'Test Property', price: 100 }
         ],
         totalPages: 3
       };
 
       propertyServiceSpy.getPropertiesWithPagination.and.returnValue(of(mockResponse));
 
-      // Setăm câteva filtre; doar cele nenule și diferite de string gol vor fi procesate
       component.filters = {
         title: 'House',
         price_min: null,
@@ -83,17 +73,14 @@ describe('PropertyListComponent', () => {
         description: 'Nice property'
       };
 
-      // Apelăm metoda loadProperties
       component.loadProperties();
 
-      // Verificăm apelul serviciului cu parametrii corecți
       expect(propertyServiceSpy.getPropertiesWithPagination).toHaveBeenCalledWith(
-        component.pageNumber,  // de regulă 1 inițial
-        component.pageSize,    // exemplu
+        component.pageNumber,
+        component.pageSize,
         { title: 'House', description: 'Nice property' }
       );
 
-      // Verificăm actualizarea datelor în componentă
       expect(component.properties.length).toBe(1);
       expect(component.totalPages).toBe(3);
     });
@@ -107,31 +94,29 @@ describe('PropertyListComponent', () => {
 
     it('should navigate to property details when viewDetails is called', () => {
       const testProperty: Property = {
-        id: '6fa459ea-ee8a-3ca4-894e-db77e160355e', // `id` este de tip string conform interfeței
+        id: '6fa459ea-ee8a-3ca4-894e-db77e160355e',
         title: 'Test',
         description: 'Test description',
-        status: PropertyStatus.AVAILABLE, // Sau orice altă valoare validă din enum
-        type: PropertyType.APARTMENT, // Sau orice altă valoare validă din enum
+        status: PropertyStatus.AVAILABLE,
+        type: PropertyType.APARTMENT,
         price: 999,
         address: '123 Test St',
         area: 100,
         rooms: 3,
         bathrooms: 2,
-        createdAt: new Date(),
-        updatedAt: new Date(),
         constructionYear: 2020,
-        userId: '6fa459ea-ee8a-3ca4-894e-db77e160355e'
+        userId: '6fa459ea-ee8a-3ca4-894e-db77e160355e',
+        createdAt: new Date(),
+        updatedAt: new Date()
       };
-      
-      // Apelăm metoda viewDetails cu un obiect de test
+
       component.viewDetails(testProperty);
-      expect(routerSpy.navigate).toHaveBeenCalledWith(['/properties/property-details', 10]);
+      expect(routerSpy.navigate).toHaveBeenCalledWith(['/properties/property-details', testProperty.id]);
     });
   });
 
   describe('filters', () => {
     beforeEach(() => {
-      // Spionăm metoda loadProperties pentru a verifica că este apelată
       spyOn(component, 'loadProperties');
     });
 
@@ -167,7 +152,7 @@ describe('PropertyListComponent', () => {
   describe('pagination methods', () => {
     beforeEach(() => {
       spyOn(component, 'loadProperties');
-      component.totalPages = 5; // Setăm un total de pagini pentru teste
+      component.totalPages = 5;
     });
 
     it('goToPage should change pageNumber and call loadProperties if page is valid', () => {
@@ -178,7 +163,7 @@ describe('PropertyListComponent', () => {
 
     it('goToPage should not call loadProperties if page is outside the range', () => {
       component.pageNumber = 2;
-      component.goToPage(10); // 10 > totalPages
+      component.goToPage(10);
       expect(component.pageNumber).toBe(2);
       expect(component.loadProperties).not.toHaveBeenCalled();
     });
