@@ -6,12 +6,13 @@ import { CommonModule } from '@angular/common';
 import { LoginService } from '../../services/identity/login.service'; // Import LoginService
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
+import { NavbarHomeComponent } from '../navbar-home/navbar-home.component';
 
 
 @Component({
   selector: 'app-property-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NavbarHomeComponent],
   templateUrl: './property-detail.component.html',
   styleUrls: ['./property-detail.component.css']
 })
