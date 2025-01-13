@@ -1,59 +1,62 @@
-<h1>Property List</h1>
-<button (click)="navigateToCreate()">Create New Property</button>
+<div class="property-management-container">
+    <app-navbar-home></app-navbar-home>
+    <h1>Property List</h1>
+    <button (click)="navigateToCreate()">Create New Property</button>
 
-<!-- Filter Form -->
-<div class="filter-container">
-    <form (ngSubmit)="applyFilters()" #filterForm="ngForm">
-      <label for="title">Title:</label>
-      <input type="text" id="title" [(ngModel)]="filters['title']" name="title">
-  
-      <label for="description">Description:</label>
-      <input type="text" id="description" [(ngModel)]="filters['description']" name="description">
-  
-      <label for="price_min">Min Price:</label>
-      <input type="number" id="price_min" [(ngModel)]="filters['price_min']" name="price_min">
-  
-      <label for="price_max">Max Price:</label>
-      <input type="number" id="price_max" [(ngModel)]="filters['price_max']" name="price_max">
-  
-      <button type="submit">Apply Filters</button>
-      <button type="button" (click)="resetFilters()">Reset</button>
-    </form>
-  </div>
+    <!-- Filter Form -->
+    <div class="filter-container">
+        <form (ngSubmit)="applyFilters()" #filterForm="ngForm">
+            <label for="title">Title:</label>
+            <input type="text" id="title" [(ngModel)]="filters['title']" name="title">
 
-<table class="tableAllProperties">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Type</th>
-            <th>Status</th>
-            <th>Price</th>
-            <th>Area</th>
-            <th class="actions-column">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let property of properties">
-            <td>{{ property.title }}</td>
-            <td>{{ property.description }}</td>
-            <td>{{ property.type }}</td>
-            <td>{{ property.status }}</td>
-            <td>{{ property.price }}</td>
-            <td>{{ property.area }}</td>
-            <td>
-                <button (click)="viewDetails(property)" class="btn-view-details">View All Details</button>
-            </td>
-        </tr>
-    </tbody>
-</table>
+            <label for="description">Description:</label>
+            <input type="text" id="description" [(ngModel)]="filters['description']" name="description">
 
-<div class="pagination-controls">
-    <button (click)="previousPage()" [disabled]="pageNumber === 1">Previous</button>
-    <button *ngFor="let page of [].constructor(totalPages); let i = index"
-            [class.active]="i + 1 === pageNumber"
-            (click)="goToPage(i + 1)">
-        {{ i + 1 }}
-    </button>
-    <button (click)="nextPage()" [disabled]="pageNumber === totalPages">Next</button>
+            <label for="price_min">Min Price:</label>
+            <input type="number" id="price_min" [(ngModel)]="filters['price_min']" name="price_min">
+
+            <label for="price_max">Max Price:</label>
+            <input type="number" id="price_max" [(ngModel)]="filters['price_max']" name="price_max">
+
+            <button type="submit">Apply Filters</button>
+            <button type="button" (click)="resetFilters()">Reset</button>
+        </form>
+    </div>
+
+    <table class="tableAllProperties">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Price</th>
+                <th>Area</th>
+                <th class="actions-column">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let property of properties">
+                <td>{{ property.title }}</td>
+                <td>{{ property.description }}</td>
+                <td>{{ property.type }}</td>
+                <td>{{ property.status }}</td>
+                <td>{{ property.price }}</td>
+                <td>{{ property.area }}</td>
+                <td>
+                    <button (click)="viewDetails(property)" class="btn-view-details">View All Details</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination-controls">
+        <button (click)="previousPage()" [disabled]="pageNumber === 1">Previous</button>
+        <button *ngFor="let page of [].constructor(totalPages); let i = index"
+                [class.active]="i + 1 === pageNumber"
+                (click)="goToPage(i + 1)">
+            {{ i + 1 }}
+        </button>
+        <button (click)="nextPage()" [disabled]="pageNumber === totalPages">Next</button>
+    </div>
 </div>

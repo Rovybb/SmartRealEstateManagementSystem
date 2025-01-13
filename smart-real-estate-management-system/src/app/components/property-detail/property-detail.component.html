@@ -1,4 +1,7 @@
+<app-navbar-home></app-navbar-home>
+
 <div class="property-detail">
+  
   <h1>Property Details</h1>
   <div *ngIf="errorMessage" class="error">
     {{ errorMessage }}
@@ -35,6 +38,12 @@
       <p><strong>Status:</strong> {{ getPropertyStatus(property.status) }}</p>
       <p><strong>Type:</strong> {{ getPropertyType(property.type) }}</p>
       <p><strong>Price:</strong> {{ property.price | currency }}</p>
+      <p><strong>Recommended Price:</strong>
+        <span *ngIf="recommendedPrice !== null; else loading">
+          {{ recommendedPrice | currency }}
+        </span>
+        <ng-template #loading>Loading recommended price...</ng-template>
+      </p>
       <p><strong>Address:</strong> {{ property.address }}</p>
       <p><strong>Area:</strong> {{ property.area }} sqm</p>
       <p><strong>Rooms:</strong> {{ property.rooms }}</p>
@@ -53,10 +62,25 @@
 
   
 
-    <div class="button-container">
+    <div class="button-container" *ngIf="property?.userId === loggedInUserId">
       <button class="update" (click)="navigateToUpdate(property)">Update</button>
       <button class="delete" (click)="deleteProperty(property)">Delete</button>
+    </div>
+  
+    <!-- Inquiry Button -->
+    <div class="button-container">
       <button class="inquiry" (click)="openInquiryPopup()">Inquiry</button>
+    </div>
+
+    <div class="payment-button">
+      <button (click)="makePayment()">Make Payment</button>
+    </div>
+    
+    <div class="payment-success-modal" *ngIf="paymentSuccess">
+      <div class="payment-success-content">
+        <h2>Payment Successful!</h2>
+        <button (click)="closePaymentSuccessModal()">OK</button>
+      </div>
     </div>
 
     <button (click)="goBack()">Back to Properties</button>
@@ -74,14 +98,5 @@
     </div>
   </div>
 
-  <div class="payment-button">
-    <button (click)="makePayment()">Make Payment</button>
-  </div>
-  
-  <div class="payment-success-modal" *ngIf="paymentSuccess">
-    <div class="payment-success-content">
-      <h2>Payment Successful!</h2>
-      <button (click)="closePaymentSuccessModal()">OK</button>
-    </div>
-  </div>
+ 
 </div>
