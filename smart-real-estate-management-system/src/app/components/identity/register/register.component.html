@@ -1,25 +1,7 @@
 <div class="register-form">
-
-  <!-- Navigation Bar -->
-  <nav>
-    <div class="navbar">
-      <div class="logo">
-        <a href="#">Smart Real Estate 🏠</a>
-      </div>
-      <ul class="menu">
-        <li><a href="#Home">Home</a></li>
-        <li><a href="#About">About</a></li>
-        <li><a href="auth/login">Login</a></li>
-        <li><a href="auth/register" class="active">Join Us</a></li>
-      </ul>
-    </div>
-  </nav>
-
-  <!-- Register Form -->
   <div class="form-container">
     <h1>Register</h1>
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <!-- Email Field -->
       <div class="form-group">
         <label for="email">Email</label>
         <input 
@@ -37,8 +19,6 @@
           </small>
         </div>
       </div>
-
-      <!-- Password Field -->
       <div class="form-group">
         <label for="password">Password</label>
         <input 
@@ -56,8 +36,6 @@
           </small>
         </div>
       </div>
-
-      <!-- Confirm Password Field -->
       <div class="form-group">
         <label for="confirmPassword">Confirm Password</label>
         <input 
@@ -78,8 +56,6 @@
           </small>
         </div>
       </div>
-
-      <!-- Submit Button -->
       <button 
         type="submit" 
         [disabled]="registerForm.invalid" 
@@ -89,8 +65,6 @@
       </button>
     </form>
   </div>
-
-  <!-- Error Message -->
   <div *ngIf="errorMessage" class="form-error">
     <p>{{ errorMessage }}</p>
   </div>
