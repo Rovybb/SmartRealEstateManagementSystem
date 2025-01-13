@@ -1,34 +1,21 @@
 <div class="login-form">
-
-  <!-- Navigation Bar -->
-  <nav>
-    <div class="navbar">
-      <div class="logo">
-        <a href="#">Smart Real Estate 🏠</a>
-      </div>
-      <ul class="menu">
-        <li><a href="#Home">Home</a></li>
-        <li><a href="#About">About</a></li>
-        <li><a href="auth/login" class="active">Login</a></li>
-        <li><a href="auth/register">Join Us</a></li>
-      </ul>
-    </div>
-  </nav>
-
-  <!-- Login Form -->
   <div class="form-container">
     <h1>Login</h1>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <!-- Email Field -->
       <div class="form-group">
         <label for="email">Email</label>
-        <input 
-          id="email" 
-          type="email" 
-          formControlName="email" 
-          placeholder="Enter your email" 
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="Enter your email"
         />
-        <div class="error" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+        <div
+          class="error"
+          *ngIf="
+            loginForm.get('email')?.touched && loginForm.get('email')?.invalid
+          "
+        >
           <small *ngIf="loginForm.get('email')?.hasError('required')">
             Email is required.
           </small>
@@ -37,17 +24,21 @@
           </small>
         </div>
       </div>
-
-      <!-- Password Field -->
       <div class="form-group">
         <label for="password">Password</label>
-        <input 
-          id="password" 
-          type="password" 
-          formControlName="password" 
-          placeholder="Enter your password" 
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Enter your password"
         />
-        <div class="error" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+        <div
+          class="error"
+          *ngIf="
+            loginForm.get('password')?.touched &&
+            loginForm.get('password')?.invalid
+          "
+        >
           <small *ngIf="loginForm.get('password')?.hasError('required')">
             Password is required.
           </small>
@@ -56,18 +47,10 @@
           </small>
         </div>
       </div>
-
-      <!-- Error Message -->
       <div *ngIf="errorMessage" class="form-error">
         <p>{{ errorMessage }}</p>
       </div>
-
-      <!-- Submit Button -->
-      <button 
-        type="submit" 
-        [disabled]="loginForm.invalid" 
-        class="btn-primary"
-      >
+      <button type="submit" [disabled]="loginForm.invalid" class="btn-primary">
         Login
       </button>
     </form>
