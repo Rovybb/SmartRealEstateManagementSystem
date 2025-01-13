@@ -1,0 +1,70 @@
+/* profile-page.component.css */
+
+/* Existing styles */
+.profile-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 5px solid #21174b;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .mat-toolbar {
+    margin-bottom: 20px;
+  }
+  
+  .spacer {
+    flex: 1 1 auto;
+  }
+  
+  .loading {
+    text-align: center;
+    font-size: 18px;
+  }
+  
+  .user-details p {
+    font-size: 16px;
+    margin: 8px 0;
+  }
+  
+  .error {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .not-logged-in {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 18px;
+  }
+  
+  .link {
+    color: #3f51b5;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  .link:hover {
+    color: #303f9f;
+  }
+  
+  /* New styles to offset the navbar */
+  .profile-container {
+    /* Add top margin to push the container below the navbar */
+    margin: 80px auto 20px auto; /* 64px navbar height + 16px extra spacing */
+    
+    /* Alternatively, use padding-top */
+    /* padding-top: 80px; */
+  }
+  
+  /* Optional: Ensure the navbar has a higher z-index */
+  .mat-toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; /* Ensure it's above other content */
+  }
+  
