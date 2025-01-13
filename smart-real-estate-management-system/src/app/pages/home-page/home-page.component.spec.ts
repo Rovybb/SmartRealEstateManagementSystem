@@ -1,74 +1,76 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { HomePageComponent } from './home-page.component';
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/identity/login.service';
-import { of } from 'rxjs';
-import { CommonModule } from '@angular/common';
+import { NavbarComponent } from '../../components/navbar/navbar.component';
+import { NavbarHomeComponent } from '../../components/navbar-home/navbar-home.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { of } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 describe('HomePageComponent', () => {
   let component: HomePageComponent;
   let fixture: ComponentFixture<HomePageComponent>;
-  let routerMock: any;
-  let loginServiceMock: any;
+  let routerSpy: jasmine.SpyObj<Router>;
+  let loginServiceSpy: jasmine.SpyObj<LoginService>;
 
   beforeEach(async () => {
-    routerMock = {
-      navigate: jasmine.createSpy('navigate')
-    };
-
-    loginServiceMock = {
-      isAuthenticated: jasmine.createSpy('isAuthenticated'),
-      logout: jasmine.createSpy('logout')
-    };
+    // Creăm spy-uri pentru Router și LoginService
+    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+    loginServiceSpy = jasmine.createSpyObj('LoginService', ['isAuthenticated', 'logout']);
 
     await TestBed.configureTestingModule({
-      imports: [HomePageComponent, CommonModule, MatSidenavModule, MatToolbarModule, MatButtonModule],
+      imports: [
+        CommonModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        MatButtonModule,
+        NavbarComponent,
+        NavbarHomeComponent,
+        HomePageComponent  // Importăm componenta standalone aici
+      ],
       providers: [
-        { provide: Router, useValue: routerMock },
-        { provide: LoginService, useValue: loginServiceMock }
+        { provide: Router, useValue: routerSpy },
+        { provide: LoginService, useValue: loginServiceSpy }
       ]
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(HomePageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create the HomePageComponent', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
   it('should check if the user is logged in', () => {
-    loginServiceMock.isAuthenticated.and.returnValue(of(true));
-
+    loginServiceSpy.isAuthenticated.and.returnValue(of(true));
     component.isLogged().subscribe((isLogged) => {
       expect(isLogged).toBeTrue();
     });
-    expect(loginServiceMock.isAuthenticated).toHaveBeenCalled();
+    expect(loginServiceSpy.isAuthenticated).toHaveBeenCalled();
   });
 
-  it('should navigate to properties page', () => {
+  it('should navigate to properties when navigateToProperties is called', () => {
     component.navigateToProperties();
-    expect(routerMock.navigate).toHaveBeenCalledWith(['properties']);
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['properties']);
   });
 
-  it('should navigate to register page', () => {
+  it('should navigate to register when navigateToRegister is called', () => {
     component.navigateToRegister();
-    expect(routerMock.navigate).toHaveBeenCalledWith(['auth/register']);
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['auth/register']);
   });
 
-  it('should navigate to login page', () => {
+  it('should navigate to login when navigateToLogin is called', () => {
     component.navigateToLogin();
-    expect(routerMock.navigate).toHaveBeenCalledWith(['auth/login']);
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['auth/login']);
   });
 
-  it('should log out the user', () => {
+  it('should call logout on the LoginService when logout is called', () => {
     component.logout();
-    expect(loginServiceMock.logout).toHaveBeenCalled();
+    expect(loginServiceSpy.logout).toHaveBeenCalled();
   });
 });

@@ -2,7 +2,7 @@ export enum PropertyType {
     HOUSE = "HOUSE",
     APARTMENT = "APARTMENT",
     LAND = "LAND",
-    COMMERCIAL = "COMMERCIAL"
+    COMMERCIAL = "COMMERCIAL",
   }
   
   export enum PropertyStatus {
@@ -10,8 +10,6 @@ export enum PropertyType {
     SOLD = "SOLD",
     RENTED = "RENTED"
   }
-
-  // TO-DO: Adaptează câmpurile la structura din .NET + de spart in mai multe fisiere
 
 export interface Property {
     id: string; 

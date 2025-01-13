@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PropertiesPageComponent } from './properties-page.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { By } from '@angular/platform-browser';
+import { PropertyListComponent } from '../../components/property-list/property-list.component';
 
 describe('PropertiesPageComponent', () => {
   let component: PropertiesPageComponent;
@@ -8,28 +9,28 @@ describe('PropertiesPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        PropertiesPageComponent,  // Correctly importing the standalone component
-        HttpClientTestingModule  // Fix: Adding HttpClientTestingModule
-      ]
+      // Deoarece PropertiesPageComponent este standalone și importă PropertyListComponent, le importăm pe ambele
+      imports: [PropertiesPageComponent],
     }).compileComponents();
-
-    fixture = TestBed.createComponent(PropertiesPageComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should create', () => {
+  beforeEach(() => {
+    fixture = TestBed.createComponent(PropertiesPageComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges(); // Declanșează ciclul de viață al componentei
+  });
+
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render the page title', () => {
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Property Management');
+  it('should render heading "Property Management"', () => {
+    const heading = fixture.debugElement.query(By.css('h1')).nativeElement;
+    expect(heading.textContent).toContain('Property Management');
   });
 
-  it('should contain the app-property-list component', () => {
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('app-property-list')).toBeTruthy();
+  it('should include the property list component', () => {
+    const propertyListDebugEl = fixture.debugElement.query(By.directive(PropertyListComponent));
+    expect(propertyListDebugEl).toBeTruthy();
   });
 });
