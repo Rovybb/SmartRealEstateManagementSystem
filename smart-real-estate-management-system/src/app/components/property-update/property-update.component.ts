@@ -4,11 +4,13 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { PropertyService } from '../../services/property.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NavbarHomeComponent } from '../navbar-home/navbar-home.component';
+import {jwtDecode} from 'jwt-decode';
 
 @Component({
   selector: 'app-property-update',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, NavbarHomeComponent],
   templateUrl: './property-update.component.html',
   styleUrls: ['./property-update.component.css']
 })
@@ -33,8 +35,7 @@ export class PropertyUpdateComponent implements OnInit {
       area: [null, [Validators.required, Validators.min(0.01)]],
       rooms: [null, [Validators.required, Validators.min(0)]],
       bathrooms: [null, [Validators.required, Validators.min(0)]],
-      constructionYear: [null, [Validators.required, Validators.min(1501)]],
-      userId: ['', Validators.required]
+      constructionYear: [null, [Validators.required, Validators.min(1501)]]
     });
   }
 
@@ -52,6 +53,20 @@ export class PropertyUpdateComponent implements OnInit {
         }
       });
     }
+
+    const token = this.getTokenFromCookie('token');
+        if (token) {
+          const decodedToken: any = jwtDecode(token);
+          const userId = decodedToken['unique_name'];
+          if (userId) {
+            this.propertyForm.addControl('userId', this.fb.control(userId, Validators.required));
+            console.log('User ID:', userId);
+          } else {
+            this.errorMessage = 'User ID not found in token.';
+          }
+        } else {
+          this.errorMessage = 'Authentication token not found.';
+        }
   }
 
   onSubmit(): void {
@@ -72,5 +87,16 @@ export class PropertyUpdateComponent implements OnInit {
     } else {
       this.errorMessage = 'Please fix validation errors before submitting.';
     }
+  }
+
+  private getTokenFromCookie(cookieName: string): string | null {
+    const cookies = document.cookie.split('; ');
+    for (const cookie of cookies) {
+      const [name, value] = cookie.split('=');
+      if (name === cookieName) {
+        return value;
+      }
+    }
+    return null;
   }
 }
