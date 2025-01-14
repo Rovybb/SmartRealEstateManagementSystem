@@ -1,10 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { PropertyDetailComponent } from './property-detail.component';
 import { PropertyService } from '../../services/property.service';
 import { Router } from '@angular/router';
-import { of, throwError } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { of, throwError } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('PropertyDetailComponent', () => {
   let component: PropertyDetailComponent;
@@ -19,9 +20,7 @@ describe('PropertyDetailComponent', () => {
       deleteProperty: jasmine.createSpy('deleteProperty')
     };
 
-    routerMock = {
-      navigate: jasmine.createSpy('navigate')
-    };
+    routerMock = jasmine.createSpyObj('Router', ['navigate']);
 
     activatedRouteMock = {
       snapshot: {
@@ -32,7 +31,7 @@ describe('PropertyDetailComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [PropertyDetailComponent, CommonModule],
+      imports: [PropertyDetailComponent, CommonModule, HttpClientTestingModule],
       providers: [
         { provide: PropertyService, useValue: propertyServiceMock },
         { provide: Router, useValue: routerMock },
@@ -44,12 +43,12 @@ describe('PropertyDetailComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PropertyDetailComponent);
     component = fixture.componentInstance;
-
+    // Pentru testele care nu se referă la eroare, setăm ca spy să returneze date valide:
     propertyServiceMock.getPropertyById.and.returnValue(of({
       id: '8c868c11-e8db-4d11-a7c8-83ccb221305a',
       title: 'Modern Apartment',
       description: 'A beautiful apartment in the city center.',
-      type: 0,  
+      type: 0,
       status: 0,
       price: 100000,
       address: '123 Main St',
@@ -74,12 +73,17 @@ describe('PropertyDetailComponent', () => {
     expect(component.property?.title).toBe('Modern Apartment');
   });
 
-  it('should handle error when property details are not found', () => {
+  it('should handle error when property details are not found', fakeAsync(() => {
+    // Configurăm spy-ul să returneze un Observable ce emite eroarea
     propertyServiceMock.getPropertyById.and.returnValue(throwError(() => new Error('Property not found')));
+    
+    // Refacem inițializarea componentei pentru a declanșa ngOnInit care apelează loadProperties
     component.ngOnInit();
+    tick(); // Așteptăm rezolvarea microtask-urilor
+
     expect(component.errorMessage).toBe('Error fetching property details. Please try again.');
     expect(routerMock.navigate).toHaveBeenCalledWith(['/properties']);
-  });
+  }));
 
   it('should navigate to update property page', () => {
     const property = component.property!;
@@ -87,7 +91,6 @@ describe('PropertyDetailComponent', () => {
     expect(routerMock.navigate).toHaveBeenCalledWith(['properties/update/' + property.id]);
   });
   
-
   it('should confirm before deleting property and show error if deletion fails', () => {
     const property = component.property!;
     spyOn(window, 'confirm').and.returnValue(true);
