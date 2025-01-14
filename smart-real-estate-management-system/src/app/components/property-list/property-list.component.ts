@@ -6,10 +6,12 @@ import { Router } from '@angular/router';
 import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NavbarHomeComponent } from "../navbar-home/navbar-home.component";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faArrowLeft, faArrowRight, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-property-list',
-  imports: [NgFor, FormsModule, NavbarHomeComponent],
+  imports: [NgFor, FormsModule, NavbarHomeComponent, FontAwesomeModule],
   templateUrl: './property-list.component.html',
   styleUrl: './property-list.component.css'
 })
@@ -18,6 +20,9 @@ export class PropertyListComponent implements OnInit {
   pageNumber: number = 1;
   pageSize: number = 2;
   totalPages: number = 0;
+  faArrowLeft = faArrowLeft;
+  faArrowRight = faArrowRight;
+  faMagnifyingGlass = faMagnifyingGlass;
 
   filters: { [key: string]: string | number | null } = {
     title: null,

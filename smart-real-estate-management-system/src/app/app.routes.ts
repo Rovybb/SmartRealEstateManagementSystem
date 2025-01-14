@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { PropertiesPageComponent } from './pages/properties-page/properties-page.component';
+import { PropertyListComponent } from './components/property-list/property-list.component';
 import { PropertyCreateComponent } from './components/property-create/property-create.component';
 import { PropertyUpdateComponent } from './components/property-update/property-update.component';
 import { LoginComponent } from './components/identity/login/login.component';
@@ -13,7 +13,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 export const appRoutes: Routes = [
   { path: '', component: HomePageComponent, pathMatch: 'full' },
   { path: 'home', redirectTo: '' },
-  { path: 'properties', component: PropertiesPageComponent, canActivate: [AuthGuard] },
+  { path: 'properties', component: PropertyListComponent, canActivate: [AuthGuard] },
   { path: 'properties/create', component: PropertyCreateComponent, canActivate: [AuthGuard] },
   { path: 'properties/update/:id', component: PropertyUpdateComponent, canActivate: [AuthGuard] },
   { path: 'properties/property-details/:id', component: PropertyDetailsPageComponent, canActivate: [AuthGuard] },

@@ -1,33 +1,26 @@
-.property-list-container {
-  width: 97.5%;
-  margin: 0 auto;
-}
 .property-management-container {
-  width: 98%;
-  margin: 0 auto;
-  padding-top: 80px; /* Adaugă spațiu între navbar și conținut */
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #161616;
 }
 
-.hero-section {
-  position: relative;
+app-navbar-home {
   width: 100%;
-  height: 100vh; /* înălțime cât ecranul */
-  background: url("../../../assets/images/properties.jpg") no-repeat center center;
-  background-size: cover;
+}
+
+.property-management-content {
   display: flex;
-  align-items: center;        /* Aliniere verticală */
-  justify-content: center;    /* Aliniere orizontală */
-  text-align: center;
-  color: #fff;
-  padding-top: 50px; /* Lasă spațiu pentru navbar */
+  flex-direction: column;
+  align-items: center;
 }
 
 h1 {
   font-size: 32px;
-  font-family: Arial, sans-serif;
   color: #333;
   text-align: center;
-  margin: 20px 0;
 }
 
 button {
@@ -35,23 +28,56 @@ button {
   font-size: 14px;
   font-family: Arial, sans-serif;
   color: #fff;
-  background-color: #007bff;
+  background-color: #186C6C;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  transition: background-color 0.1s ease-in-out;
 }
 
 button:hover {
-  background-color: #0056b3;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #005f5f;
 }
 
 button:disabled {
-  background-color: #cccccc;
+  background-color: #444444;
   cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
+}
+
+.search-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  margin: 20px 0;
+}
+
+.filter-container {
+
+}
+
+.search-section label {
+  font-size: 16px;
+  color: #f0f0f0;
+}
+
+.search-section label.hidden {
+  display: none;
+}
+
+.search-section input {
+  padding: 10px;
+  font-size: 14px;
+  color: #f0f0f0;
+  border: 1px solid #444;
+  background-color: #333;
+  border-radius: 4px;
+}
+
+.search-section input:focus {
+  outline: none;
+  border-color: #186C6C;
 }
 
 table {
@@ -95,71 +121,6 @@ tbody td.actions-column {
 .pagination-controls {
   display: flex;
   justify-content: center;
+  gap: 10px;
   margin: 20px 0;
 }
-
-.pagination-controls button {
-  padding: 8px 12px;
-  margin: 0 5px;
-  font-size: 14px;
-  font-family: Arial, sans-serif;
-  color: #fff;
-  background-color: #007bff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.pagination-controls button.active {
-  background-color: #0056b3;
-}
-
-.pagination-controls button:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
-}
-
-.pagination-controls button:hover:not(:disabled) {
-  background-color: #0056b3;
-}
-
-.btn {
-  display: inline-block;
-  margin: 5px;
-  width: 43%;
-}
-
-.button-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 70%; 
-  justify-self: center;
-  align-self: center;
-}
-
-.btn-update {
-  background-color: #28a745;
-  width: 100px;
-  height: 90%;
-}
-
-.btn-update:hover {
-  background-color: #218838;
-}
-
-.btn-delete {
-  background-color: #dc3545;
-  width: 100px;
-  height: 90%;
-}
-
-.btn-delete:hover {
-  background-color: #c82333;
-}
-
-/* .tableAllProperties {
-  width: 95%;
-  justify-self: center;
-} */
