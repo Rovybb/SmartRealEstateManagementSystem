@@ -12,7 +12,7 @@ import { NavbarHomeComponent } from '../navbar-home/navbar-home.component';
 @Component({
   selector: 'app-property-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarHomeComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './property-detail.component.html',
   styleUrls: ['./property-detail.component.css']
 })
