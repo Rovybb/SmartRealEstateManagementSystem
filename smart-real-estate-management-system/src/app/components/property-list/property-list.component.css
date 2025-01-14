@@ -1,10 +1,13 @@
+/****************************************************/
+/* Container general + layout de bază               */
+/****************************************************/
 .property-management-container {
   width: 100%;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #161616;
+  background-color: #161616; /* fundal întunecat */
 }
 
 app-navbar-home {
@@ -15,14 +18,19 @@ app-navbar-home {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 20px;
 }
 
 h1 {
   font-size: 32px;
-  color: #333;
+  color: #ffffff; 
   text-align: center;
+  margin-bottom: 20px;
 }
 
+/****************************************************/
+/* Butoane                                           */
+/****************************************************/
 button {
   padding: 10px 15px;
   font-size: 14px;
@@ -30,9 +38,11 @@ button {
   color: #fff;
   background-color: #186C6C;
   border: none;
+  margin-right: 5px;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.1s ease-in-out;
+  margin-top: 5px;
 }
 
 button:hover {
@@ -44,42 +54,127 @@ button:disabled {
   cursor: not-allowed;
 }
 
+/****************************************************/
+/* Secțiunea de căutare și filtre                   */
+/****************************************************/
+/****************************************************/
+/* Secțiunea de căutare (stil modernizat)           */
+/****************************************************/
 .search-section {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
+  gap: 15px; /* Mai mult spațiu între elemente */
   width: 100%;
-  margin: 20px 0;
-}
-
-.filter-container {
-
+  max-width: 800px; /* Lățime maximă pentru aspect consistent */
+  margin: 20px auto;
+  padding: 20px; /* Adaugă spațiu interior */
+  border: 1px solid #444; /* Bordură discretă */
+  border-radius: 8px; /* Colțuri rotunjite */
+  background-color: #222; /* Fundal închis */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Umbră pentru efect modern */
 }
 
 .search-section label {
-  font-size: 16px;
-  color: #f0f0f0;
-}
-
-.search-section label.hidden {
-  display: none;
+  font-size: 14px;
+  font-weight: bold;
+  color: #a9a9a9; /* Culoare gri deschis */
+  margin-bottom: 5px;
 }
 
 .search-section input {
-  padding: 10px;
+  padding: 12px;
   font-size: 14px;
   color: #f0f0f0;
   border: 1px solid #444;
   background-color: #333;
-  border-radius: 4px;
+  border-radius: 6px; /* Colțuri mai rotunjite */
+  width: 100%; /* Lățime completă */
+  max-width: 350px; /* Limită maximă */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .search-section input:focus {
   outline: none;
-  border-color: #186C6C;
+  border-color: #186C6C; /* Evidențiază bordura la focus */
+  box-shadow: 0 0 5px #186C6C; /* Umbră subtilă la focus */
+  background-color: #2a2a2a;
 }
 
+/****************************************************/
+/* Organizare compactă pentru câmpurile de input    */
+/****************************************************/
+.filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Spațiu între elemente */
+  justify-content: space-between; /* Distribuie elementele uniform */
+  width: 100%;
+}
+
+.filter-container > div {
+  flex: 1 1 calc(33% - 20px); /* Ajustează după preferințe (33% pentru 3 coloane) */
+  min-width: 200px;
+}
+
+/****************************************************/
+/* Container special pentru butoane                 */
+/****************************************************/
+.button-container button {
+  font-size: 12px;    /* Dimensiunea textului */
+  font-weight: bold;
+  color: #fff;
+  background-color: #186C6C;
+  border: none;
+  border-radius: 6px; /* Colțuri rotunjite */
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  /* Dimensiuni consistente */
+  width: 130px; /* Setează o lățime fixă pentru ambele butoane */
+  text-align: center; /* Centrează textul în interiorul butonului */
+}
+
+.button-container button:hover {
+  background-color: #005f5f;
+  transform: translateY(-2px); /* Efect vizual la hover */
+}
+
+.button-container button:active {
+  background-color: #004e4e;
+  transform: translateY(0);
+}
+
+/****************************************************/
+/* Butoane moderne                                  */
+/****************************************************/
+.search-section button {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #186C6C;
+  border: none;
+  border-radius: 6px; /* Colțuri rotunjite */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.search-section button:hover {
+  background-color: #005f5f;
+  transform: translateY(-1px); /* Efect de ridicare */
+}
+
+.search-section button:active {
+  background-color: #004e4e;
+  transform: translateY(0);
+}
+
+
+/****************************************************/
+/* (Opțional) Stiluri pentru Tabel                  */
+/*     - le poți păstra sau elimina dacă nu-l mai   */
+/*       folosești deloc                            */
+/****************************************************/
 table {
   width: 100%;
   border-collapse: collapse;
@@ -110,6 +205,7 @@ tbody td {
 tbody tr:hover {
   background-color: #f1f1f1;
 }
+
 thead th.actions-column,
 tbody td.actions-column {
   width: 120px; 
@@ -118,9 +214,178 @@ tbody td.actions-column {
   padding: 5px;
 }
 
+/****************************************************/
+/* Paginarea                                        */
+/****************************************************/
 .pagination-controls {
   display: flex;
   justify-content: center;
   gap: 10px;
   margin: 20px 0;
+}
+
+.pagination-controls button {
+  background-color: #444;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 8px 12px;
+}
+
+.pagination-controls button:hover {
+  background-color: #186C6C;
+}
+
+.pagination-controls button.active {
+  background-color: #186C6C;
+  color: #fff;
+}
+
+/****************************************************/
+/* Lista de proprietăți (înlocuiește tabelul)       */
+/****************************************************/
+/* Container care ține card-urile (opțional) */
+.properties-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* spațiu vertical între card-uri */
+  width: 100%;
+  max-width: 800px; /* poți ajusta după nevoie */
+  margin-top: 20px;
+}
+
+/****************************************************/
+/* Card individual pentru fiecare proprietate       */
+/****************************************************/
+.property-card {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+  min-height: 200px;
+  border-radius: 8px;
+  margin: 0 auto; 
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  overflow: hidden;
+  background-color: #1e1e1e;
+  font-family: Arial, sans-serif;
+}
+
+/* Colțul unde se încarcă imaginea */
+.image-container {
+  width: 50%; /* Ajustează dimensiunea containerului după nevoie */
+  height: 100%; /* Setează înălțimea la 100% pentru a ocupa spațiul complet */
+  overflow: hidden; /* Ascunde părțile imaginii care depășesc containerul */
+  position: relative;
+}
+
+.image-container img {
+  width: 100%; /* Umple complet lățimea containerului */
+  height: 100%; /* Umple complet înălțimea containerului */
+  object-fit: cover; /* Asigură că imaginea își păstrează proporțiile și umple containerul */
+  display: block; /* Elimină eventualele spații cauzate de inline images */
+}
+
+/* Secțiunea cu informații */
+.info-section {
+  padding: 16px;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.property-title {
+  align-self: center;
+  margin: 0 0 8px 0;
+  font-size: 1.5em;
+  color: #ffffff;
+}
+
+.description,
+.type,
+.status,
+.price,
+.area {
+  margin: 4px 0;
+  color: #ffffff;
+}
+
+.info-section span {
+  font-weight: bold;
+  color: #ffffff;
+}
+
+/* Secțiunea goală pentru buton (View All Details) */
+.button-container {
+  display: flex;
+  justify-content: center; /* Centrare orizontală */
+  align-items: center;    /* Centrare verticală (dacă e necesar pentru layout general) */
+  gap: 10px;              /* Spațiu între butoane */
+  margin: 20px 0;         /* Spațiu sus și jos pentru separare */
+}
+
+/* Exemplu de stil pentru butonul de detalii (dacă vrei un buton separat) */
+/*
+.view-details {
+  background-color: #007bff;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 0.9em;
+}
+.view-details:hover {
+  background-color: #0056b3;
+}
+*/
+
+/****************************************************/
+/* Stilizare pentru secțiunea de căutare simplă    */
+/****************************************************/
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Spațiu între icon și input */
+  width: 100%;
+  max-width: 500px; /* Dimensiune maximă */
+  margin: 20px auto; /* Centrează pe orizontală */
+  padding: 10px 15px; /* Spațiu interior */
+  border: 1px solid #444; /* Bordură subtilă */
+  border-radius: 8px; /* Colțuri rotunjite */
+  background-color: #222; /* Fundal întunecat */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Umbră modernă */
+}
+
+.search-bar label {
+  font-size: 18px;
+  color: #ccc; /* Gri deschis pentru icon */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-bar input {
+  flex: 1; /* Ocupă tot spațiul rămas */
+  padding: 10px 15px;
+  font-size: 14px;
+  color: #f0f0f0;
+  background-color: #333; /* Fundal întunecat pentru input */
+  border: 1px solid #444; /* Bordură discretă */
+  border-radius: 6px; /* Colțuri rotunjite */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-bar input:focus {
+  outline: none;
+  border-color: #186C6C; /* Evidențiază bordura la focus */
+  box-shadow: 0 0 5px #186C6C; /* Umbră subtilă la focus */
+  background-color: #2a2a2a;
+}
+
+.search-bar input::placeholder {
+  color: #a9a9a9; /* Placeholder subtil */
 }

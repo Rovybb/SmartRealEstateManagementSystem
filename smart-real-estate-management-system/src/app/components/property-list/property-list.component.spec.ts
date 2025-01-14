@@ -110,7 +110,6 @@ describe('PropertyListComponent', () => {
         updatedAt: new Date()
       };
 
-      component.viewDetails(testProperty);
       expect(routerSpy.navigate).toHaveBeenCalledWith(['/properties/property-details', testProperty.id]);
     });
   });
