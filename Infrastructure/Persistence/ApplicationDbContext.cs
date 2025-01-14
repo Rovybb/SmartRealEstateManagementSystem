@@ -64,7 +64,7 @@ namespace Infrastructure.Persistence
                 entity.HasOne(p => p.User)
                       .WithMany(u => u.Properties)
                       .HasForeignKey(p => p.UserId)
-                      .OnDelete(DeleteBehavior.Restrict);
+                      .OnDelete(DeleteBehavior.Cascade);
 
                 // Relationship with PropertyImage (one-to-many)
                 entity.HasMany(p => p.PropertyImages)     // in Property entity: ICollection<PropertyImage> PropertyImages
@@ -183,8 +183,7 @@ namespace Infrastructure.Persistence
                 // Relationship with Property
                 entity.HasOne(p => p.Property)
                       .WithMany()
-                      .HasForeignKey(p => p.PropertyId)
-                      .OnDelete(DeleteBehavior.Restrict);
+                      .HasForeignKey(p => p.PropertyId);
 
                 entity.HasOne(p => p.Buyer)
                       .WithMany(u => u.Payments)
@@ -230,8 +229,7 @@ namespace Infrastructure.Persistence
                 // Relationship with Property
                 entity.HasOne(i => i.Property)
                       .WithMany()
-                      .HasForeignKey(i => i.PropertyId)
-                      .OnDelete(DeleteBehavior.Restrict);
+                      .HasForeignKey(i => i.PropertyId);
 
                 entity.HasOne(i => i.Client)
                       .WithMany(u => u.Inquiries)

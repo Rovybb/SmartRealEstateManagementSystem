@@ -1,7 +1,7 @@
 # Define variables for project key, SonarQube URL, and token
 $projectKey = "SmartRealEstateManagementSystem"
 $sonarUrl = "http://localhost:9000"
-$sonarToken = "sqp_ee7a8931ef8b0a232923772c8d46705b9253ee51"
+$sonarToken = "sqp_f9f7fd46b345d847552fa186709674f3c9c60a4c"
 $coverageReportPath = "coverage.xml"
 
 # Begin SonarScanner analysis
