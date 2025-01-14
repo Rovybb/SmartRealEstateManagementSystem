@@ -1,138 +1,198 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
 import { PropertyListComponent } from './property-list.component';
 import { PropertyService } from '../../services/property.service';
 import { Router } from '@angular/router';
-import { of, throwError } from 'rxjs';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { PropertyStatus, PropertyType } from '../../models/property.model';
+
+export interface Property {
+  id: string;
+  title: string;
+  description: string;
+  status: PropertyStatus;
+  type: PropertyType;
+  price: number;
+  address: string;
+  area: number;
+  rooms: number;
+  bathrooms: number;
+  constructionYear: number;
+  userId: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 describe('PropertyListComponent', () => {
   let component: PropertyListComponent;
   let fixture: ComponentFixture<PropertyListComponent>;
-  let propertyServiceMock: any;
-  let routerMock: any;
+  let propertyServiceSpy: jasmine.SpyObj<PropertyService>;
+  let routerSpy: jasmine.SpyObj<Router>;
 
   beforeEach(async () => {
-    propertyServiceMock = {
-      getPropertiesWithPagination: jasmine.createSpy('getPropertiesWithPagination'),
-      deleteProperty: jasmine.createSpy('deleteProperty')
-    };
+    const propertyServiceMock = jasmine.createSpyObj('PropertyService', ['getPropertiesWithPagination']);
+    const routerMock = jasmine.createSpyObj('Router', ['navigate']);
 
-    routerMock = {
-      navigate: jasmine.createSpy('navigate')
-    };
+    propertyServiceMock.getPropertiesWithPagination.and.returnValue(of({ items: [], totalPages: 0 }));
 
     await TestBed.configureTestingModule({
-      imports: [PropertyListComponent],
+      imports: [PropertyListComponent, HttpClientTestingModule],
       providers: [
         { provide: PropertyService, useValue: propertyServiceMock },
         { provide: Router, useValue: routerMock }
       ]
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(PropertyListComponent);
     component = fixture.componentInstance;
+    propertyServiceSpy = TestBed.inject(PropertyService) as jasmine.SpyObj<PropertyService>;
+    routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
 
-    propertyServiceMock.getPropertiesWithPagination.and.returnValue(of({
-      items: [
-        {
-          id: '8c868c18-e8db-4d11-a7c8-83ccb221305c',
-          title: 'Modern Apartment',
-          description: 'A beautiful apartment in the city center.',
-          type: 'APARTMENT',
-          status: 'AVAILABLE',
-          price: 100000,
-          address: '123 Main St',
-          area: 120,
-          rooms: 3,
-          bathrooms: 2,
-          constructionYear: 2015,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          userId: '8c868c18-e8db-4d31-a7c2-83ccb221305a'
-        },
-        {
-          id: '8c868c11-e8db-4d11-a7c8-83ccb221305a',
-          title: 'Luxury Villa',
-          description: 'A spacious villa with a swimming pool.',
-          type: 'HOUSE',
-          status: 'SOLD',
-          price: 500000,
-          address: '456 Ocean Drive',
-          area: 350,
-          rooms: 5,
-          bathrooms: 4,
-          constructionYear: 2018,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          userId: '3c868c18-e8db-4d11-a7c8-83ccb221305a'
-        }
-      ],
-      totalPages: 2
-    }));
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load properties on initialization', () => {
-    expect(propertyServiceMock.getPropertiesWithPagination).toHaveBeenCalledWith(1, 2);
-    expect(component.properties.length).toBe(2);
-    expect(component.totalPages).toBe(2);
-    expect(component.properties[0].title).toBe('Modern Apartment');
+  describe('loadProperties', () => {
+    it('should call getPropertiesWithPagination with processed filters and update component data', () => {
+      const mockResponse = {
+        items: [
+          { id: '1', title: 'Test Property', price: 100 }
+        ],
+        totalPages: 3
+      };
+
+      propertyServiceSpy.getPropertiesWithPagination.and.returnValue(of(mockResponse));
+
+      component.filters = {
+        title: 'House',
+        price_min: null,
+        price_max: '',
+        description: 'Nice property'
+      };
+
+      component.loadProperties();
+
+      expect(propertyServiceSpy.getPropertiesWithPagination).toHaveBeenCalledWith(
+        component.pageNumber,
+        component.pageSize,
+        { title: 'House', description: 'Nice property' }
+      );
+
+      expect(component.properties.length).toBe(1);
+      expect(component.totalPages).toBe(3);
+    });
   });
 
-  it('should navigate to create property page', () => {
-    component.navigateToCreate();
-    expect(routerMock.navigate).toHaveBeenCalledWith(['properties/create']);
+  describe('navigation methods', () => {
+    it('should navigate to create property page when navigateToCreate is called', () => {
+      component.navigateToCreate();
+      expect(routerSpy.navigate).toHaveBeenCalledWith(['properties/create']);
+    });
+
+    it('should navigate to property details when viewDetails is called', () => {
+      const testProperty: Property = {
+        id: '6fa459ea-ee8a-3ca4-894e-db77e160355e',
+        title: 'Test',
+        description: 'Test description',
+        status: PropertyStatus.AVAILABLE,
+        type: PropertyType.APARTMENT,
+        price: 999,
+        address: '123 Test St',
+        area: 100,
+        rooms: 3,
+        bathrooms: 2,
+        constructionYear: 2020,
+        userId: '6fa459ea-ee8a-3ca4-894e-db77e160355e',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+
+      expect(routerSpy.navigate).toHaveBeenCalledWith(['/properties/property-details', testProperty.id]);
+    });
   });
 
-  it('should navigate to property details page', () => {
-    const property = component.properties[0];
-    component.viewDetails(property);
-    expect(routerMock.navigate).toHaveBeenCalledWith(['/properties/property-details', property.id]);
+  describe('filters', () => {
+    beforeEach(() => {
+      spyOn(component, 'loadProperties');
+    });
+
+    it('applyFilters should set pageNumber to 1 and call loadProperties', () => {
+      component.pageNumber = 5;
+      component.applyFilters();
+      expect(component.pageNumber).toBe(1);
+      expect(component.loadProperties).toHaveBeenCalled();
+    });
+
+    it('resetFilters should clear filters, set pageNumber to 1, and call loadProperties', () => {
+      component.filters = {
+        title: 'Something',
+        price_min: 50,
+        price_max: 100,
+        description: 'Test desc'
+      };
+      component.pageNumber = 3;
+
+      component.resetFilters();
+
+      expect(component.filters).toEqual({
+        title: null,
+        price_min: null,
+        price_max: null,
+        description: null
+      });
+      expect(component.pageNumber).toBe(1);
+      expect(component.loadProperties).toHaveBeenCalled();
+    });
   });
-  
 
-  it('should handle error when deleting property', () => {
-    const property = component.properties[0];
-    spyOn(window, 'confirm').and.returnValue(true); 
-    propertyServiceMock.deleteProperty.and.returnValue(throwError(() => new Error('Delete error')));
+  describe('pagination methods', () => {
+    beforeEach(() => {
+      spyOn(component, 'loadProperties');
+      component.totalPages = 5;
+    });
 
-    spyOn(window, 'alert'); 
+    it('goToPage should change pageNumber and call loadProperties if page is valid', () => {
+      component.goToPage(3);
+      expect(component.pageNumber).toBe(3);
+      expect(component.loadProperties).toHaveBeenCalled();
+    });
 
-    component.deleteProperty(property);
+    it('goToPage should not call loadProperties if page is outside the range', () => {
+      component.pageNumber = 2;
+      component.goToPage(10);
+      expect(component.pageNumber).toBe(2);
+      expect(component.loadProperties).not.toHaveBeenCalled();
+    });
 
-    expect(propertyServiceMock.deleteProperty).toHaveBeenCalledWith(property.id);
-    expect(window.alert).toHaveBeenCalledWith('Failed to delete property.');
-  });
+    it('previousPage should decrement pageNumber and call loadProperties if pageNumber > 1', () => {
+      component.pageNumber = 3;
+      component.previousPage();
+      expect(component.pageNumber).toBe(2);
+      expect(component.loadProperties).toHaveBeenCalled();
+    });
 
-  it('should navigate to the next page', () => {
-    component.pageNumber = 1;
-    component.nextPage();
-    expect(component.pageNumber).toBe(2);
-    expect(propertyServiceMock.getPropertiesWithPagination).toHaveBeenCalledWith(2, 2);
-  });
+    it('previousPage should not decrement pageNumber if pageNumber is already 1', () => {
+      component.pageNumber = 1;
+      component.previousPage();
+      expect(component.pageNumber).toBe(1);
+      expect(component.loadProperties).not.toHaveBeenCalled();
+    });
 
-  it('should navigate to the previous page', () => {
-    component.pageNumber = 2;
-    component.previousPage();
-    expect(component.pageNumber).toBe(1);
-    expect(propertyServiceMock.getPropertiesWithPagination).toHaveBeenCalledWith(1, 2);
-  });
+    it('nextPage should increment pageNumber and call loadProperties if pageNumber < totalPages', () => {
+      component.pageNumber = 2;
+      component.nextPage();
+      expect(component.pageNumber).toBe(3);
+      expect(component.loadProperties).toHaveBeenCalled();
+    });
 
-  it('should not navigate to invalid pages', () => {
-    component.pageNumber = 1;
-    component.goToPage(0);
-    expect(component.pageNumber).toBe(1);
-
-    component.goToPage(3);
-    expect(component.pageNumber).toBe(1);
-
-    component.goToPage(2);
-    expect(component.pageNumber).toBe(2);
-    expect(propertyServiceMock.getPropertiesWithPagination).toHaveBeenCalledWith(2, 2);
+    it('nextPage should not increment pageNumber if pageNumber equals totalPages', () => {
+      component.pageNumber = 5;
+      component.nextPage();
+      expect(component.pageNumber).toBe(5);
+      expect(component.loadProperties).not.toHaveBeenCalled();
+    });
   });
 });

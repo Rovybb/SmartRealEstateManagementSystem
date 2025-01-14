@@ -6,18 +6,21 @@ import { CommonModule } from '@angular/common';
 import { LoginService } from '../../services/identity/login.service'; // Import LoginService
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
-
+import { NavbarHomeComponent } from '../navbar-home/navbar-home.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faArrowUpFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-property-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NavbarHomeComponent, FontAwesomeModule],
   templateUrl: './property-detail.component.html',
   styleUrls: ['./property-detail.component.css']
 })
 export class PropertyDetailComponent implements OnInit {
   property: Property | null = null;
   errorMessage: string | null = null;
+  faArrowUpFromBracket = faArrowUpFromBracket;
 
   images: string[] = []; // Variabilă pentru a stoca imaginile proprietății
   uploading: boolean = false; // Indicator pentru încărcarea imaginilor

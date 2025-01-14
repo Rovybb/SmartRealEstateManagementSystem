@@ -1,187 +1,149 @@
-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 75px;
-  background: #2980b9; /* Albastru */
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-  z-index: 999; /* Să fie deasupra div-urilor de conținut */
-}
-
-.navbar {
+.register-page {
   display: flex;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
-  max-width: 90%;
-  margin: auto;
-  height: 100%;
+  height: 100vh;
+  background-color: #161616;
 }
 
-.logo a {
-  color: #fff;
-  font-size: 27px;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.menu {
-  display: flex;
-  list-style: none;
-}
-
-.menu li {
-  margin: 0 15px;
-}
-
-.menu li a {
-  display: inline-block;
-  background: linear-gradient(45deg, #3498db, #8e44ad); /* Gradient de fundal */
-  color: #fff;
-  font-size: 17px;
-  font-weight: 500;
-  letter-spacing: 0.5px; /* Ușor spațiat între litere */
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  
-  padding: 10px 15px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: background 0.3s ease, transform 0.2s ease;
-  text-decoration: none;
-}
-
-.menu li a:hover {
-  background: linear-gradient(45deg, #2a80b9, #7d3f98);
-  transform: translateY(-3px);
-}
-/* General Form Container */
 .register-form {
-  max-width: 40%;
-  margin: 20px auto;
-  margin-top: 6%;
-  padding: 15%;
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  position: relative;
+  background-color: #1e1e1e;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  height: 300px;
-  }
-  
-  /* Form Header */
-  .register-form h1 {
-    font-size: 24px;
-    color: #333;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  /* Form Group */
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  /* Labels */
-  .form-group label {
-    display: block;
-    font-size: 14px;
-    font-weight: bold;
-    color: #555;
-    margin-bottom: 5px;
-  }
-  
-  /* Inputs */
-  .form-group input,
-  .form-group textarea,
-  .form-group select {
-    width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    font-family: Arial, sans-serif;
-    color: #333;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  
-  /* Textarea Specific */
-  .form-group textarea {
-    resize: vertical;
-    min-height: 80px;
-  }
-  
-  /* Focus State */
-  .form-group input:focus,
-  .form-group textarea:focus,
-  .form-group select:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-  }
-  
-  /* Error Messages */
-  .error {
-    color: #d9534f;
-    font-size: 12px;
-    margin-top: 5px;
-  }
-  
-  /* Submit Button */
-  button[type="submit"] {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    font-family: Arial, sans-serif;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;
-  }
-  
-  /* Submit Button Hover */
-  button[type="submit"]:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Submit Button Disabled */
-  button[type="submit"]:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-  }
-  
+  height: 450px;
+  width: 500px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
+.back-button {
+  position: absolute;
+  top: 36px;
+  left: 36px;
+  text-decoration: none;
+  color: #f0f0f0;
+  font-size: 20px;
+  transition: color 0.1s ease-in-out;
+}
 
-  /* Container pentru mesajele de eroare */
+.back-button:hover {
+  color: #28a0a0;
+}
+
+.register-form h1 {
+  font-size: 24px;
+  color: #f0f0f0;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-text {
+  color: #f0f0f0;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.login-link {
+  color: #186C6C;
+  text-decoration: none;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.login-link:hover {
+  color: #28a0a0;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  color: #f0f0f0;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  color: #f0f0f0;
+  border: 1px solid #444;
+  background-color: #333;
+  border-radius: 4px;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #186C6C;
+}
+
+.error {
+  color: #d9534f;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  color: #f0f0f0;
+  background-color: #186C6C;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+button[type="submit"]:hover {
+  background-color: #005f5f;
+}
+
+button[type="submit"]:disabled {
+  background-color: #444444;
+  cursor: not-allowed;
+}
+
 .error {
   margin-top: 5px;
-  color: #e63946; /* Roșu pentru eroare */
+  color: #e63946;
   font-size: 14px;
   font-weight: 500;
 }
 
-/* Mic spațiu între rândurile mesajelor de eroare */
 .error small {
   display: block;
   margin-top: 2px;
 }
 
-/* Container pentru mesajul de eroare global */
 .form-error {
   margin-top: 15px;
   padding: 10px 15px;
-  background-color: #ffe5e5; /* Fundal roșu deschis */
-  border: 1px solid #e63946; /* Margine roșie */
+  background-color: #444444;
   border-radius: 5px;
-  color: #e63946; /* Text roșu */
+  color: #e63946;
   font-size: 14px;
   font-weight: 500;
   text-align: center;
 }
 
-/* Mesajul de eroare global - paragraful */
 .form-error p {
   margin: 0;
 }
