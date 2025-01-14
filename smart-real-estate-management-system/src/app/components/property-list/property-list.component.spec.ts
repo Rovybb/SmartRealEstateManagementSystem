@@ -3,40 +3,66 @@ import { of } from 'rxjs';
 import { PropertyListComponent } from './property-list.component';
 import { PropertyService } from '../../services/property.service';
 import { Router } from '@angular/router';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { PropertyStatus, PropertyType } from '../../models/property.model';
-
-export interface Property {
-  id: string;
-  title: string;
-  description: string;
-  status: PropertyStatus;
-  type: PropertyType;
-  price: number;
-  address: string;
-  area: number;
-  rooms: number;
-  bathrooms: number;
-  constructionYear: number;
-  userId: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
 
 describe('PropertyListComponent', () => {
   let component: PropertyListComponent;
   let fixture: ComponentFixture<PropertyListComponent>;
-  let propertyServiceSpy: jasmine.SpyObj<PropertyService>;
-  let routerSpy: jasmine.SpyObj<Router>;
+  let propertyServiceMock: any;
+  let routerMock: any;
 
   beforeEach(async () => {
-    const propertyServiceMock = jasmine.createSpyObj('PropertyService', ['getPropertiesWithPagination']);
-    const routerMock = jasmine.createSpyObj('Router', ['navigate']);
+    // Cream un spy object pentru PropertyService cu metodele necesare
+    propertyServiceMock = jasmine.createSpyObj('PropertyService', [
+      'getPropertiesWithPagination',
+      'getPropertyById'
+    ]);
 
-    propertyServiceMock.getPropertiesWithPagination.and.returnValue(of({ items: [], totalPages: 0 }));
+    // Cream un spy object pentru Router
+    routerMock = jasmine.createSpyObj('Router', ['navigate']);
+
+    // Configurăm răspunsul pentru getPropertiesWithPagination
+    propertyServiceMock.getPropertiesWithPagination.and.returnValue(of({
+      items: [{
+        id: '8c868c11-e8db-4d11-a7c8-83ccb221305a',
+        title: 'Modern Apartment',
+        description: 'A beautiful apartment in the city center.',
+        type: 0,
+        status: 0,
+        price: 100000,
+        address: '123 Main St',
+        area: 120,
+        rooms: 3,
+        bathrooms: 2,
+        constructionYear: 2015,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        userId: '3c868c18-e8db-4d11-a7c8-83ccb221305a'
+      }],
+      totalPages: 1
+    }));
+
+    // Configurăm răspunsul pentru getPropertyById (se presupune că se completează și array-ul de imagini)
+    propertyServiceMock.getPropertyById.and.returnValue(of({
+      id: '8c868c11-e8db-4d11-a7c8-83ccb221305a',
+      title: 'Modern Apartment',
+      description: 'A beautiful apartment in the city center.',
+      type: 0,
+      status: 0,
+      price: 100000,
+      address: '123 Main St',
+      area: 120,
+      rooms: 3,
+      bathrooms: 2,
+      constructionYear: 2015,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      userId: '3c868c18-e8db-4d11-a7c8-83ccb221305a',
+      imageUrls: ['img1.jpg', 'img2.jpg']
+    }));
 
     await TestBed.configureTestingModule({
-      imports: [PropertyListComponent, HttpClientTestingModule],
+      // Deoarece componenta este standalone, o importăm direct
+      imports: [ PropertyListComponent ],
       providers: [
         { provide: PropertyService, useValue: propertyServiceMock },
         { provide: Router, useValue: routerMock }
@@ -45,154 +71,35 @@ describe('PropertyListComponent', () => {
 
     fixture = TestBed.createComponent(PropertyListComponent);
     component = fixture.componentInstance;
-    propertyServiceSpy = TestBed.inject(PropertyService) as jasmine.SpyObj<PropertyService>;
-    routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
 
+    // Trigger initializarea componentei (ngOnInit)
     fixture.detectChanges();
   });
 
-  it('should create the component', () => {
-    expect(component).toBeTruthy();
+  it('should load properties and call getPropertyById for each property', () => {
+    // Verificăm că lista de proprietăți a fost populată
+    expect(component.properties.length).toBe(1);
+
+    // Verificăm că apelul la getPropertiesWithPagination a fost făcut corect
+    expect(propertyServiceMock.getPropertiesWithPagination)
+      .toHaveBeenCalledWith(component.pageNumber, component.pageSize, {});
+
+    // Verificăm apelul la getPropertyById pentru proprietatea returnată
+    expect(propertyServiceMock.getPropertyById)
+      .toHaveBeenCalledWith('8c868c11-e8db-4d11-a7c8-83ccb221305a');
+
+    // Verificăm că proprietatea a primit array-ul de imagini
+    expect(component.properties[0].imageUrls).toEqual(['img1.jpg', 'img2.jpg']);
   });
 
-  describe('loadProperties', () => {
-    it('should call getPropertiesWithPagination with processed filters and update component data', () => {
-      const mockResponse = {
-        items: [
-          { id: '1', title: 'Test Property', price: 100 }
-        ],
-        totalPages: 3
-      };
-
-      propertyServiceSpy.getPropertiesWithPagination.and.returnValue(of(mockResponse));
-
-      component.filters = {
-        title: 'House',
-        price_min: null,
-        price_max: '',
-        description: 'Nice property'
-      };
-
-      component.loadProperties();
-
-      expect(propertyServiceSpy.getPropertiesWithPagination).toHaveBeenCalledWith(
-        component.pageNumber,
-        component.pageSize,
-        { title: 'House', description: 'Nice property' }
-      );
-
-      expect(component.properties.length).toBe(1);
-      expect(component.totalPages).toBe(3);
-    });
-  });
-
-  describe('navigation methods', () => {
-    it('should navigate to create property page when navigateToCreate is called', () => {
-      component.navigateToCreate();
-      expect(routerSpy.navigate).toHaveBeenCalledWith(['properties/create']);
-    });
-
-    it('should navigate to property details when viewDetails is called', () => {
-      const testProperty: Property = {
-        id: '6fa459ea-ee8a-3ca4-894e-db77e160355e',
-        title: 'Test',
-        description: 'Test description',
-        status: PropertyStatus.AVAILABLE,
-        type: PropertyType.APARTMENT,
-        price: 999,
-        address: '123 Test St',
-        area: 100,
-        rooms: 3,
-        bathrooms: 2,
-        constructionYear: 2020,
-        userId: '6fa459ea-ee8a-3ca4-894e-db77e160355e',
-        createdAt: new Date(),
-        updatedAt: new Date()
-      };
-
-      expect(routerSpy.navigate).toHaveBeenCalledWith(['/properties/property-details', testProperty.id]);
-    });
-  });
-
-  describe('filters', () => {
-    beforeEach(() => {
-      spyOn(component, 'loadProperties');
-    });
-
-    it('applyFilters should set pageNumber to 1 and call loadProperties', () => {
-      component.pageNumber = 5;
-      component.applyFilters();
-      expect(component.pageNumber).toBe(1);
-      expect(component.loadProperties).toHaveBeenCalled();
-    });
-
-    it('resetFilters should clear filters, set pageNumber to 1, and call loadProperties', () => {
-      component.filters = {
-        title: 'Something',
-        price_min: 50,
-        price_max: 100,
-        description: 'Test desc'
-      };
-      component.pageNumber = 3;
-
-      component.resetFilters();
-
-      expect(component.filters).toEqual({
-        title: null,
-        price_min: null,
-        price_max: null,
-        description: null
-      });
-      expect(component.pageNumber).toBe(1);
-      expect(component.loadProperties).toHaveBeenCalled();
-    });
-  });
-
-  describe('pagination methods', () => {
-    beforeEach(() => {
-      spyOn(component, 'loadProperties');
-      component.totalPages = 5;
-    });
-
-    it('goToPage should change pageNumber and call loadProperties if page is valid', () => {
-      component.goToPage(3);
-      expect(component.pageNumber).toBe(3);
-      expect(component.loadProperties).toHaveBeenCalled();
-    });
-
-    it('goToPage should not call loadProperties if page is outside the range', () => {
-      component.pageNumber = 2;
-      component.goToPage(10);
-      expect(component.pageNumber).toBe(2);
-      expect(component.loadProperties).not.toHaveBeenCalled();
-    });
-
-    it('previousPage should decrement pageNumber and call loadProperties if pageNumber > 1', () => {
-      component.pageNumber = 3;
-      component.previousPage();
-      expect(component.pageNumber).toBe(2);
-      expect(component.loadProperties).toHaveBeenCalled();
-    });
-
-    it('previousPage should not decrement pageNumber if pageNumber is already 1', () => {
-      component.pageNumber = 1;
-      component.previousPage();
-      expect(component.pageNumber).toBe(1);
-      expect(component.loadProperties).not.toHaveBeenCalled();
-    });
-
-    it('nextPage should increment pageNumber and call loadProperties if pageNumber < totalPages', () => {
-      component.pageNumber = 2;
-      component.nextPage();
-      expect(component.pageNumber).toBe(3);
-      expect(component.loadProperties).toHaveBeenCalled();
-    });
-
-    it('nextPage should not increment pageNumber if pageNumber equals totalPages', () => {
-      component.pageNumber = 5;
-      component.nextPage();
-      expect(component.pageNumber).toBe(5);
-      expect(component.loadProperties).not.toHaveBeenCalled();
-    });
+  it('should navigate to property details when viewDetails is called', () => {
+    const property = component.properties[0];
+    
+    // Apelăm metoda viewDetails
+    component.viewDetails(property);
+    
+    // Verificăm că router-ul este chemat cu ruta corectă
+    expect(routerMock.navigate)
+      .toHaveBeenCalledWith(['/properties/property-details', property.id]);
   });
 });

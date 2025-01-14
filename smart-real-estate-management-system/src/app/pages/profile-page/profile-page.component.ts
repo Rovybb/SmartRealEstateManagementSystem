@@ -53,7 +53,7 @@ export class ProfilePageComponent implements OnInit {
   }
 
   // Fetch user information using the user ID from the token
-  private fetchUserInformation(): void {
+  public fetchUserInformation(): void {
     const userId = this.loginService.getUserId();
     if (userId) {
       this.userInformationService.getUserById(userId).subscribe(
