@@ -1,17 +1,27 @@
 .property-create {
-  max-width: 600px;
-  margin: 20px auto;
+  width: 100%;
+  background-color: #161616;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+app-navbar-home {
+  width: 100%;
+}
+
+.property-create-card {
+  flex-grow: 1;
+  width: 600px;
   padding: 20px;
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  margin: 20px 0;
+  background-color: #1e1e1e;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .property-create h1 {
   font-size: 24px;
-  color: #333;
+  color: #f0f0f0;
   text-align: center;
   margin-bottom: 20px;
 }
@@ -24,7 +34,7 @@
   display: block;
   font-size: 14px;
   font-weight: bold;
-  color: #555;
+  color: #f0f0f0;
   margin-bottom: 5px;
 }
 
@@ -34,11 +44,10 @@
   width: 100%;
   padding: 10px;
   font-size: 14px;
-  font-family: Arial, sans-serif;
-  color: #333;
-  border: 1px solid #ddd;
+  color: #f0f0f0;
+  border: 1px solid #444;
+  background-color: #333;
   border-radius: 4px;
-  box-sizing: border-box;
 }
 
 .form-group textarea {
@@ -50,8 +59,7 @@
 .form-group textarea:focus,
 .form-group select:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  border-color: #186C6C;
 }
 
 .error {
@@ -66,7 +74,7 @@ button[type="submit"] {
   font-size: 16px;
   font-family: Arial, sans-serif;
   color: #fff;
-  background-color: #007bff;
+  background-color: #186C6C;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -75,10 +83,10 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-  background-color: #0056b3;
+  background-color: #005f5f;
 }
 
 button[type="submit"]:disabled {
-  background-color: #cccccc;
+  background-color: #444444;
   cursor: not-allowed;
 }
