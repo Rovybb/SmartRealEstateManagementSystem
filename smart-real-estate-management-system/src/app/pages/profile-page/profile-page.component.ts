@@ -10,7 +10,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { NavbarComponent } from "../../components/navbar/navbar.component";
 import { Observable } from 'rxjs';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog'; // Import MatDialog
-import { UpdateUserDialogComponent } from '../../components/update-user-dialog/update-user-dialog.component'; // Adjust the path as needed
+import { UpdateUserDialogComponent } from '../../components/update-user-dialog/update-user-dialog.component';
+import { NavbarHomeComponent } from "../../components/navbar-home/navbar-home.component"; // Adjust the path as needed
 
 @Component({
   selector: 'app-profile-page',
@@ -21,9 +22,7 @@ import { UpdateUserDialogComponent } from '../../components/update-user-dialog/u
     MatToolbarModule,
     MatButtonModule,
     MatDialogModule, // Import MatDialogModule
-    NavbarComponent,
-    UpdateUserDialogComponent // Include the dialog component
-  ],
+],
   templateUrl: './profile-page.component.html',
   styleUrls: ['./profile-page.component.css'],
 })
@@ -111,5 +110,29 @@ export class ProfilePageComponent implements OnInit {
         this.fetchUserInformation();
       }
     });
+  }
+
+
+  getUserStatus(status: any): string {
+    switch (status) {
+      case 0:
+        return 'active';
+      case 1:
+        return 'inactive';
+      case 2:
+        return 'banned';
+      default:
+        return 'unknown'; // În caz de status invalid
+    }
+  }
+  getUserRole(role: any): string {
+    switch (role) {
+      case 0:
+        return 'client';
+      case 1:
+        return 'proffesional';
+      default:
+        return 'unknown'; // În caz de rol invalid
+    }
   }
 }
