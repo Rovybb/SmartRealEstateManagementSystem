@@ -48,21 +48,20 @@
         </p>
         <p><strong>Created At:</strong> {{ property.createdAt | date }}</p>
         <p><strong>Updated At:</strong> {{ property.updatedAt | date }}</p>
-        <p><strong>Owner:</strong> {{ property.userId }}</p>
       </div>
 
-      <div class="image-upload">
+      <div class="image-upload" *ngIf="property?.userId === loggedInUserId">
         <h3>Upload New Image</h3>
         <label for="image"><fa-icon [icon]="faArrowUpFromBracket"></fa-icon></label>
         <input type="file" id="image" (change)="onImageUpload($event)" />
         <div *ngIf="uploading" class="loading-message">Uploading image...</div>
       </div>
 
-      <div class="button-container" *ngIf="property?.userId === loggedInUserId">
-        <button class="update" (click)="navigateToUpdate(property)">
+      <div class="button-container">
+        <button class="update" *ngIf="property?.userId === loggedInUserId" (click)="navigateToUpdate(property)">
           Update
         </button>
-        <button class="delete" (click)="deleteProperty(property)">
+        <button class="delete" *ngIf="property?.userId === loggedInUserId" (click)="deleteProperty(property)">
           Delete
         </button>
         <button class="inquiry" (click)="openInquiryPopup()">Inquiry</button>
