@@ -6,8 +6,8 @@ import { LoginComponent } from './components/identity/login/login.component';
 import { RegisterComponent } from './components/identity/register/register.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { PropertyDetailsPageComponent } from './pages/property-details-page/property-details-page.component';
+import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { AuthGuard } from './auth.guard'; // Import the AuthGuard
-import { ProfileComponent } from './components/profile/profile.component';
 
 
 export const appRoutes: Routes = [
@@ -19,5 +19,5 @@ export const appRoutes: Routes = [
   { path: 'properties/property-details/:id', component: PropertyDetailsPageComponent, canActivate: [AuthGuard] },
   { path: 'auth/login', component: LoginComponent },
   { path: 'auth/register', component: RegisterComponent },
-  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }
+  { path: 'profile', component: ProfilePageComponent, canActivate: [AuthGuard] }
 ];

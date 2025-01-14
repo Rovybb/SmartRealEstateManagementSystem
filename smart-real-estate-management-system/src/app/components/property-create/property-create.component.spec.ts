@@ -4,10 +4,10 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { PropertyService } from '../../services/property.service';
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
-import { HttpClientTestingModule } from '@angular/common/http/testing'; // Importăm aici
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-// Stub manual pentru jwtDecode
-function mockJwtDecode(token: string): { unique_name: string } {
+// Înlocuim jwtDecode cu o funcție simplificată
+function mockJwtDecode(): { unique_name: string } {
   return {
     unique_name: '6fa459ea-ee8a-3ca4-894e-db77e160355e'
   };
@@ -20,26 +20,21 @@ describe('PropertyCreateComponent', () => {
   let routerMock: jasmine.SpyObj<Router>;
 
   beforeEach(async () => {
-    // Creăm spy-uri pentru servicii
     propertyServiceMock = jasmine.createSpyObj('PropertyService', ['createProperty']);
     routerMock = jasmine.createSpyObj('Router', ['navigate']);
 
     await TestBed.configureTestingModule({
       imports: [
-        // Deoarece PropertyCreateComponent este standalone, îl importăm direct
         PropertyCreateComponent,
         ReactiveFormsModule,
-        // Adăugăm HttpClientTestingModule pentru a furniza providerul de HttpClient
-        HttpClientTestingModule
+        HttpClientTestingModule // Importăm pentru HttpClient
       ],
       providers: [
         FormBuilder,
         { provide: PropertyService, useValue: propertyServiceMock },
         { provide: Router, useValue: routerMock },
-        {
-          provide: 'jwtDecode',
-          useValue: mockJwtDecode,
-        },
+        // Înlocuim jwtDecode cu mock-ul nostru
+        { provide: 'jwtDecode', useValue: mockJwtDecode }
       ],
     }).compileComponents();
   });
@@ -51,18 +46,16 @@ describe('PropertyCreateComponent', () => {
     // Mock pentru metoda getTokenFromCookie
     spyOn(component as any, 'getTokenFromCookie').and.returnValue('FAKE_TOKEN');
 
-    fixture.detectChanges();
+    fixture.detectChanges(); // Rulează ngOnInit
   });
 
   it('should create', () => {
-    // Verificăm că instanța componentului s-a creat cu succes
     expect(component).toBeTruthy();
   });
 
   it('should initialize the form with default values and add userId from token', () => {
     const form = component.propertyForm;
     expect(form).toBeDefined();
-    // Verificăm că userId a fost setat corect
     expect(form.value.userId).toBe('6fa459ea-ee8a-3ca4-894e-db77e160355e');
   });
 
@@ -124,9 +117,9 @@ describe('PropertyCreateComponent', () => {
     );
 
     component.onSubmit();
-
+ 
     expect(propertyServiceMock.createProperty).toHaveBeenCalledWith(form.value);
     expect(component.errorMessage).toBe('Error creating property. Please try again.');
     expect(routerMock.navigate).not.toHaveBeenCalled();
   });
-});
+});   
