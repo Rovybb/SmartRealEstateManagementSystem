@@ -404,3 +404,5 @@ FodyWeavers.xsd
 
 # Database
 *.db
+/SmartRealEstateManagementSystem/appsettings.json
+/SmartRealEstateManagementSystem/firebase.json
