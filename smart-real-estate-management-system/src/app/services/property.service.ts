@@ -12,7 +12,7 @@ import { environment } from '../../environments/environment';
 
     //private apiURL = 'https://smartrealestatemanagementsystem-d7edeaecc4faccgx.polandcentral-01.azurewebsites.net/api/v1/Properties';
     private apiURL = environment.API_URL + '/Properties';
-    private inqURL = 'https://localhost:7146/api/v1/Inquiries'
+    private inqURL = environment.API_URL + '/Inquiries';
     constructor(private http: HttpClient) { }
 
   public getProperties(): Observable<Property[]> {
